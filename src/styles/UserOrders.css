@@ -1,0 +1,107 @@
+/* Style général pour la page des commandes */
+.user-orders {
+    padding: 30px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-left: 260px;
+  }
+  
+  .orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .orders-header h2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #343a40;
+  }
+  
+  .orders-filters {
+    display: flex;
+    align-items: center;
+  }
+  
+  .orders-filters input {
+    padding: 8px 15px;
+    font-size: 16px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+  }
+  
+  .orders-filters select {
+    padding: 8px 15px;
+    font-size: 16px;
+    margin-left: 15px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+  }
+  
+  .orders-filters input:focus, .orders-filters select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: white;
+  }
+  
+  /* Style pour la liste des commandes */
+  .orders-list {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px 20px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    font-size: 18px;
+    color: #343a40;
+  }
+  
+  td {
+    font-size: 16px;
+    color: #495057;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: white;
+  }
+  
+  .status.en-attente {
+    background-color: #f0ad4e;
+  }
+  
+  .status.expediee {
+    background-color: #5bc0de;
+  }
+  
+  .status.livree {
+    background-color: #5cb85c;
+  }
+  
+  button.view-details-btn {
+    padding: 8px;
+    color: rgb(226, 21, 21);
+  }  
+ 

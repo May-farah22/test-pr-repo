@@ -1,0 +1,60 @@
+/* src/pages/ExclusiveBenefits.css */
+
+/* Section Avantages Exclusifs */
+.exclusive-benefits {
+    background-color: #fffaf5; /* Fond légèrement rosé */
+  }
+  
+  .benefit-card {
+    background-color: #fffaf5;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .benefit-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .benefit-icon {
+    font-size: 40px;
+    color: #f4a9a8; /* Couleur rose pâle */
+    margin-bottom: 15px;
+  }
+  
+  .benefit-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .benefit-text {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .benefit-card {
+    padding: 20px; /* Réduit l'espace intérieur */
+    font-size: 14px; /* Texte plus petit */
+    height: 180px; /* Hauteur réduite */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .benefit-icon {
+    margin-bottom: 10px;
+    font-size: 30px; /* Réduire la taille de l'icône */
+  }
+  
+  .benefit-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .benefit-text {
+    font-size: 12px;
+  }
+  

@@ -1,0 +1,225 @@
+/* General Styles */
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+/* Section Héros */
+.hero-section {
+    position: relative;
+    padding: 4rem 0;
+    overflow: hidden;
+    background-image: url('../assets/images/contact.jpeg'); /* Chemin de l'image */
+    background-size: cover;
+    background-position: center;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #ffffff; /* Blanc */
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(231, 217, 224, 0.8);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Section Principale */
+.contact-cards-section {
+    padding: 3rem 0;
+    background-color: #FFF5F9; /* Rose clair */
+}
+
+/* Cartes de Contact */
+.contact-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    height: 100%;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icônes */
+.contact-card-icon {
+    background-color: rgba(232, 170, 190, 0.1);
+    padding: 0.75rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card-icon:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card-icon .icon {
+    height: 1.5rem;
+    width: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* Textes */
+.contact-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.contact-card p {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Section formulaire + carte */
+.contact-map-section {
+    background-color: #ffffff; /* Blanc */
+    padding: 4rem 0;
+}
+
+.form-button:hover {
+    background-color: #d18fa3;
+}
+
+.map-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    display: block;
+}
+
+/* Masquer les éléments Google indésirables */
+.gmnoprint, .gm-style-cc, a[href^="https://maps.google.com/maps"] {
+    display: none !important;
+}
+
+/* Couleur principale */
+:root {
+    --primary-color: #e4cfd6; /* Rose bébé */
+}
+
+/* Section FAQ */
+.faq-section {
+    padding: 4rem 0;
+    background-color: #FFF5F9; /* Rose clair */
+}
+
+.faq-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-card {
+    background-color: white;
+    padding: 1.5rem;
+    text-align: left;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.faq-question {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+}
+
+.faq-answer {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Contact Page */
+.contact-page {
+    font-family: Arial, sans-serif;
+}
+
+/* Section Informations Contact */
+.contact-info-section {
+    background-color: #ffffff; /* Blanc */
+    padding: 60px 0;
+    text-align: center;
+}
+
+/* Contact Form Section */
+.contact-form-section {
+    background-color: #FFF5F9; /* Rose clair */
+    padding: 60px 0;
+}
+
+/* Section Spacing */
+section {
+    margin-bottom: 40px;
+}
+
+/* Form */
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Google Maps Styles */
+iframe {
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

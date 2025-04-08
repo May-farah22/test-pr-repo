@@ -1,0 +1,114 @@
+/* Footer */
+.footer-section {
+    padding: 80px 0;
+    background-color: #333; /* Couleur de fond sombre */
+    color: white; /* Couleur du texte */
+    text-align: center;
+  }
+  
+  .footer-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .footer-description {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  
+  .footer-button {
+    font-size: 1rem;
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: 2px solid white; /* Bordure du bouton */
+    color: white; /* Couleur du texte */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-subscribe {
+    background-color: #ff69b4; /* Rose */
+    border: 2px solid #ff1493; /* Bordure rose foncé */
+    color: white;
+    border-radius: 5px; /* Coins légèrement arrondis */
+    padding: 8px 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-subscribe:hover {
+    background-color: white; /* Fond blanc au survol */
+    color: #ff1493; /* Texte rose foncé */
+    border: 2px solid #ff1493;
+}
+
+
+  
+  .footer-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .footer-text {
+    font-size: 1rem;
+    color: #ccc; /* Couleur du texte secondaire */
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    color: #ff6f61 important!; /* Couleur au survol */
+  }
+  
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacement entre les liens sociaux */
+  }
+  
+  .social-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .social-link:hover {
+    color: #ff6f61; /* Couleur au survol */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-title {
+      font-size: 2rem; /* Taille du titre réduite sur mobile */
+    }
+  
+    .footer-description {
+      font-size: 1rem; /* Taille du texte réduite sur mobile */
+    }
+  
+    .footer-button {
+      font-size: 0.9rem; /* Taille du bouton réduite sur mobile */
+    }
+  
+    .footer-subtitle {
+      font-size: 1.2rem; /* Taille du sous-titre réduite sur mobile */
+    }
+  
+    .footer-text {
+      font-size: 0.9rem; /* Taille du texte réduite sur mobile */
+    }
+  }
+  

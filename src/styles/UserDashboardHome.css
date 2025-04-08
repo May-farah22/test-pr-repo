@@ -1,0 +1,70 @@
+/* UserDashboardHome.css */
+
+.user-dashboard-home {
+    margin-left: 270px; /* Ajustez selon la largeur de votre sidebar */
+    padding: 20px;
+  }
+  
+  .user-dashboard-welcome {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .user-dashboard-welcome h2 {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .user-dashboard-welcome p {
+    font-size: 18px;
+    color: #7f8c8d;
+  }
+  
+  .user-dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .stat-box {
+    background-color: #34495e;
+    color: #ecf0f1;
+    padding: 20px;
+    width: 22%;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .stat-box h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .stat-box p {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  .user-dashboard-recent-activity {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .user-dashboard-recent-activity h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .user-dashboard-recent-activity ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-dashboard-recent-activity li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #7f8c8d;
+  }
+  

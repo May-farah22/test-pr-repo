@@ -1,0 +1,234 @@
+/* Header avec image de fond */
+.header-section {
+  height: 100vh; /* Hauteur de l'écran */
+  background-size: cover; /* Ajuster l'image à la taille du header */
+  background-position: center; /* Centrer l'image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255); /* Couleur du texte */
+  text-align: center;
+  position: relative;
+}
+
+/* Superposition sombre pour améliorer la lisibilité */
+.header-section {
+  height: 100vh;
+  background: url('../assets/images/xx.jpg') center/cover no-repeat; /* Remplace par ton vrai chemin */
+  position: relative;
+}
+
+
+.header-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Ombre du texte */
+  position: relative;
+  z-index: 1;
+}
+
+.header-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Ombre du texte */
+  position: relative;
+  z-index: 1;
+}
+.header-text {
+  padding-top: 40px; /* Ajuste selon le besoin */
+}
+
+.header-title,
+.header-subtitle {
+  text-align: right;
+}
+.header-text {
+  padding-top: 40px; /* Ajuste selon le besoin */
+}
+
+.header-title,
+.header-subtitle {
+  text-align: right;
+}
+
+.header-button {
+  font-size: 1.2rem;
+  padding: 12px 30px;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+  color: #333;
+  transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.header-button:hover {
+  background-color: rgba(255, 255, 255, 1); /* Fond plus opaque au survol */
+}
+
+/* Section "Our Clean Beauty Promise" */
+.clean-beauty-section {
+  padding: 80px 0;
+  background-color: #f9f9f9; /* Couleur de fond */
+  text-align: center; /* Centrer le texte */
+}
+
+.clean-beauty-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333; /* Couleur du titre */
+  margin-bottom: 40px;
+  text-transform: uppercase; /* Texte en majuscules */
+  letter-spacing: 2px; /* Espacement entre les lettres */
+}
+
+.clean-beauty-icon {
+  width: 80px; /* Taille des icônes */
+  margin-bottom: 20px;
+}
+
+.clean-beauty-stat {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333; /* Couleur des statistiques */
+  margin-bottom: 10px;
+}
+
+.clean-beauty-text {
+  font-size: 1.1rem;
+  color: #666; /* Couleur du texte */
+  margin-bottom: 0; /* Supprimer la marge en bas */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .clean-beauty-title {
+    font-size: 2rem; /* Taille du titre réduite sur mobile */
+  }
+
+  .clean-beauty-stat {
+    font-size: 1.5rem; /* Taille des statistiques réduite sur mobile */
+  }
+
+  .clean-beauty-text {
+    font-size: 1rem; /* Taille du texte réduite sur mobile */
+  }
+}
+
+.bg-cream {
+  background-color: #f5f5dc; /* Couleur crème */
+}
+
+.bg-cream-light {
+  background-color: #fafafa; /* Couleur crème claire */
+}
+
+.text-charcoal {
+  color: #36454F; /* Couleur charbon */
+}
+
+.text-charcoal-light {
+  color: #6c757d; /* Couleur gris clair */
+}
+
+.text-primary {
+  color: #007bff; /* Couleur primaire (bleu) */
+}
+/* Section Avantages Exclusifs */
+.exclusive-benefits {
+  background-color: #fffaf5; /* Fond légèrement rosé */
+}
+
+.benefit-card {
+  background-color: #fffaf5;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-icon {
+  font-size: 40px;
+  color: #f4a9a8; /* Couleur rose pâle */
+  margin-bottom: 15px;
+}
+
+.benefit-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.benefit-text {
+  font-size: 14px;
+  color: #666;
+}
+.benefit-card {
+  padding: 20px; /* Réduit l'espace intérieur */
+  font-size: 14px; /* Texte plus petit */
+  height: 180px; /* Hauteur réduite */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.benefit-icon {
+  margin-bottom: 10px;
+  font-size: 30px; /* Réduire la taille de l'icône */
+}
+
+.benefit-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.benefit-text {
+  font-size: 12px;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espacement uniforme */
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%; /* Toutes les cartes auront la même hauteur */
+}
+
+.product-image {
+  max-height: 180px; /* Uniformiser la taille des images */
+  object-fit: contain; /* Évite la déformation */
+  margin-bottom: 10px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.product-price {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.product-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-to-cart-button,
+.product-button {
+  width: 100%; /* S'assurer que les boutons prennent toute la largeur */
+}

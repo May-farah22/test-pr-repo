@@ -1,0 +1,88 @@
+/* Section Promise - Style comme l'image */
+.promise-section {
+    background-color: #fcf7f2; /* Couleur de fond */
+    min-height: 100vh; /* Pleine hauteur */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+  }
+  
+  .promise-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px; /* Limite la largeur */
+    width: 100%;
+    gap: 50px; /* Espacement entre texte et image */
+  }
+  
+  /* Texte */
+  .promise-text {
+    flex: 1;
+    max-width: 50%;
+  }
+  
+  .promise-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .promise-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d26e4b;
+    margin: 10px 0;
+  }
+  
+  .promise-description {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .promise-button {
+    border: 1px solid #333;
+    color: #333;
+    padding: 10px 20px;
+  }
+  
+  .promise-button:hover {
+    background-color: #333;
+    color: white;
+  }
+  
+  /* Image */
+  .promise-image-container {
+    flex: 1;
+    max-width: 50%;
+    background-color: #f3e5db; /* Fond beige pour ressembler à l'image */
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .promise-image {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .promise-container {
+      flex-direction: column;
+      text-align: center;
+      gap: 30px;
+    }
+  
+    .promise-text,
+    .promise-image-container {
+      max-width: 100%;
+    }
+  }
+  

@@ -1,0 +1,78 @@
+/* user.css */
+
+/* Conteneur principal */
+.users-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Titre principal */
+  .users-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Table des utilisateurs */
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .users-table th, .users-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .users-table th {
+    background-color: #CA3C66;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .users-table td {
+    font-size: 14px;
+  }
+  
+  .users-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Boutons d'action */
+  .btn-view {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .btn-view:hover {
+    background-color: #218838;
+  }
+  
+  /* Pour les cellules d'action */
+  .users-table td a, .users-table td button {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .users-table button {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .users-table button:hover {
+    background-color: #c82333;
+  }
+  

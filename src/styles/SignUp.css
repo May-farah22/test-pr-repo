@@ -1,0 +1,88 @@
+/* Styles pour la page d'inscription */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 70px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .auth-container h2 {
+    color: #222;
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
+  .auth-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .auth-container input:focus {
+    border-color: #f084b6;
+    outline: none;
+  }
+  
+  .auth-container button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ff5733, #c70039); /* Remplace par ta couleur */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+.auth-container button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #c70039, #900c3f); /* Couleur au survol */
+}
+
+  
+  .auth-container p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .auth-container a {
+    color: #e284b3;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  
+  .auth-container a:hover {
+    color: #e076a2;
+  }
+  
+  /* Animation d’apparition */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

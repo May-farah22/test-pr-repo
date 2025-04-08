@@ -1,0 +1,96 @@
+/* General */
+.about-container {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #ebeff3;
+}
+
+.about-hero-section { 
+  background: linear-gradient(145deg, #fdfdfd, #ffdff0);
+  text-align: center;
+}
+
+.about-hero-title {
+  font-size: 3.5rem;
+  color: #212529;
+}
+
+.about-hero-highlight {
+  color: #f3b1d8;
+}
+
+.about-hero-text {
+  font-size: 1.2rem;
+}
+
+.about-hero-cta .btn-dark {
+  background-color: #fcd8e7;
+  border: none;
+}
+
+.about-hero-cta .btn-light {
+  background-color: #fff;
+  border: 2px solid #3f51b5;
+  color: #3f51b5;
+  cursor: not-allowed;
+}
+
+/* Mission Section */
+.about-mission-section h2 {
+  color: #1b1f22;
+}
+
+.about-mission-feature-icon {
+  transition: transform 0.3s ease;
+}
+
+.about-mission-feature-icon:hover {
+  transform: scale(1.1);
+}
+
+.about-mission-vision-card {
+  background-color: #f3f4f8;
+  color: white;
+  max-width: 240px;
+}
+
+/* Values Section */
+.about-values-section {
+  background-color: #f3f4f6;
+}
+
+.about-values-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-values-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Team Section */
+.about-team-member-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 3px solid #a11d54;
+}
+
+.about-team-member-name {
+  font-weight: 600;
+  color: #212529;
+}
+
+/* Stats Section */
+.about-stats-section {
+  background: linear-gradient(to right, #ecbecc, #e287b5);
+}
+
+.about-stats-number {
+  font-size: 2.5rem;
+  color: #fff;
+}
+
+.about-stats-label {
+  color: #ffd1f5;
+}

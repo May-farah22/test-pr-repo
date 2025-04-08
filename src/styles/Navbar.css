@@ -1,0 +1,185 @@
+/* Barre de navigation */
+.navbar {
+  background: var(--cream-light);
+  border-bottom: 1px solid #ddd;
+  padding: 8px 20px; /* Réduire le padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  }
+  
+/* Navbar container */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  height: 48px;
+  margin-left: 10px;
+}
+
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+/* Logo */
+.navbar-logo .logo-text {
+  font-size: 28px; /* Augmenter la taille du logo */
+  font-weight: bold;
+  color: var(--charcoal);
+  text-decoration: none;
+}
+
+/* Liens de navigation */
+.navbar-links {
+  display: flex;
+  gap: 30px; /* Augmenter l'espace entre les liens */
+  margin-top: 10px;
+  margin-left: 30px;
+  align-items: center; /* Aligner verticalement au centre */
+
+}
+
+.navbar-links a {
+  color: var(--charcoal-light);
+  text-decoration: none;
+  font-weight: 350; /* Rendre le texte plus gras */
+  transition: color 0.3s ease;
+  font-size: 17px;
+  white-space: nowrap; /* Empêcher le texte de passer à la ligne */
+}
+
+.navbar-links a:hover {
+  color: var(--primary-color);
+  text-decoration: underline; /* Ajouter un soulignement au survol */
+}
+
+/* Barre de recherche améliorée */
+.navbar-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--primary-light);
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid var(--primary-color);
+  width: 600px; /* Augmenter la largeur de la barre de recherche */
+  transition: all 0.3s ease;
+  margin-left: 50px;
+}
+
+
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 50%;
+  font-size: 12px; /* Augmenter la taille de la police */
+  padding-left: 12px;
+}
+
+.search-input::placeholder {
+  color: #0a0a0a;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 12px; /* Augmenter la taille de l'icône */
+}
+
+/* Icônes utilisateur */
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Augmenter l'espace entre les icônes */
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.icon {
+  font-size: 24px;
+  color: black !important;
+}
+
+
+/* Icône de recherche pour mobile */
+.mobile-search {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-search {
+    display: none;
+  }
+
+  .mobile-search {
+    display: inline-block;
+  }
+}
+/* Menu déroulant utilisateur amélioré */
+.user-menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  width: 160px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  margin-right: 10px;
+}
+
+.user-menu:hover .dropdown-menu,
+.user-menu .dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background: #f8f9fa;
+  color: #030303;
+}

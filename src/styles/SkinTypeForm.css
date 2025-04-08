@@ -1,0 +1,103 @@
+/* ---- CONTAINER DU FORMULAIRE ---- */
+.skin-form-container {
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+  }
+  
+  /* ---- TITRE ---- */
+  .skin-form-title {
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* ---- LABELS ---- */
+  .skin-form-label {
+    font-weight: 600;
+    color: #555;
+  }
+  
+  /* ---- CHAMPS DE FORMULAIRE ---- */
+  .skin-form-input,
+  .skin-form-select {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+  }
+  
+  .skin-form-input:focus,
+  .skin-form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* ---- CHECKBOXES ---- */
+  .skin-form-checkbox {
+    accent-color: #007bff;
+  }
+  
+  .skin-form-checkbox-label {
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* ---- BOUTON ---- */
+  .skin-form-button {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    background: linear-gradient(135deg, #c70039, #900c3f); /* Couleur au survol */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .skin-form-button:hover {
+    background-color: #af7499;
+  }
+  /* ---- BOUTON METTRE À JOUR ---- */
+.skin-form-update-button {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  transition: 0.3s ease-in-out;
+  width: 100%;
+  background: linear-gradient(135deg, #c70039, #900c3f); /* Couleur au survol */
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.skin-form-update-button:hover {
+  background-color: #0056b3;
+}
+  /* ---- RESPONSIVE DESIGN ---- */
+  @media (max-width: 768px) {
+    .skin-form-container {
+      max-width: 90%;
+      padding: 20px;
+    }
+  
+    .skin-form-title {
+      font-size: 18px;
+    }
+  
+    .skin-form-button {
+      width: 100%;
+    }
+  }
+  
