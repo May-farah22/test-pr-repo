@@ -9,15 +9,17 @@ const SkinTypeForm = () => {
     skinType: "Peau mixte",
     concerns: ["Acné"],
     message: "J'aimerais améliorer ma routine de soin.",
+    photo: null,
   });
 
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const skinTypes = ["Peau sèche", "Peau grasse", "Peau mixte", "Peau sensible"];
   const concernsList = ["Acné", "Taches", "Rides", "Déshydratation"];
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (type === "checkbox") {
       setFormData((prev) => ({
         ...prev,
@@ -25,6 +27,10 @@ const SkinTypeForm = () => {
           ? [...prev.concerns, value]
           : prev.concerns.filter((concern) => concern !== value),
       }));
+    } else if (type === "file") {
+      const file = files[0];
+      setFormData({ ...formData, photo: file });
+      setPhotoPreview(URL.createObjectURL(file));
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -49,7 +55,9 @@ const SkinTypeForm = () => {
 
         {/* Nom */}
         <div className="mb-3">
-          <label className="form-label skin-form-label">Nom</label>
+          <label className="form-label skin-form-label">
+            Nom <span className="text-danger">*</span>
+          </label>
           <input
             type="text"
             name="name"
@@ -64,7 +72,9 @@ const SkinTypeForm = () => {
 
         {/* Email */}
         <div className="mb-3">
-          <label className="form-label skin-form-label">Email</label>
+          <label className="form-label skin-form-label">
+            Email <span className="text-danger">*</span>
+          </label>
           <input
             type="email"
             name="email"
@@ -79,7 +89,9 @@ const SkinTypeForm = () => {
 
         {/* Type de peau */}
         <div className="mb-3">
-          <label className="form-label skin-form-label">Type de peau</label>
+          <label className="form-label skin-form-label">
+            Type de peau <span className="text-danger">*</span>
+          </label>
           <select
             name="skinType"
             className="form-select skin-form-select"
@@ -99,7 +111,9 @@ const SkinTypeForm = () => {
 
         {/* Préoccupations cutanées */}
         <div className="mb-3">
-          <label className="form-label skin-form-label">Préoccupations</label>
+          <label className="form-label skin-form-label">
+            Préoccupations <span className="text-danger">*</span>
+          </label>
           <div className="d-flex flex-wrap">
             {concernsList.map((concern, index) => (
               <div key={index} className="form-check me-3">
@@ -123,7 +137,9 @@ const SkinTypeForm = () => {
 
         {/* Message */}
         <div className="mb-3">
-          <label className="form-label skin-form-label">Message</label>
+          <label className="form-label skin-form-label">
+            Message <span className="text-danger">*</span>
+          </label>
           <textarea
             name="message"
             className="form-control skin-form-input"
@@ -132,7 +148,54 @@ const SkinTypeForm = () => {
             value={formData.message}
             onChange={handleChange}
             disabled={!isEditing}
+            required
           ></textarea>
+        </div>
+{/* Upload photo avec drag & drop */}
+<div className="mb-3">
+  <label className="form-label skin-form-label">
+    Photo de votre visage <span className="text-danger">*</span>
+  </label>
+
+  <div
+    className={`dropzone ${isEditing ? 'active' : 'disabled'}`}
+    onDragOver={(e) => e.preventDefault()}
+    onDrop={(e) => {
+      e.preventDefault();
+      if (!isEditing) return;
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        setFormData({ ...formData, photo: file });
+        setPhotoPreview(URL.createObjectURL(file));
+      }
+    }}
+    onClick={() => {
+      if (!isEditing) return;
+      document.getElementById("photoUpload").click();
+    }}
+  >
+    <input
+      id="photoUpload"
+      type="file"
+      name="photo"
+      accept="image/*"
+      className="d-none"
+      onChange={handleChange}
+      disabled={!isEditing}
+    />
+    <p className="text-muted">Cliquez ou glissez une image ici</p>
+  </div>
+
+  {photoPreview && (
+    <div className="mt-3 text-center">
+      <p className="skin-form-label">Aperçu :</p>
+      <img
+        src={photoPreview}
+        alt="Aperçu du visage"
+        className="img-thumbnail preview-image"
+      />
+    </div>
+          )}
         </div>
 
         {/* Boutons */}

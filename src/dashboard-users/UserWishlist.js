@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/UserOrders.css';
 
-const ClientSettings = () => {
+const ClientWishlist = () => {
   return (
     <div className="orders-container">
-      <h2 className="section-title">Settings</h2>
+      <h2 className="section-title">Your Wishlist</h2>
 
       <div className="tabs">
         <Link to="/user-dashboard" className="tab-btn">Overview</Link>
@@ -13,14 +13,17 @@ const ClientSettings = () => {
         <Link to="/user-dashboard/wishlist" className="tab-btn">Wishlist</Link>
         <Link to="/user-dashboard/settings" className="tab-btn">Settings</Link>
       </div>
-
-      <div className="card">
-        <p><strong>Name:</strong> Farah Mariem</p>
-        <p><strong>Email:</strong> farah@example.com</p>
-        <button className="routine-btn">Edit Profile</button>
+      <div className="order-items">
+        <div className="order-item">
+          <img src="https://via.placeholder.com/60" alt="Product" />
+          <div className="item-info">
+            <p>Soothing Aloe Vera Gel</p>
+          </div>
+          <span className="item-price">$14.99</span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ClientSettings;
+export default ClientWishlist;

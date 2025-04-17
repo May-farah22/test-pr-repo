@@ -7,6 +7,7 @@ import '../styles/Home.css';
 import ClayMaskSection from "../components/ClayMaskSection"; // Assure-toi que ce chemin est correct !
 import PromiseSection from "../components/PromiseSection";
 import ExclusiveBenefits from "../components/ExclusiveBenefits";
+import Chatbot from "../components/Chatbot";
 import Footer from "../components/Footer";
 
 const Home = () => {
@@ -69,6 +70,7 @@ const Home = () => {
         </Container>
       </section>
 <ExclusiveBenefits/>
+<Chatbot />
       {/* Footer */}
       <Footer />
     </>

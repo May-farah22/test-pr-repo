@@ -1,14 +1,16 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import "../styles/Dashboard.css"; // Style pour le Dashboard
+import React from 'react';
+import Sidebar from './Sidebar';
+import DashboardHome from './DashboardHome';
 
 const DashboardLayout = () => {
   return (
-    <div className="dashboard-container">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
       <Sidebar />
-      <div className="dashboard-content">
-        <Outlet />
+
+      {/* Page Content */}
+      <div className="flex-1 p-4 overflow-y-auto">
+        <DashboardHome />
       </div>
     </div>
   );

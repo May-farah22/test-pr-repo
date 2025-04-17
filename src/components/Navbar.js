@@ -5,7 +5,7 @@ import "../styles/Navbar.css";
 
 
 
-export const Navbar = () => {
+const Navbar = ()  => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
@@ -65,9 +65,10 @@ export const Navbar = () => {
   </button>
 
   <div className={`dropdown-menu ${showMenu ? "show" : ""}`}>
-    <Link to="/signin" className="dropdown-item">Se connecter</Link>
-    <Link to="/signup" className="dropdown-item">S'inscrire</Link>
-  </div>
+  <Link to="/select-role?action=signin" className="dropdown-item">Se connecter</Link>
+  <Link to="/select-role?action=signup" className="dropdown-item">S'inscrire</Link>
+</div>
+
 </div>
 
           </div>
@@ -76,3 +77,4 @@ export const Navbar = () => {
     </nav>
   );
 };
+export default Navbar;

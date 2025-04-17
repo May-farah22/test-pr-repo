@@ -1,0 +1,30 @@
+.chart-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .chart-card {
+    flex: 1;
+    min-width: 400px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .chart-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #111827;
+  }
+  
+  .chart-card p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 20px;
+  }
+  

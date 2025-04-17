@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar } from "./components/Navbar";
+import Navbar from './components/Navbar';
 import Home from "./components/Home";
 import Shop from "./components/Shop";
 import About from "./components/About";
@@ -10,17 +10,18 @@ import DashboardHome from "./dashboard/DashboardHome";
 import Products from "./dashboard/Products";
 import Orders from "./dashboard/Orders";
 import Users from "./dashboard/Users";
-import UserDashboardLayout from "./dashboard-users/UserDashboardLayout";
 import UserDashboardHome from "./dashboard-users/UserDashboardHome";
-import UserProfile from "./dashboard-users/UserProfile";
 import UserOrders from "./dashboard-users/UserOrders";
 import UserSettings from "./dashboard-users/UserSettings";
+import UserWishlist from "./dashboard-users/UserWishlist.js";
+import UserOverview from "./dashboard-users/UserOverview.js";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SkinTypeForm from "./pages/SkinTypeForm";
 import RecommendedProducts from "./pages/RecommendedProducts";
-import ProductDetails from "./pages/ProductDetail.js"; // Crée ce fichier
-
+import ProductDetails from "./pages/ProductDetail.js"; 
+import RoleSelection from './pages/RoleSelection';
+import SalesDashboardPage from './dashboard/SalesDashboardPage';
 
 const App = () => {
   return (
@@ -53,6 +54,10 @@ const App = () => {
     </>
   }
 />
+<Route
+ path="/select-role" 
+ element=
+ {<RoleSelection />} />
 <Route 
 path="/shop" 
 element={
@@ -72,6 +77,9 @@ element={
   }
 />
 
+
+
+<Route path="/dashboard/charts" element={<SalesDashboardPage />} />
 
         {/* Navbar seulement pour les pages publiques */}
         <Route
@@ -121,12 +129,13 @@ element={
           <Route path="users" element={<Users />} />
         </Route>
 
-        <Route path="/user-dashboard" element={<UserDashboardLayout />}>
-          <Route index element={<UserDashboardHome />} />
-          <Route path="profile" element={<UserProfile />} />
-          <Route path="orders" element={<UserOrders />} />
-          <Route path="settings" element={<UserSettings />} />
-        </Route>
+        <Route path="/user-dashboard" element={<UserDashboardHome />} />
+        <Route path="/user-dashboard/orders" element={<UserOrders />} />
+        <Route path="/user-dashboard" element={<UserOverview />} />
+        <Route path="/user-dashboard/wishlist" element={<UserWishlist />} />
+        <Route path="/user-dashboard/settings" element={<UserSettings />} />
+        
+                
       </Routes>
     </Router>
   );

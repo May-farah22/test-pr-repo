@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import'../styles/SignIn.css';
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+// eslint-disable-next-line no-unused-vars
+const [email, setEmail] = useState("");
+// eslint-disable-next-line no-unused-vars
+const [password, setPassword] = useState("");
+
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {

@@ -5,7 +5,8 @@ import { Gift, Diamond, Heart, Star } from 'lucide-react';
 import "../styles/ExclusiveBenefits.css";
 
 const ExclusiveBenefits = () => {
-  return (
+  return ( 
+    
     <section className="exclusive-benefits py-5">
       <Container>
         <h2 className="text-center mb-4">Discover the exclusive advantages that make the difference</h2>
