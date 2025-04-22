@@ -6,10 +6,7 @@ const SignIn = () => {
 const [email, setEmail] = useState("");
 // eslint-disable-next-line no-unused-vars
 const [password, setPassword] = useState("");
-
-
   const navigate = useNavigate();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simuler l'authentification
@@ -17,7 +14,7 @@ const [password, setPassword] = useState("");
 
     // Rediriger vers le formulaire après connexion
     navigate("/skin-type-form");
-  };
+    };
 
   return (
     <div className="auth-container">

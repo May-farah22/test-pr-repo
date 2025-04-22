@@ -63,14 +63,22 @@
 
 /* Personnalisation des boutons */
 .btn-primary {
-  background-color: #FFDFD1 !important;
-  border-color: #FCB5AA !important;
+  background-color: #e2afb8 !important;
+  border-color: #f5f2f2 !important;
   color: #f5f3f3;
   text-transform: uppercase;
 }
 
 .btn-primary:hover {
-  background-color: #FA6782 !important;
-  border-color: #FA6782 !important;
+  background-color: #a1557b !important;
+  border-color: #a1557b !important;
   color: #fff;
 }
+.mask-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* ← this is the magic space between them */
+  flex-wrap: wrap;
+  margin-top: 10px; /* Optional: to push them a bit below other content */
+}
+

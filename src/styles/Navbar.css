@@ -17,16 +17,15 @@
   width: 100%;
   max-width: 1200px;
   height: 48px;
-  margin-left: 10px;
+  padding: 0 20px; /* Pour un peu de respiration à gauche et à droite */
 }
-
-
 .navbar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
+  width: 100%; /* ✅ Ajout important */
 }
+
 
 /* Logo */
 .navbar-logo .logo-text {
@@ -39,9 +38,9 @@
 /* Liens de navigation */
 .navbar-links {
   display: flex;
-  gap: 30px; /* Augmenter l'espace entre les liens */
+  gap: 90px; /* Augmenter l'espace entre les liens */
   margin-top: 10px;
-  margin-left: 30px;
+  margin-left: 90px;
   align-items: center; /* Aligner verticalement au centre */
 
 }
@@ -49,58 +48,25 @@
 .navbar-links a {
   color: var(--charcoal-light);
   text-decoration: none;
-  font-weight: 350; /* Rendre le texte plus gras */
+  font-weight: 370; /* Rendre le texte plus gras */
   transition: color 0.3s ease;
-  font-size: 17px;
+  font-size: 20px;
   white-space: nowrap; /* Empêcher le texte de passer à la ligne */
+
 }
 
 .navbar-links a:hover {
   color: var(--primary-color);
   text-decoration: underline; /* Ajouter un soulignement au survol */
 }
-
-/* Barre de recherche améliorée */
-.navbar-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--primary-light);
-  padding: 10px 20px;
-  border-radius: 30px;
-  border: 1px solid var(--primary-color);
-  width: 600px; /* Augmenter la largeur de la barre de recherche */
-  transition: all 0.3s ease;
-  margin-left: 50px;
-}
-
-
-
-.search-input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 50%;
-  font-size: 12px; /* Augmenter la taille de la police */
-  padding-left: 12px;
-}
-
-.search-input::placeholder {
-  color: #0a0a0a;
-}
-
-.search-icon {
-  position: absolute;
-  left: 10px;
-  font-size: 12px; /* Augmenter la taille de l'icône */
-}
-
 /* Icônes utilisateur */
 .navbar-icons {
   display: flex;
   align-items: center;
-  gap: 20px; /* Augmenter l'espace entre les icônes */
+  gap: 40px;
+  margin-left: auto; /* ✅ Ce décalera complètement à droite */
 }
+
 
 .icon-btn {
   background: none;
@@ -182,4 +148,18 @@
 .dropdown-item:hover {
   background: #f8f9fa;
   color: #030303;
+}
+.cart-icon {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
 }

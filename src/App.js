@@ -21,67 +21,19 @@ import SkinTypeForm from "./pages/SkinTypeForm";
 import RecommendedProducts from "./pages/RecommendedProducts";
 import ProductDetails from "./pages/ProductDetail.js"; 
 import RoleSelection from './pages/RoleSelection';
-import SalesDashboardPage from './dashboard/SalesDashboardPage';
+import SalesDashboardPage from "./dashboard/SalesDashboardPage.js";
+import SellerDashboard from './sellerDashboard/SellerDashboard';
+import SellerProducts from './pages/SellerProducts';
+import SellerOrders from './pages/SellerOrders';
+import SellerClients from './pages/SellerClients';
+import SellerAnalytics from './pages/SellerAnalytics';
+
 
 const App = () => {
   return (
     <Router>
       <Routes>
-      <Route
-  path="/signin"
-  element={
-    <>
-      <Navbar />
-      <SignIn />
-    </>
-  }
-/>
-<Route
-  path="/signup"
-  element={
-    <>
-      <Navbar />
-      <SignUp />
-    </>
-  }
-/>
-<Route
-  path="/skin-type-form"
-  element={
-    <>
-      <Navbar />
-      <SkinTypeForm />
-    </>
-  }
-/>
-<Route
- path="/select-role" 
- element=
- {<RoleSelection />} />
-<Route 
-path="/shop" 
-element={
-  <>
-  <Navbar/>
-<Shop />
-</>
-}
-/>
-<Route
-  path="/recommended-products"
-  element={
-    <>
-      <Navbar />
-      <RecommendedProducts />
-    </>
-  }
-/>
-
-
-
-<Route path="/dashboard/charts" element={<SalesDashboardPage />} />
-
-        {/* Navbar seulement pour les pages publiques */}
+        {/* Public pages with Navbar */}
         <Route
           path="/"
           element={
@@ -116,28 +68,74 @@ element={
               <Navbar />
               <Contact />
             </>
-            
           }
         />
-     <Route path="/product/:id" element={<ProductDetails />} />
+        <Route
+          path="/signin"
+          element={
+            <>
+              <Navbar />
+              <SignIn />
+            </>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <>
+              <Navbar />
+              <SignUp />
+            </>
+          }
+        />
+        <Route
+          path="/skin-type-form"
+          element={
+            <>
+              <Navbar />
+              <SkinTypeForm />
+            </>
+          }
+        />
+        <Route
+          path="/recommended-products"
+          element={
+            <>
+              <Navbar />
+              <RecommendedProducts />
+            </>
+          }
+        />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/select-role" element={<RoleSelection />} />
 
-        {/* Dashboard sans Navbar */}
+        {/* Admin Dashboard */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<Orders />} />
           <Route path="users" element={<Users />} />
+          <Route path="charts" element={<SalesDashboardPage />} />
         </Route>
 
-        <Route path="/user-dashboard" element={<UserDashboardHome />} />
-        <Route path="/user-dashboard/orders" element={<UserOrders />} />
-        <Route path="/user-dashboard" element={<UserOverview />} />
-        <Route path="/user-dashboard/wishlist" element={<UserWishlist />} />
-        <Route path="/user-dashboard/settings" element={<UserSettings />} />
+        {/* User Dashboard with nested routes */}
+        <Route path="/user-dashboard" element={<UserDashboardHome />}>
+          <Route index element={<UserOverview />} />
+          <Route path="orders" element={<UserOrders />} />
+          <Route path="wishlist" element={<UserWishlist />} />
+          <Route path="settings" element={<UserSettings />} />
+        </Route>
         
-                
+        {/* vendeur Dashboard with nested routes */}
+        <Route path="/seller" element={<SellerDashboard />}>
+          <Route path="products" element={<SellerProducts />} />
+          <Route path="orders" element={<SellerOrders />} />
+          <Route path="clients" element={<SellerClients />} />
+          <Route path="analytics" element={<SellerAnalytics />} />
+        </Route>
       </Routes>
     </Router>
+    
   );
 };
 

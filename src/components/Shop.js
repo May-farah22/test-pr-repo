@@ -19,6 +19,7 @@ import Serum1 from "../assets/images/serum ordi.jpg";
 import Serum2 from "../assets/images/serum svr.jpg";
 import Serum3 from "../assets/images/serum ses.jpg";
 
+
 export const products  = [
   {
     id: 1,

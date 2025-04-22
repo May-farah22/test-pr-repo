@@ -31,15 +31,14 @@ const MaskCollection = () => {
                 <img src={product.image} alt={product.name} className="mask-image img-fluid" />
                 <h3 className="mask-name mt-3">{product.name}</h3>
                 <p className="mask-price">{product.price}</p>
-             <div className="button-container mt-3">
-             <Button type="submit" className="btn btn-primary cart-btn me-2">
-            ADD TO CART 
-          </Button>
-          <Button type="submit" className="btn btn-primary buy-btn">
-            BUY IT NOW 
-          </Button>
-
-        </div>
+                <div className="mask-buttons">
+  <Button type="submit" className="btn btn-primary cart-btn">
+    ADD TO CART 
+  </Button>
+  <Button type="submit" className="btn btn-primary buy-btn">
+    BUY IT NOW 
+  </Button>
+</div>
 
               </div>
             </Col>
