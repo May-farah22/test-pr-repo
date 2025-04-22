@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
-import '../styles/Products.css'; // Assurez-vous que le chemin est correct
+import '../styles/Products.css'; // le chemin reste inchangé
 
 const Products = () => {
   const [products, setProducts] = useState([
@@ -42,53 +42,46 @@ const Products = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Gestion des Produits</h2>
-      <Button
-        className="custom-add-btn"
-        style={{ backgroundColor: 'transparent', border: 'none' }}
-        onClick={handleShow}
-      >
-        Ajouter un Produit
-      </Button>
+    <div className="products-dashboard-container">
+      <div className="products-header">
+        <h2>Produits</h2>
+        <Button className="products-add-btn" onClick={handleShow}>
+          + Ajouter un Produit
+        </Button>
+      </div>
 
-      <Table striped bordered hover className="mt-3">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nom</th>
-            <th>Prix (€)</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={product.id}>
-              <td>{index + 1}</td>
-              <td>{product.name}</td>
-              <td>{product.price}€</td>
-              <td>
-                <Button
-                  className="custom-edit-btn"
-                  style={{ backgroundColor: 'transparent', border: 'none' }}
-                  onClick={() => handleEditProduct(index)}
-                >
-                  Modifier
-                </Button>{" "}
-                <Button
-                  className="custom-delete-btn"
-                  style={{ backgroundColor: 'transparent', border: 'none' }}
-                  onClick={() => handleDeleteProduct(product.id)}
-                >
-                  Supprimer
-                </Button>
-              </td>
+      <div className="products-table-wrapper">
+        <Table striped hover responsive className="products-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Prix (€)</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr key={product.id}>
+                <td>{index + 1}</td>
+                <td>{product.name}</td>
+                <td>{product.price}€</td>
+                <td>
+                  <Button className="products-edit-btn" onClick={() => handleEditProduct(index)}>
+                    Modifier
+                  </Button>
+                  <Button className="products-delete-btn" onClick={() => handleDeleteProduct(product.id)}>
+                    Supprimer
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
-      <Modal show={show} onHide={handleClose}>
+      {/* Modal */}
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{editIndex !== null ? "Modifier Produit" : "Ajouter Produit"}</Modal.Title>
         </Modal.Header>
@@ -98,7 +91,6 @@ const Products = () => {
               <Form.Label>Nom du produit</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Entrez le nom"
                 value={newProduct.name}
                 onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
               />
@@ -107,7 +99,6 @@ const Products = () => {
               <Form.Label>Prix (€)</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Entrez le prix"
                 value={newProduct.price}
                 onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
               />
@@ -115,9 +106,7 @@ const Products = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Annuler
-          </Button>
+          <Button variant="secondary" onClick={handleClose}>Annuler</Button>
           <Button variant="primary" onClick={handleAddProduct}>
             {editIndex !== null ? "Modifier" : "Ajouter"}
           </Button>

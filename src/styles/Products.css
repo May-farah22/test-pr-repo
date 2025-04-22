@@ -1,71 +1,72 @@
-.dashboard-container {
-    margin-left: 260px;
-    padding: 20px;
+.products-dashboard-container {
+    padding: 30px;
+    background: #f9f9fb;
+    min-height: 100vh;
+    margin-left: 250px;
 }
 
-.table-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table th {
-    background: #0606da;
-    color: white;
-    padding: 10px;
-}
-
-table td {
-    padding: 10px;
-    text-align: center;
-}
-/* Bouton Ajouter */
-.custom-add-btn {
-    background: #CA3C66!important; /* Couleur verte */
-    color: white !important;
+.products-add-btn {
+    background-color: #CA3C66 !important;
+    border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.products-add-btn:hover {
+    background-color: #a52a4e !important;
+}
+
+.products-table-wrapper {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+}
+
+.products-table th {
+    background-color: #0606da;
+    color: white;
     text-align: center;
-    display: inline-block;
-    margin-bottom: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+    padding: 15px;
+    font-size: 15px;
 }
 
-.custom-add-btn:hover {
-    background: #0e0d0d !important; /* Couleur plus claire au survol */
+.products-table td {
+    padding: 15px;
+    vertical-align: middle;
+    text-align: center;
 }
 
-/* Bouton Modifier */
-.custom-edit-btn {
-    background:#E8AABE!important; /* Couleur orange */
-    color: white !important;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+.products-edit-btn {
+    background-color: #E8AABE !important;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-right: 10px;
+    color: #fff;
 }
 
-.custom-edit-btn:hover {
-    background: #181717 !important; /* Couleur plus foncée au survol */
+.products-edit-btn:hover {
+    background-color: #c97c99 !important;
 }
 
-/* Bouton Supprimer */
-.custom-delete-btn {
-    background: #DB6A8F !important; /* Couleur rouge orangé */
-    color: white !important;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+.products-delete-btn {
+    background-color: #DB6A8F !important;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    color: #fff;
 }
 
-.custom-delete-btn:hover {
-    background: #141414 !important; /* Couleur plus claire au survol */
+.products-delete-btn:hover {
+    background-color: #b84f72 !important;
 }

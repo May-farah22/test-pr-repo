@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import '../styles/Sidebar.css';
 import { FiBox, FiShoppingBag, FiUsers, FiMessageSquare, FiLogOut, FiSettings, FiBarChart2, FiUser } from 'react-icons/fi';
 
@@ -14,10 +15,11 @@ const Sidebar = () => {
           <FiBarChart2 className="icon" />
           <span>Dashboard</span>
         </button>
-        <button className="menu-item">
+        <Link to="/dashboard/products" className="menu-item">
           <FiBox className="icon" />
           <span>Products</span>
-        </button>
+        </Link>
+
         <button className="menu-item">
           <FiShoppingBag className="icon" />
           <span>Orders</span>

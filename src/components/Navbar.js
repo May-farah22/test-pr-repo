@@ -3,8 +3,6 @@ import { Search, ShoppingBag, User ,Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 
-
-
 const Navbar = ()  => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -38,12 +36,6 @@ const Navbar = ()  => {
             <Link to="/shop">Boutique</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/about">À Propos</Link>
-          </div>
-
-          {/* Barre de recherche */}
-          <div className="navbar-search">
-            <input type="text" placeholder="Rechercher des produits ..." className="search-input" />
-            <Search className="search-icon" />
           </div>
 
           {/* Icônes utilisateur */}

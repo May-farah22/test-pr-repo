@@ -1,6 +1,6 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import DashboardHome from './DashboardHome';
 
 const DashboardLayout = () => {
   return (
@@ -10,7 +10,7 @@ const DashboardLayout = () => {
 
       {/* Page Content */}
       <div className="flex-1 p-4 overflow-y-auto">
-        <DashboardHome />
+        <Outlet /> {/* C’est ici que les sous-pages s’affichent dynamiquement */}
       </div>
     </div>
   );
