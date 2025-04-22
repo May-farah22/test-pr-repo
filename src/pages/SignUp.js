@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/SignUp.css";
 
 const SignUp = () => {
@@ -7,22 +7,55 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = (e) => {
+  const role = new URLSearchParams(location.search).get("role") || "user";
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Vérifier que les champs ne sont pas vides
+  
     if (!fullName || !email || !password) {
       alert("Veuillez remplir tous les champs !");
       return;
     }
-
-    // Simuler l'inscription en stockant les infos
-    localStorage.setItem("user", JSON.stringify({ fullName, email }));
-
-    // Rediriger vers le formulaire après l'inscription
-    navigate("/skin-type-form");
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
+          role, // ensure role is correctly defined
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        // Handle the case where the user already exists
+        alert(data.msg || "Utilisateur déjà existe");
+        return;
+      }
+  
+      // Make sure data.user exists before trying to store it
+      if (data.user) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+  
+        navigate("/skin-type-form"); // Assuming this is your next page after registration
+      } else {
+        alert("Erreur: Aucune donnée utilisateur reçue.");
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+      alert("Erreur serveur");
+    }
   };
+  
 
   return (
     <div className="auth-container">
