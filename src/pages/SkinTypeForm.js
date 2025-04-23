@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SkinTypeForm.css";
 
 const SkinTypeForm = () => {
   const [formData, setFormData] = useState({
-    name: "Jean Dupont",
-    email: "jean.dupont@example.com",
-    skinType: "Peau mixte",
-    concerns: ["Acné"],
-    message: "J'aimerais améliorer ma routine de soin.",
+    name: "",
+    email: "",
+    skinType: "",
+    concerns: [],
+    message: "",
     photo: null,
   });
 
   const [photoPreview, setPhotoPreview] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [skinTypes, setSkinTypes] = useState([]);
 
-  const skinTypes = ["Peau sèche", "Peau grasse", "Peau mixte", "Peau sensible"];
   const concernsList = ["Acné", "Taches", "Rides", "Déshydratation"];
 
+  // Fetch user data when component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const storedUser = localStorage.getItem("user");
+      console.log("Stored User:", storedUser);
+      
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser);
+          console.log("User object:", user);
+
+          setFormData((prev) => ({
+            ...prev,
+            name: user.name || "",
+            email: user.email || "",
+          }));
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === "checkbox") {
@@ -30,23 +55,87 @@ const SkinTypeForm = () => {
     } else if (type === "file") {
       const file = files[0];
       setFormData({ ...formData, photo: file });
+      console.log("setFormData",setFormData);
+      
       setPhotoPreview(URL.createObjectURL(file));
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleSubmit = (e) => {
+  // Submit the form
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Formulaire soumis avec succès !");
+    
+    try {
+      const token = localStorage.getItem("token");
+      const formDataToSend = new FormData();
+      console.log("formData.name",formData.name);
+      console.log("formData.email",formData.email);
+
+      console.log("formData.skinType",formData.skinType);
+
+      console.log("formData.message",formData.message);
+
+      console.log("formData.concerns",formData.concerns);
+     
+
+      
+      formDataToSend.append("user", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("skinType", formData.skinType);
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("concerns", formData.concerns);
+      if (formData.photo) {
+        formDataToSend.append("photo", formData.photo);
+      }
+      console.log("formDataToSend.......", formDataToSend);
+      console.log("formDataToSend.......",  formData.photo);
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(`${key}:`, value);
+      }
+      // Use correct endpoint for updating the form
+      console.log("token",token);
+      
+      const res = await fetch("http://localhost:5000/api/client/update-form", {
+        method: "PUT",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formDataToSend,
+      });
+
+      if (res.ok) {
+        alert("Modifications enregistrées !");
+        setIsEditing(false);  // Switch back to view mode after successful submission
+      } else {
+        alert("Erreur lors de l'enregistrement des modifications.");
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+      alert("Une erreur est survenue.");
+    }
   };
 
+  // Toggle between editing and saving state
   const handleUpdate = () => {
-    if (isEditing) {
-      alert("Modifications enregistrées !");
-    }
-    setIsEditing(!isEditing);
+    setIsEditing(!isEditing);  // Toggle between editing and saving state
   };
+
+  // Fetch available skin types
+  useEffect(() => {
+    const fetchSkinTypes = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/skinType");
+        const data = await response.json();
+        setSkinTypes(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des types de peau :", error);
+      }
+    };
+
+    fetchSkinTypes();
+  }, []);
 
   return (
     <div className="container skin-form-container">
@@ -101,9 +190,9 @@ const SkinTypeForm = () => {
             required
           >
             <option value="">Sélectionnez votre type de peau</option>
-            {skinTypes.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
+            {skinTypes.map((typeObj, index) => (
+              <option key={index} value={typeObj.type}>
+                {typeObj.type}
               </option>
             ))}
           </select>
@@ -151,61 +240,61 @@ const SkinTypeForm = () => {
             required
           ></textarea>
         </div>
-{/* Upload photo avec drag & drop */}
-<div className="mb-3">
-  <label className="form-label skin-form-label">
-    Photo de votre visage <span className="text-danger">*</span>
-  </label>
 
-  <div
-    className={`dropzone ${isEditing ? 'active' : 'disabled'}`}
-    onDragOver={(e) => e.preventDefault()}
-    onDrop={(e) => {
-      e.preventDefault();
-      if (!isEditing) return;
-      const file = e.dataTransfer.files[0];
-      if (file) {
-        setFormData({ ...formData, photo: file });
-        setPhotoPreview(URL.createObjectURL(file));
-      }
-    }}
-    onClick={() => {
-      if (!isEditing) return;
-      document.getElementById("photoUpload").click();
-    }}
-  >
-    <input
-      id="photoUpload"
-      type="file"
-      name="photo"
-      accept="image/*"
-      className="d-none"
-      onChange={handleChange}
-      disabled={!isEditing}
-    />
-    <p className="text-muted">Cliquez ou glissez une image ici</p>
-  </div>
+        {/* Upload photo avec drag & drop */}
+        <div className="mb-3">
+          <label className="form-label skin-form-label">
+            Photo de votre visage <span className="text-danger">*</span>
+          </label>
+          <div
+            className={`dropzone ${isEditing ? "active" : "disabled"}`}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              if (!isEditing) return;
+              const file = e.dataTransfer.files[0];
+              if (file) {
+                setFormData({ ...formData, photo: file });
+                setPhotoPreview(URL.createObjectURL(file));
+              }
+            }}
+            onClick={() => {
+              if (!isEditing) return;
+              document.getElementById("photoUpload").click();
+            }}
+          >
+            <input
+              id="photoUpload"
+              type="file"
+              name="photo"
+              accept="image/*"
+              className="d-none"
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+            <p className="text-muted">Cliquez ou glissez une image ici</p>
+          </div>
 
-  {photoPreview && (
-    <div className="mt-3 text-center">
-      <p className="skin-form-label">Aperçu :</p>
-      <img
-        src={photoPreview}
-        alt="Aperçu du visage"
-        className="img-thumbnail preview-image"
-      />
-    </div>
+          {photoPreview && (
+            <div className="mt-3 text-center">
+              <p className="skin-form-label">Aperçu :</p>
+              <img
+                src={photoPreview}
+                alt="Aperçu du visage"
+                className="img-thumbnail preview-image"
+              />
+            </div>
           )}
         </div>
 
         {/* Boutons */}
-        <button type="submit" className="btn skin-form-button" disabled={isEditing}>
+        <button type="submit" className="btn skin-form-button">
           Soumettre
         </button>
 
-        <button 
-          type="button" 
-          className="btn skin-form-update-button mt-2" 
+        <button
+          type="button"
+          className="btn skin-form-update-button mt-2"
           onClick={handleUpdate}
         >
           {isEditing ? "Sauvegarder" : "Mettre à jour"}

@@ -1,27 +1,69 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import'../styles/SignIn.css';
-const SignIn = () => {
-// eslint-disable-next-line no-unused-vars
-const [email, setEmail] = useState("");
-// eslint-disable-next-line no-unused-vars
-const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simuler l'authentification
-    localStorage.setItem("isAuthenticated", "true");
+import { useNavigate, useLocation } from "react-router-dom";
+import "../styles/SignIn.css";
 
-    // Rediriger vers le formulaire après connexion
-    navigate("/skin-type-form");
-    };
+const SignIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const role = new URLSearchParams(location.search).get("role") || "user";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.msg || "Erreur de connexion");
+        return;
+      }
+      
+      
+      
+      if (data.user.role !== role) {
+        alert("Rôle incorrect pour cet utilisateur");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      navigate("/skin-type-form");
+    } catch (error) {
+      console.error("Erreur:", error);
+      alert("Erreur serveur");
+    }
+  };
 
   return (
     <div className="auth-container">
       <h2>Connexion</h2>
       <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" required onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Mot de passe" required onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Se connecter</button>
       </form>
     </div>
