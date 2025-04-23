@@ -1,43 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
-import '../styles/Products.css'; // le chemin reste inchangé
+import axios from "axios";
+import '../styles/Products.css';
 
 const Products = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "Crème hydratante", price: 25 },
-    { id: 2, name: "Sérum vitamine C", price: 40 },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [show, setShow] = useState(false);
   const [newProduct, setNewProduct] = useState({ name: "", price: "" });
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
+
+  const API_URL = "http://localhost:5000/api/products"; 
+
+  // Fetch products
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(API_URL);
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const handleClose = () => {
     setShow(false);
     setNewProduct({ name: "", price: "" });
-    setEditIndex(null);
+    setEditId(null);
   };
 
   const handleShow = () => setShow(true);
 
-  const handleAddProduct = () => {
-    if (editIndex !== null) {
-      const updatedProducts = [...products];
-      updatedProducts[editIndex] = { ...newProduct, id: products[editIndex].id };
-      setProducts(updatedProducts);
-    } else {
-      setProducts([...products, { ...newProduct, id: Date.now() }]);
+  // Add or Edit Product
+  const handleSaveProduct = async () => {
+    try {
+      if (editId) {
+        
+        await axios.put(`${API_URL}/${editId}`, newProduct);
+      } else {
+        console.log("newProduct",newProduct);
+        
+        await axios.post(API_URL, newProduct);
+      }
+      fetchProducts();
+      handleClose();
+    } catch (err) {
+      console.error("Error saving product:", err);
     }
-    handleClose();
   };
 
-  const handleDeleteProduct = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
+  // Delete Product
+  const handleDeleteProduct = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      fetchProducts();
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
   };
 
-  const handleEditProduct = (index) => {
-    setNewProduct(products[index]);
-    setEditIndex(index);
+  // Prepare product for editing
+  const handleEditProduct = (product) => {
+    setNewProduct({ name: product.name, price: product.price });
+    setEditId(product._id);
     handleShow();
   };
 
@@ -62,15 +89,15 @@ const Products = () => {
           </thead>
           <tbody>
             {products.map((product, index) => (
-              <tr key={product.id}>
+              <tr key={product._id}>
                 <td>{index + 1}</td>
                 <td>{product.name}</td>
                 <td>{product.price}€</td>
                 <td>
-                  <Button className="products-edit-btn" onClick={() => handleEditProduct(index)}>
+                  <Button className="products-edit-btn" onClick={() => handleEditProduct(product)}>
                     Modifier
                   </Button>
-                  <Button className="products-delete-btn" onClick={() => handleDeleteProduct(product.id)}>
+                  <Button className="products-delete-btn" onClick={() => handleDeleteProduct(product._id)}>
                     Supprimer
                   </Button>
                 </td>
@@ -83,7 +110,7 @@ const Products = () => {
       {/* Modal */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{editIndex !== null ? "Modifier Produit" : "Ajouter Produit"}</Modal.Title>
+          <Modal.Title>{editId ? "Modifier Produit" : "Ajouter Produit"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -107,8 +134,8 @@ const Products = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Annuler</Button>
-          <Button variant="primary" onClick={handleAddProduct}>
-            {editIndex !== null ? "Modifier" : "Ajouter"}
+          <Button variant="primary" onClick={handleSaveProduct}>
+            {editId ? "Modifier" : "Ajouter"}
           </Button>
         </Modal.Footer>
       </Modal>

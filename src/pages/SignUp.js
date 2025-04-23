@@ -46,10 +46,13 @@ const SignUp = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
   
-        navigate("/skin-type-form"); // Assuming this is your next page after registration
+        // Assuming this is your next page after registration
       } else {
         alert("Erreur: Aucune donnée utilisateur reçue.");
       }
+      if (data.user.role === 'admin') navigate('/dashboard');
+      else if (data.user.role === "user") navigate('/user-dashboard');
+      else if (data.user.role === 'seller') navigate('/seller');
     } catch (error) {
       console.error("Erreur:", error);
       alert("Erreur serveur");

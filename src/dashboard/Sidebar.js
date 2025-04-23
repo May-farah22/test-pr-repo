@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import '../styles/Sidebar.css';
 import { FiBox, FiShoppingBag, FiUsers, FiMessageSquare, FiLogOut, FiSettings, FiBarChart2, FiUser } from 'react-icons/fi';
-
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    console.log('logout');
+    
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/signin');
+  };
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -12,7 +19,7 @@ const Sidebar = () => {
 
       <div className="sidebar-menu">
         <button className="menu-item active">
-          <FiBarChart2 className="icon" />
+          <FiBarChart2 className="icon"/>
           <span>Dashboard</span>
         </button>
         <Link to="/dashboard/products" className="menu-item">
@@ -44,7 +51,7 @@ const Sidebar = () => {
         </div>
         <div className="footer-actions">
           <button><FiSettings className="icon" /> <span>Settings</span></button>
-          <button><FiLogOut className="icon" /> <span>Logout</span></button>
+          <button onClick={handleLogout} ><FiLogOut className="icon" /> <span>Logout</span></button>
         </div>
       </div>
     </div>

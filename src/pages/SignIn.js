@@ -35,11 +35,15 @@ const SignIn = () => {
         alert("Rôle incorrect pour cet utilisateur");
         return;
       }
+     
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      if (data.user.role === 'admin') navigate('/dashboard');
+      else if (data.user.role === "user") navigate('/user-dashboard');
+      else if (data.user.role === 'seller') navigate('/seller');
 
-      navigate("/skin-type-form");
+   
     } catch (error) {
       console.error("Erreur:", error);
       alert("Erreur serveur");

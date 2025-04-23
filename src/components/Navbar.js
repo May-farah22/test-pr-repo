@@ -1,11 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, ShoppingBag, User ,Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = ()  => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/signin'); // or wherever your login page is
+  };
+  const isLoggedIn = !!localStorage.getItem("token");
 
   // Fermer le menu quand on clique en dehors
   useEffect(() => {
@@ -57,8 +65,14 @@ const Navbar = ()  => {
   </button>
 
   <div className={`dropdown-menu ${showMenu ? "show" : ""}`}>
-  <Link to="/select-role?action=signin" className="dropdown-item">Se connecter</Link>
-  <Link to="/select-role?action=signup" className="dropdown-item">S'inscrire</Link>
+  {isLoggedIn ? (
+    <button className="dropdown-item" onClick={handleLogout}>Se déconnecter</button>
+  ) : (
+    <>
+      <Link to="/select-role?action=signin" className="dropdown-item">Se connecter</Link>
+      <Link to="/select-role?action=signup" className="dropdown-item">S'inscrire</Link>
+    </>
+  )}
 </div>
 
 </div>

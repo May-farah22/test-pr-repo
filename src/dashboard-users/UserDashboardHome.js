@@ -6,6 +6,13 @@ import { FiMessageSquare, FiSettings } from "react-icons/fi";
 import { FaShoppingBag, FaHeart, FaBox, FaUser } from "react-icons/fa";
 
 const UserDashboardHome = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user")); // ✅ Now it's an object
+  const userName = storedUser?.name || "User";
+  
+  console.log("storedUser:", storedUser);
+const avatarUrl = storedUser?.avatar?.startsWith('http')
+  ? storedUser.avatar
+  : `http://localhost:5000/${storedUser.avatar}`;
   return (
     <>
     <Navbar />
@@ -15,13 +22,13 @@ const UserDashboardHome = () => {
       <div className="profile-header">
         <div className="profile-info">
           <img
-            src="https://i.pravatar.cc/80"
+            src={avatarUrl}
             alt="User Avatar"
             className="avatar"
           />
           <div>
-            <h2>Sarah Wilson</h2>
-            <p>Member since January 2025</p>
+            <h2>{userName}</h2>
+            <p>Member since {new Date(storedUser?.joined).toLocaleString('en-US', { month: 'long', year: 'numeric' })}</p>
           </div>
         </div>
         <div className="profile-actions">

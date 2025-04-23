@@ -27,6 +27,7 @@ import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
 import SellerClients from './pages/SellerClients';
 import SellerAnalytics from './pages/SellerAnalytics';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App = () => {
@@ -110,6 +111,7 @@ const App = () => {
         <Route path="/select-role" element={<RoleSelection />} />
 
         {/* Admin Dashboard */}
+        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="products" element={<Products />} />
@@ -117,21 +119,27 @@ const App = () => {
           <Route path="users" element={<Users />} />
           <Route path="charts" element={<SalesDashboardPage />} />
         </Route>
+        </Route>
 
         {/* User Dashboard with nested routes */}
+        <Route element={<ProtectedRoute allowedRoles={['user']} />}>
         <Route path="/user-dashboard" element={<UserDashboardHome />}>
           <Route index element={<UserOverview />} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="wishlist" element={<UserWishlist />} />
           <Route path="settings" element={<UserSettings />} />
         </Route>
+        </Route>
         
         {/* vendeur Dashboard with nested routes */}
+        <Route element={<ProtectedRoute allowedRoles={['seller']} />}>
+      
         <Route path="/seller" element={<SellerDashboard />}>
           <Route path="products" element={<SellerProducts />} />
           <Route path="orders" element={<SellerOrders />} />
           <Route path="clients" element={<SellerClients />} />
           <Route path="analytics" element={<SellerAnalytics />} />
+        </Route>
         </Route>
       </Routes>
     </Router>
