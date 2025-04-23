@@ -25,8 +25,6 @@ import SalesDashboardPage from "./dashboard/SalesDashboardPage.js";
 import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
-import SellerClients from './pages/SellerClients';
-import SellerAnalytics from './pages/SellerAnalytics';
 import ProtectedRoute from './components/ProtectedRoute';
 
 
@@ -137,8 +135,7 @@ const App = () => {
         <Route path="/seller" element={<SellerDashboard />}>
           <Route path="products" element={<SellerProducts />} />
           <Route path="orders" element={<SellerOrders />} />
-          <Route path="clients" element={<SellerClients />} />
-          <Route path="analytics" element={<SellerAnalytics />} />
+      
         </Route>
         </Route>
       </Routes>
