@@ -11,7 +11,7 @@ function RoleSelection() {
       navigate(`/signin?role=${role}`);
     } else {
       navigate(`/signup?role=${role}`);
-    }
+    } 
   };
 
   return (
@@ -22,6 +22,8 @@ function RoleSelection() {
         <div className="role-selection-buttons">
           <button className="role-btn" onClick={() => handleSelect('user')}>Utilisateur</button>
           <button className="role-btn" onClick={() => handleSelect('admin')}>Administrateur</button>
+          <button className="role-btn" onClick={() => handleSelect('admin')}>Vendeur</button>
+
         </div>
       </div>
     </div>

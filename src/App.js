@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from "./components/Home";
 import Shop from "./components/Shop";
@@ -25,8 +25,7 @@ import SalesDashboardPage from "./dashboard/SalesDashboardPage.js";
 import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
-import SellerClients from './pages/SellerClients';
-import SellerAnalytics from './pages/SellerAnalytics';
+
 
 
 const App = () => {
@@ -128,11 +127,13 @@ const App = () => {
         
         {/* vendeur Dashboard with nested routes */}
         <Route path="/seller" element={<SellerDashboard />}>
-          <Route path="products" element={<SellerProducts />} />
-          <Route path="orders" element={<SellerOrders />} />
-          <Route path="clients" element={<SellerClients />} />
-          <Route path="analytics" element={<SellerAnalytics />} />
-        </Route>
+  {/* Redirection automatique vers "products" */}
+  <Route index element={<Navigate to="products" replace />} />
+  
+  <Route path="products" element={<SellerProducts />} />
+  <Route path="orders" element={<SellerOrders />} />
+</Route>
+
       </Routes>
     </Router>
     

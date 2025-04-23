@@ -29,7 +29,7 @@ const UserDashboardHome = () => {
           <FiMessageSquare size={18} /> Support
         </button>
         <button className="edit-btn">
-          <FiSettings size={18} /> Edit Profile
+          <FiSettings size={18} />  Profile
         </button>
       </div>
       </div>

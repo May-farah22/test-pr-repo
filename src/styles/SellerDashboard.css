@@ -1,5 +1,5 @@
 .seller-dashboard {
-    font-family: 'Segoe UI', sans-serif;
+  font-family: 'Georgia', serif; /* ou autre police élégante */
     padding: 2rem;
     background-color: #f9fafb;
     color: #333;
@@ -37,30 +37,6 @@
     margin-right: 8px;
     font-size: 16px;
   }
-  
-  .add-product-btn {
-    display: inline-flex; /* ou flex */
-    align-items: center;
-    justify-content: center;
-    gap: 8px; /* espace entre l’icône et le texte */
-    padding: 8px 16px;
-    background-color: #bb86fc;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap; /* empêche le texte de passer à la ligne */
-    transition: background-color 0.3s ease;
-  }
-  
-  
-  .add-product-btn .icon {
-    margin-right: 8px;
-    font-size: 16px;
-  }
-  
   
  .summary-cards {
   display: flex;
@@ -399,4 +375,93 @@
     color: #888;
     cursor: pointer;
   }
-  
+  /* Style pour la boîte modale */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px; /* ⬅️ Réduit ici la largeur de la modale */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.modal-content h3 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #b1096e;
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #f8f5f5;
+}
+
+.form-actions .cancel-btn {
+  background-color: #d68fd6;
+  color: white;
+}
+
+.form-actions .cancel-btn:hover {
+  background-color: #ec97da;
+}

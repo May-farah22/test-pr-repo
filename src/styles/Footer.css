@@ -111,4 +111,19 @@
       font-size: 0.9rem; /* Taille du texte réduite sur mobile */
     }
   }
+  .map-responsive {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* Aspect ratio 16:9 */
+  }
+  
+  .map-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+  }
   
