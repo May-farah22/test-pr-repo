@@ -11,7 +11,6 @@ const SellerDashboard = () => {
         <h1>Tableau de bord vendeur</h1>
         <div className="top-actions">
           <button className="notification-btn">🔔 Notifications</button>
-          <button className="add-product-btn">+ Ajouter un produit</button>
         </div>
       </div>
 
@@ -42,8 +41,6 @@ const SellerDashboard = () => {
       <nav className="seller-nav">
         <NavLink to="products">Produits</NavLink>
         <NavLink to="orders">Commandes</NavLink>
-        <NavLink to="clients">Clients</NavLink>
-        <NavLink to="analytics">Analytique</NavLink>
       </nav>
 
       {/* Zone dynamique */}

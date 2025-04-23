@@ -46,7 +46,6 @@ const DashboardHome = () => {
     </div>
     <div className="dashboard-header-buttons">
       <button className="btn-outline">Download Report</button>
-      <button className="btn-filled">Add Product</button>
     </div>
     </div>
     
