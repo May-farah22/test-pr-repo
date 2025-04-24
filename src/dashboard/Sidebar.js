@@ -14,31 +14,35 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h2>Glow<span>Care</span>Admin</h2>
-      </div>
+  <Link to="/dashboard" className="logo-link">
+    <h2>Glow<span>Care</span>Admin</h2>
+  </Link>
+</div>
 
       <div className="sidebar-menu">
-        <button className="menu-item active">
+        <Link to="/dashboard" className="menu-item active">
           <FiBarChart2 className="icon"/>
           <span>Dashboard</span>
-        </button>
-        <Link to="/dashboard/products" className="menu-item">
-          <FiBox className="icon" />
-          <span>Products</span>
         </Link>
+        <Link to="/dashboard/products" className="menu-item ">
+        <FiBox className="icon" />
+        <span>Products</span>
+      </Link>
 
-        <button className="menu-item">
-          <FiShoppingBag className="icon" />
-          <span>Orders</span>
-        </button>
-        <button className="menu-item">
-          <FiUsers className="icon" />
-          <span>Customers</span>
-        </button>
-        <button className="menu-item">
-          <FiMessageSquare className="icon" />
-          <span>Messages</span>
-        </button>
+      <Link to="/dashboard/orders" className="menu-item ">
+        <FiShoppingBag className="icon" />
+        <span>Orders</span>
+      </Link>
+
+      <Link to="/dashboard/users" className="menu-item ">
+        <FiUsers className="icon" />
+        <span>Customers</span>
+      </Link>
+
+      <Link to="/dashboard/Messages" className="menu-item ">
+        <FiMessageSquare className="icon" />
+        <span>Messages</span>
+      </Link>
       </div>
 
       <div className="sidebar-footer">
@@ -50,8 +54,11 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="footer-actions">
-          <button><FiSettings className="icon" /> <span>Settings</span></button>
-          <button onClick={handleLogout} ><FiLogOut className="icon" /> <span>Logout</span></button>
+        <Link to="/dashboard/settings" className="menu-item">
+          <FiSettings className="icon" />
+          <span>Settings</span>
+        </Link>         
+         <button onClick={handleLogout} ><FiLogOut className="icon" /> <span>Logout</span></button>
         </div>
       </div>
     </div>

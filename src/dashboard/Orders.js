@@ -1,51 +1,191 @@
-// Orders.js
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import '../styles/order.css';
+import { useState } from "react";
+import { FiEye, FiEdit, FiX, FiSave } from 'react-icons/fi';
+import "../styles/order.css";
 
+const Orders = () => {
+  const [orders, setOrders] = useState([
+    { 
+      id: 1001, 
+      customer: "John Doe", 
+      date: "2023-05-15", 
+      status: "Completed", 
+      total: 45.00 
+    },
+    { 
+      id: 1002, 
+      customer: "Jane Smith", 
+      date: "2023-05-16", 
+      status: "Processing", 
+      total: 30.00 
+    },
+    { 
+      id: 1003, 
+      customer: "Robert Johnson", 
+      date: "2023-05-17", 
+      status: "Shipped", 
+      total: 60.00 
+    },
+  ]);
 
-function Orders() {
-  const [orders, setOrders] = useState([]);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    // Ici tu peux faire une requête API pour récupérer les commandes
-    const fetchOrders = async () => {
-      const response = await fetch('/api/orders'); // Remplace par ton API réelle
-      const data = await response.json();
-      setOrders(data);
-    };
-    fetchOrders();
-  }, []);
+  const getStatusClass = (status) => {
+    switch(status.toLowerCase()) {
+      case 'completed': return 'orders-status--completed';
+      case 'processing': return 'orders-status--processing';
+      case 'shipped': return 'orders-status--shipped';
+      default: return '';
+    }
+  };
+
+  const handleEditClick = (order) => {
+    setEditingOrder({...order});
+    setIsModalOpen(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingOrder({
+      ...editingOrder,
+      [name]: value
+    });
+  };
+
+  const handleSave = () => {
+    setOrders(orders.map(order => 
+      order.id === editingOrder.id ? editingOrder : order
+    ));
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="orders-container">
-      <h2>Gestion des commandes</h2>
+      <div className="orders-header">
+        <h1 className="orders-title">Orders</h1>
+        <div className="orders-filters">
+          <select className="orders-filter">
+            <option>All Orders</option>
+            <option>Completed</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+          </select>
+        </div>
+      </div>
+
       <table className="orders-table">
         <thead>
           <tr>
-            <th>ID de commande</th>
-            <th>Client</th>
-            <th>Statut</th>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total ($)</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.client}</td>
-              <td>{order.status}</td>
-              <td>
-                <Link to={`/orders/${order.id}`} className="btn-view">
-                  Voir
-                </Link>
+            <tr key={order.id} className="orders-row">
+              <td className="orders-id">#{order.id}</td>
+              <td className="orders-customer">{order.customer}</td>
+              <td className="orders-date">{order.date}</td>
+              <td className="orders-status">
+                <span className={`orders-status-badge ${getStatusClass(order.status)}`}>
+                  {order.status}
+                </span>
+              </td>
+              <td className="orders-total">${order.total.toFixed(2)}</td>
+              <td className="orders-actions">
+                <div className="orders-actions-container">
+                  <button className="orders-action-btn orders-action-btn--view">
+                    <FiEye className="orders-action-icon" />
+                    <span>View</span>
+                  </button>
+                  <button 
+                    className="orders-action-btn orders-action-btn--edit"
+                    onClick={() => handleEditClick(order)}
+                  >
+                    <FiEdit className="orders-action-icon" />
+                    <span>Edit</span>
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Edit Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="edit-modal">
+            <div className="modal-header">
+              <h3>Edit Order #{editingOrder.id}</h3>
+              <button onClick={() => setIsModalOpen(false)} className="modal-close-btn">
+                <FiX />
+              </button>
+            </div>
+            
+            <div className="modal-body">
+              <div className="form-group">
+                <label>Customer</label>
+                <input
+                  type="text"
+                  name="customer"
+                  value={editingOrder.customer}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={editingOrder.date}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Status</label>
+                <select
+                  name="status"
+                  value={editingOrder.status}
+                  onChange={handleInputChange}
+                >
+                  <option value="Processing">Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              
+              <div className="form-group">
+                <label>Total ($)</label>
+                <input
+                  type="number"
+                  name="total"
+                  value={editingOrder.total}
+                  onChange={handleInputChange}
+                  step="0.01"
+                />
+              </div>
+            </div>
+            
+            <div className="modal-footer">
+              <button onClick={() => setIsModalOpen(false)} className="modal-cancel-btn">
+                Cancel
+              </button>
+              <button onClick={handleSave} className="modal-save-btn">
+                <FiSave /> Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Orders;
