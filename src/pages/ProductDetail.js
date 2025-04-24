@@ -1,26 +1,53 @@
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { products } from '../components/Shop';
+import axios from "axios";
 import '../styles/ProductDetails.css';
-import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = products.find((p) => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
 
-  
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+  const navigate = useNavigate();
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/products/${id}`)
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.error("Failed to load product:", err));
+  }, [id]);
+
+  const handleAddToCart = (product) => {
+    const existingItem = cart.find(item => item._id === product._id);
+
+    let updatedCart;
+    if (existingItem) {
+      updatedCart = cart.map(item =>
+        item._id === product._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [...cart, { ...product, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    navigate("/shop");
+  };
+
   if (!product) {
-    return <h2>Produit introuvable</h2>;
+    return <h2>Chargement du produit...</h2>;
   }
 
   return (
     <div className="product-image">
-  <img src={product.image} alt={product.name} />
-
-
+      <img src={`http://localhost:5000/${product.image}`} alt={product.name} />
       <div className="product-info">
         <h2 className="product-name">{product.name}</h2>
         <p className="product-price">
-          <span className="old-price">{product.oldPrice} TND</span>
+          {product.oldPrice && <span className="old-price">{product.oldPrice} TND</span>}
           <span className="new-price">{product.price} TND</span>
         </p>
         <p className="product-category">{product.category}</p>
@@ -32,12 +59,13 @@ const ProductDetails = () => {
         </p>
         <div className="quantity">
           <label>Quantité :</label>
-          <input type="number" value="1" />
+          <input type="number" min="1" defaultValue={1} />
         </div>
-        <button className="add-to-cart">Ajouter au panier</button>
+        <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+          Ajouter au panier
+        </button>
       </div>
 
-      {/* Description détaillée du produit */}
       <div className="product-description">
         <h3>Description</h3>
         <p>{product.description}</p>
@@ -48,9 +76,7 @@ const ProductDetails = () => {
         </p>
 
         <h3>Composition</h3>
-        <p>
-          {product.composition}
-        </p>
+        <p>{product.composition}</p>
       </div>
     </div>
   );
