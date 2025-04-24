@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate} from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from "./components/Home";
 import Shop from "./components/Shop";
@@ -10,6 +10,8 @@ import DashboardHome from "./dashboard/DashboardHome";
 import Products from "./dashboard/Products";
 import Orders from "./dashboard/Orders";
 import Users from "./dashboard/Users";
+import Settings from "./dashboard/Settings.js";
+import Messages from "./dashboard/Messages.js";
 import UserDashboardHome from "./dashboard-users/UserDashboardHome";
 import UserOrders from "./dashboard-users/UserOrders";
 import UserSettings from "./dashboard-users/UserSettings";
@@ -25,7 +27,7 @@ import SalesDashboardPage from "./dashboard/SalesDashboardPage.js";
 import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
-import ProtectedRoute from './components/ProtectedRoute';
+/*import ProtectedRoute from './components/ProtectedRoute';*/
 
 
 const App = () => {
@@ -109,35 +111,42 @@ const App = () => {
         <Route path="/select-role" element={<RoleSelection />} />
 
         {/* Admin Dashboard */}
-        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+       {/* <Route element={<ProtectedRoute allowedRoles={['admin']} />}>*/}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<Orders />} />
           <Route path="users" element={<Users />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/dashboard/Messages" element={<Messages/>}/>
           <Route path="charts" element={<SalesDashboardPage />} />
         </Route>
-        </Route>
+       {/* </Route>*/}
 
         {/* User Dashboard with nested routes */}
-        <Route element={<ProtectedRoute allowedRoles={['user']} />}>
+        {/*<Route element={<ProtectedRoute allowedRoles={['user']} />}>*/}
         <Route path="/user-dashboard" element={<UserDashboardHome />}>
           <Route index element={<UserOverview />} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="wishlist" element={<UserWishlist />} />
           <Route path="settings" element={<UserSettings />} />
         </Route>
-        </Route>
+        {/*</Route>*/}
         
         {/* vendeur Dashboard with nested routes */}
-        <Route element={<ProtectedRoute allowedRoles={['seller']} />}>
+        {/*<Route element={<ProtectedRoute allowedRoles={['seller']} />}>*/}
       
-        <Route path="/seller" element={<SellerDashboard />}>
-          <Route path="products" element={<SellerProducts />} />
-          <Route path="orders" element={<SellerOrders />} />
-      
-        </Route>
-        </Route>
+         {/* Redirection de la racine vers /seller */}
+      <Route path="/" element={<Navigate to="/seller" />} />
+
+{/* Layout du dashboard vendeur */}
+      <Route path="/seller" element={<SellerDashboard />}>
+        {/* ✅ Route index = page affichée par défaut */}
+        <Route index element={<SellerProducts />} />
+        <Route path="products" element={<SellerProducts />} />
+        <Route path="orders" element={<SellerOrders />} />
+      </Route>
+        {/*</Route>*/}
       </Routes>
     </Router>
     
