@@ -101,7 +101,7 @@ const BoxProducts = () => {
         </tbody>
       </table>
 
-      {showModal && (
+ {showModal &&(
   <div className="modal-overlay">
     <div className="modal-content">
       <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>

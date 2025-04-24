@@ -94,7 +94,7 @@ const SellerProducts = () => {
             </div>
             
             <div className="form-group">
-              <label>Catégorie</label>
+              <label>Catégories</label>
               <input type="text" placeholder="Catégorie du produit" required />
             </div>
             

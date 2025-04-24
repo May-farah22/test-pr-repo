@@ -151,6 +151,7 @@
   .form-actions button[type="submit"] {
     background-color: #7a3864;
     color: white;
+    gap: 10;
   }
   
   .cancel-btn {
