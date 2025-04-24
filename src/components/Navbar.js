@@ -58,9 +58,9 @@ const Navbar = ()  => {
             <button className="icon-btn">
               <Search className="icon mobile-search" />
             </button>
-            <button className="icon-btn">
-              <ShoppingBag className="icon" />{cartCount}
-            </button>
+            <button className="icon-btn" onClick={() => navigate("/cart")}>
+        <ShoppingBag className="icon" />{cartCount}
+      </button>
             <button className="icon-btn">
               <Heart className="icon" />
             </button>

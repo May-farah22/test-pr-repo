@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/SellerDashboard.css';
-import '../styles/SellerCommon.css'; // pour réutiliser les styles modale
 
 const SellerProducts = () => {
   const [showForm, setShowForm] = useState(false);
@@ -94,7 +93,7 @@ const SellerProducts = () => {
             </div>
             
             <div className="form-group">
-              <label>Catégories</label>
+              <label>Catégorie</label>
               <input type="text" placeholder="Catégorie du produit" required />
             </div>
             

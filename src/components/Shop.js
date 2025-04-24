@@ -13,6 +13,7 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -95,6 +96,20 @@ const Shop = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddToCart = (product) => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = existingCart.findIndex(item => item._id === product._id);
+
+    if (existingItemIndex >= 0) {
+      existingCart[existingItemIndex].quantity += 1;
+    } else {
+      existingCart.push({ ...product, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    alert("Produit ajouté au panier !");
+  };
+
   return (
     <div className="shop-container">
       <h1 className="shop-title">Notre Collection</h1>
@@ -167,7 +182,13 @@ const Shop = () => {
                   />
                   <h4>{product.name}</h4>
                   <p>{product.price.toFixed(2)} € ⭐ {product.rating}</p>
-                  <button className="btn btn-primary add-to-cart">
+                  <button
+                    className="btn btn-primary add-to-cart"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToCart(product);
+                    }}
+                  >
                     Ajouter au panier
                   </button>
                 </div>

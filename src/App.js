@@ -27,6 +27,7 @@ import SalesDashboardPage from "./dashboard/SalesDashboardPage.js";
 import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
+import CartPage from "./pages/CartPage";
 /*import ProtectedRoute from './components/ProtectedRoute';*/
 
 
@@ -62,6 +63,12 @@ const App = () => {
             </>
           }
         />
+         <Route 
+         path="/cart"
+          element={
+          <CartPage />
+          } /> {/* Route panier */}
+
         <Route
           path="/contact"
           element={
