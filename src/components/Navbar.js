@@ -8,13 +8,20 @@ const Navbar = ()  => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const [cartCount, setCartCount] = useState(0);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/signin'); // or wherever your login page is
   };
   const isLoggedIn = !!localStorage.getItem("token");
-
+  
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalQuantity = storedCart.reduce((acc, item) => acc + item.quantity, 0);
+    setCartCount(totalQuantity);
+  }, []);
   // Fermer le menu quand on clique en dehors
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,7 +59,7 @@ const Navbar = ()  => {
               <Search className="icon mobile-search" />
             </button>
             <button className="icon-btn">
-              <ShoppingBag className="icon" />
+              <ShoppingBag className="icon" />{cartCount}
             </button>
             <button className="icon-btn">
               <Heart className="icon" />
