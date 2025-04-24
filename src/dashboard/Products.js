@@ -101,54 +101,69 @@ const BoxProducts = () => {
         </tbody>
       </table>
 
-      {/* Modal */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Nom</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Prix (€)</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Stock</label>
-                <input
-                  type="number"
-                  name="stock"
-                  value={formData.stock}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-actions">
-                <button type="submit">
-                  {editProduct ? "Modifier" : "Ajouter"}
-                </button>
-                <button type="button" className="cancel-btn" onClick={handleCloseModal}>
-                  Annuler
-                </button>
-              </div>
-            </form>
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-fields">
+          <div className="form-group">
+            <label>Nom</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Prix (€)</label>
+            <input type="number" name="price" value={formData.price} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Ancien prix (€)</label>
+            <input type="number" name="oldPrice" value={formData.oldPrice} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Stock</label>
+            <input type="number" name="stock" value={formData.stock} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>ID</label>
+            <input type="number" name="id" value={formData.id} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Type de peau</label>
+            <input type="text" name="skintype" value={formData.skintype} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Images (URL)</label>
+            <input type="text" name="images" value={formData.images} onChange={handleChange} placeholder="Séparer par des virgules si plusieurs" />
+          </div>
+          <div className="form-group">
+            <label>Composition</label>
+            <input type="text" name="composition" value={formData.composition} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Note (sur 5)</label>
+            <input type="number" step="0.1" name="rating" value={formData.rating} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Catégorie</label>
+            <input type="text" name="category" value={formData.category} onChange={handleChange} />
           </div>
         </div>
-      )}
+
+        <div className="form-group">
+          <label>Description</label>
+          <textarea name="description" value={formData.description} onChange={handleChange} />
+        </div>
+
+        <div className="form-actions">
+          <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
+          <button type="submit">{editProduct ? "Modifier" : "Ajouter"}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

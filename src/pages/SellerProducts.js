@@ -51,44 +51,83 @@ const SellerProducts = () => {
         </tbody>
       </table>
 
-      {/* Formulaire Modale */}
-      {showForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Ajouter un Nouveau Produit</h3>
-            <form>
-              <div className="form-group">
-                <label>Nom du Produit</label>
-                <input type="text" placeholder="Nom du produit" required />
-              </div>
-              <div className="form-group">
-                <label>Prix (€)</label>
-                <input type="number" step="0.01" placeholder="Prix" required />
-              </div>
-              <div className="form-group">
-                <label>Stock</label>
-                <input type="number" placeholder="Quantité en stock" required />
-              </div>
-              <div className="form-group">
-                <label>Catégorie</label>
-                <input type="text" placeholder="Catégorie" required />
-              </div>
-              <div className="form-group">
-                <label>Statut</label>
-                <select required>
-                  <option value="in-stock">En stock</option>
-                  <option value="low-stock">Stock faible</option>
-                  <option value="out-of-stock">Rupture de stock</option>
-                </select>
-              </div>
-              <div className="form-actions">
-                <button type="submit">Ajouter Produit</button>
-                <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
-              </div>
-            </form>
+{/* Formulaire Modale */}
+{showForm && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h3>Ajouter un Nouveau Produit</h3>
+      <form>
+        <div className="form-fields">
+          {/* Colonne 1 */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Nom du Produit</label>
+              <input type="text" placeholder="Nom du produit" required />
+            </div>
+            
+            <div className="form-group">
+              <label>Prix (€)</label>
+              <input type="number" step="0.01" placeholder="Prix actuel" required />
+            </div>
+            
+            <div className="form-group">
+              <label>Ancien Prix (€)</label>
+              <input type="number" step="0.01" placeholder="Prix avant réduction" />
+            </div>
+            
+            <div className="form-group">
+              <label>Note</label>
+              <input type="number" step="0.1" min="0" max="5" placeholder="Note sur 5" />
+            </div>
+            
+            <div className="form-group">
+              <label>Images (URLs)</label>
+              <input type="text" placeholder="URLs séparées par des virgules" />
+            </div>
+          </div>
+          
+          {/* Colonne 2 */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Stock</label>
+              <input type="number" placeholder="Quantité en stock" required />
+            </div>
+            
+            <div className="form-group">
+              <label>Catégorie</label>
+              <input type="text" placeholder="Catégorie du produit" required />
+            </div>
+            
+            <div className="form-group">
+              <label>Statut</label>
+              <select required>
+                <option value="in-stock">En stock</option>
+                <option value="low-stock">Stock faible</option>
+                <option value="out-of-stock">Rupture de stock</option>
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label>Composition</label>
+              <input type="text" placeholder="Ingrédients/composition" />
+            </div>
           </div>
         </div>
-      )}
+        
+        {/* Champ description (pleine largeur) */}
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea placeholder="Description détaillée du produit" rows="4"></textarea>
+        </div>
+        
+        <div className="form-actions">
+          <button type="submit">Ajouter Produit</button>
+          <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };
