@@ -77,7 +77,7 @@ const Navbar = ()  => {
   ) : (
     <>
       <Link to="/select-role?action=signin" className="dropdown-item">Se connecter</Link>
-      <Link to="/select-role?action=signup" className="dropdown-item">S'inscrire</Link>
+      <Link to="/signup" className="dropdown-item">S'inscrire</Link>
     </>
   )}
 </div>

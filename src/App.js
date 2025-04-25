@@ -84,7 +84,7 @@ const App = () => {
             <>
               <Navbar />
               <SignIn />
-            </>
+            </> 
           }
         />
         <Route
@@ -139,10 +139,8 @@ const App = () => {
           <Route path="settings" element={<UserSettings />} />
         </Route>
         {/*</Route>*/}
-        
         {/* vendeur Dashboard with nested routes */}
         {/*<Route element={<ProtectedRoute allowedRoles={['seller']} />}>*/}
-      
          {/* Redirection de la racine vers /seller */}
       <Route path="/" element={<Navigate to="/seller" />} />
 

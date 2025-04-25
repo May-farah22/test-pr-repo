@@ -4,7 +4,21 @@ import Button from "./ui/Button";
 import { Leaf, ShieldCheck, Award, Heart, Globe } from "lucide-react";
 import "../styles/About.css";
 
+// Import des images locales
+import missionImage from "../assets/images/skii.avif";
+import teamMember1 from "../assets/images/team-member-01.jpg";
+import teamMember2 from "../assets/images/team2.jpg";
+import teamMember3 from "../assets/images/Team-memeber-4.png";
+import teamMember4 from "../assets/images/imagesteam3.jpeg";
+
 const About = () => {
+  const teamMembers = [
+    { id: 1, img: teamMember1, name: "Sophie Martin", position: "Fondatrice & CEO" },
+    { id: 2, img: teamMember2, name: "Jean Dupont", position: "Responsable R&D" },
+    { id: 3, img: teamMember3, name: "Camille Leroy", position: "Responsable Marketing" },
+    { id: 4, img: teamMember4, name: "Thomas Blanc", position: "Responsable Production" }
+  ];
+
   return (
     <div className="about-container min-vh-100 d-flex flex-column bg-light">
       <main className="about-main flex-grow-1">
@@ -62,8 +76,8 @@ const About = () => {
               </div>
               <div className="col-md-6 position-relative">
                 <img 
-                  src="https://source.unsplash.com/random/800x600/?skincare,natural" 
-                  alt="Notre mission" 
+                  src={missionImage} 
+                  alt="Notre mission en images" 
                   className="about-mission-image img-fluid rounded shadow"
                 />
                 <div className="about-mission-vision-card position-absolute bottom-0 end-0 bg-primary p-4 rounded shadow-lg">
@@ -137,16 +151,16 @@ const About = () => {
               <div className="col-lg-7">
                 <div className="about-team-grid">
                   <div className="row g-4">
-                    {[1, 2, 3, 4].map((item) => (
-                      <div className="col-6" key={item}>
+                    {teamMembers.map((member) => (
+                      <div className="col-6" key={member.id}>
                         <div className="about-team-member-card p-3 text-center">
                           <img 
-                            src={`https://source.unsplash.com/random/300x300/?portrait,${item}`} 
-                            alt={`Team member ${item}`}
+                            src={member.img} 
+                            alt={member.name}
                             className="about-team-member-img img-fluid rounded-circle mb-3"
                           />
-                          <h4 className="about-team-member-name h5 mb-1">Prénom Nom</h4>
-                          <p className="about-team-member-position text-muted small">Poste</p>
+                          <h4 className="about-team-member-name h5 mb-1">{member.name}</h4>
+                          <p className="about-team-member-position text-muted small">{member.position}</p>
                         </div>
                       </div>
                     ))}
