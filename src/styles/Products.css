@@ -20,7 +20,7 @@
   }
   
   .add-button {
-    background-color: #bbb5ec;
+    background-color: #e9eaee; /* Couleur de fond personnalisée */
     color: white;
     padding: 8px 16px;
     border: none;
@@ -28,7 +28,22 @@
     cursor: pointer;
     font-size: 0.9rem;
     width: 150px;
-  }
+}
+
+.action-button.edit {
+    background-color: #cbbbcf; /* Couleur de fond personnalisée pour "Modifier" */
+    color: white;
+}
+
+.action-button.delete {
+    background-color: #d32f2f; /* Couleur de fond personnalisée pour "Supprimer" */
+    color: white;
+}
+
+.action-button:hover {
+    opacity: 0.8; /* Effet au survol des boutons */
+}
+
   
   .products-table {
     width: 100%;
@@ -66,7 +81,7 @@
   }
   
   .action-button.edit {
-    background-color:  #7a3864;
+    background-color:  #d3aac5;
     color: white;
   }
   

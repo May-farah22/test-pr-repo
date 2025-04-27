@@ -11,9 +11,12 @@ function RoleSelection() {
 
   const handleSelect = (role) => {
     if (action === 'signin') {
-      navigate(`/signin?role=${role}`);
+      navigate(`/signin`);
+    } else if (action === 'signup') {
+      navigate(`/signup?role=${role}`);
     }
   };
+  
 
   const roles = [
     { id: 'user', icon: <FiUser className="role-icon" />, title: 'Utilisateur' },

@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import "../styles/PromiseSection.css"; // Import du fichier CSS
 
 import newImage from '../assets/images/rose.png';
@@ -17,9 +18,11 @@ const PromiseSection = () => {
               We only use raw, highly concentrated ingredients to create products that are intentional, 
               targeted, and handcrafted to make you look and feel good!
             </p>
-            <Button variant="outline-dark" className="promise-button">
-              READ OUR STORY
-            </Button>
+            <Link to="/about">
+              <Button variant="outline-dark" className="promise-button">
+                READ OUR STORY
+              </Button>
+            </Link>
           </div>
 
           {/* Colonne Image */}

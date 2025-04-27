@@ -1,31 +1,27 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import '../styles/UserOrders.css';
+import { ShoppingCart, Favorite, Loyalty } from '@mui/icons-material';  // Importer les icônes
 
 const ClientOverview = () => {
   return (
-    <div className="orders-container">
-      <h2 className="section-title">Dashboard Overview</h2>
+    <div className="client-orders-container">
+      <h2 className="client-section-title">Dashboard Overview</h2>
 
-      <div className="tabs">
-        <NavLink to="/user-dashboard" className={({ isActive }) => isActive ? "tab active" : "tab"}>Overview</NavLink>
-        <NavLink to="/user-dashboard/orders" className={({ isActive }) => isActive ? "tab active" : "tab"}>Orders</NavLink>
-        <NavLink to="/user-dashboard/wishlist" className={({ isActive }) => isActive ? "tab active" : "tab"}>Wishlist</NavLink>
-        <NavLink to="/user-dashboard/settings" className={({ isActive }) => isActive ? "tab active" : "tab"}>Settings</NavLink>
-      </div>
-
-      <div className="dashboard-cards">
-        <div className="card">
+      <div className="client-dashboard-cards">
+        <div className="client-dashboard-card">
+          <ShoppingCart className="client-card-icon" /> {/* Icône pour Total Orders */}
           <h3>Total Orders</h3>
-          <p className="bold">12</p>
+          <p className="client-bold">12</p>
         </div>
-        <div className="card">
+        <div className="client-dashboard-card">
+          <Favorite className="client-card-icon" /> {/* Icône pour Wishlist Items */}
           <h3>Wishlist Items</h3>
-          <p className="bold">5</p>
+          <p className="client-bold">5</p>
         </div>
-        <div className="card">
+        <div className="client-dashboard-card">
+          <Loyalty className="client-card-icon" /> {/* Icône pour Loyalty Points */}
           <h3>Loyalty Points</h3>
-          <p className="bold">230</p>
+          <p className="client-bold">230</p>
         </div>
       </div>
     </div>

@@ -58,7 +58,10 @@ const Sidebar = () => {
           <FiSettings className="icon" />
           <span>Settings</span>
         </Link>         
-         <button onClick={handleLogout} ><FiLogOut className="icon" /> <span>Logout</span></button>
+        <button onClick={handleLogout} className="menu-item">
+          <FiLogOut className="icon" />
+          <span>Logout</span>
+        </button>
         </div>
       </div>
     </div>
