@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/CartPage.css";
 import Navbar from '../components/Navbar';
+import { FaTrashAlt, FaEuroSign, FaBoxOpen } from 'react-icons/fa';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -25,35 +26,48 @@ const CartPage = () => {
     localStorage.removeItem("cart");
   };
 
+  const LoadingAnimation = () => (
+    <div className="cartpage-loading-animation">
+      <div className="cartpage-dot"></div>
+      <div className="cartpage-dot"></div>
+      <div className="cartpage-dot"></div>
+    </div>
+  );
+
   return (
     <>
-      <Navbar /> {/* <- Ajouté ici */}
+      <Navbar />
 
-      <div className="cart-container">
-        <h1 className="cart-title">Mon Panier</h1>
+      <div className="cartpage-container">
+        <h1 className="cartpage-title">Mon Panier</h1>
 
         {cartItems.length === 0 ? (
-          <p className="empty-message">Votre panier est vide.</p>
+          <>
+            <LoadingAnimation />
+            <p className="cartpage-empty-message">Votre panier est vide.</p>
+          </>
         ) : (
           <>
-            <div className="cart-items">
+            <div className="cartpage-items">
               {cartItems.map((item, index) => (
-                <div className="cart-item" key={index}>
-                  <img src={item.image} alt={item.name} className="item-image" />
-                  <div className="item-details">
+                <div className="cartpage-item" key={index}>
+                  <img src={item.image} alt={item.name} className="cartpage-item-image" />
+                  <div className="cartpage-item-details">
                     <h2>{item.name}</h2>
-                    <p>Quantité : {item.quantity}</p>
-                    <p>Prix : {item.price} €</p>
-                    <button className="remove-btn" onClick={() => handleRemoveItem(index)}>Supprimer</button>
+                    <p><FaBoxOpen /> Quantité : {item.quantity}</p>
+                    <p><FaEuroSign /> Prix : {item.price} €</p>
+                    <button className="cartpage-remove-btn" onClick={() => handleRemoveItem(index)}>
+                      <FaTrashAlt /> Supprimer
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="cart-total">
+            <div className="cartpage-total">
               <h3>Total : {getTotal()} €</h3>
-              <button className="checkout-btn">Passer la commande</button>
-              <button className="clear-btn" onClick={handleClearCart}>Vider le panier</button>
+              <button className="cartpage-checkout-btn">Passer la commande</button>
+              <button className="cartpage-clear-btn" onClick={handleClearCart}>Vider le panier</button>
             </div>
           </>
         )}
