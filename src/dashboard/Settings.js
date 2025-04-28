@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiSettings, FiUser, FiLock, FiBell, FiCreditCard, FiGlobe } from 'react-icons/fi';
+import { FiSettings, FiUser, FiLock } from 'react-icons/fi';
 import "../styles/settings.css";
 
 const Settings = () => {
@@ -46,24 +46,6 @@ const Settings = () => {
           >
             <FiLock /> Security
           </button>
-          <button 
-            className={`settings-tab ${activeTab === 'notifications' ? 'active' : ''}`}
-            onClick={() => setActiveTab('notifications')}
-          >
-            <FiBell /> Notifications
-          </button>
-          <button 
-            className={`settings-tab ${activeTab === 'billing' ? 'active' : ''}`}
-            onClick={() => setActiveTab('billing')}
-          >
-            <FiCreditCard /> Billing
-          </button>
-          <button 
-            className={`settings-tab ${activeTab === 'preferences' ? 'active' : ''}`}
-            onClick={() => setActiveTab('preferences')}
-          >
-            <FiGlobe /> Preferences
-          </button>
         </div>
 
         <div className="settings-main">
@@ -107,70 +89,6 @@ const Settings = () => {
                   <label>Confirm New Password</label>
                   <input type="password" />
                 </div>
-              </div>
-            )}
-
-            {activeTab === 'notifications' && (
-              <div className="settings-section">
-                <h2>Notification Settings</h2>
-                <div className="form-group checkbox">
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="notifications"
-                      checked={formData.notifications}
-                      onChange={handleInputChange}
-                    />
-                    Enable notifications
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label>Notification Email</label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    readOnly
-                  />
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'preferences' && (
-              <div className="settings-section">
-                <h2>Preferences</h2>
-                <div className="form-group">
-                  <label>Language</label>
-                  <select
-                    name="language"
-                    value={formData.language}
-                    onChange={handleInputChange}
-                  >
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Theme</label>
-                  <select
-                    name="theme"
-                    value={formData.theme}
-                    onChange={handleInputChange}
-                  >
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="system">System</option>
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'billing' && (
-              <div className="settings-section">
-                <h2>Billing Information</h2>
-                <p className="info-message">
-                  Manage your subscription and payment methods.
-                </p>
               </div>
             )}
 

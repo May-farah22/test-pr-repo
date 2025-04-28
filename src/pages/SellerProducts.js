@@ -79,11 +79,7 @@ const SellerProducts = () => {
               <input type="number" step="0.1" min="0" max="5" placeholder="Note sur 5" />
             </div>
             
-            <div className="form-group">
-              <label>Images (URLs)</label>
-              <input type="text" placeholder="URLs séparées par des virgules" />
-            </div>
-          </div>
+            
           
           {/* Colonne 2 */}
           <div className="form-column">
@@ -94,17 +90,19 @@ const SellerProducts = () => {
             
             <div className="form-group">
               <label>Catégorie</label>
-              <input type="text" placeholder="Catégorie du produit" required />
+              <select required>
+                <option value="categorie1">Catégorie 1</option>
+                <option value="categorie2">Catégorie 2</option>
+                <option value="categorie3">Catégorie 3</option>
+                <option value="categorie4">Catégorie 4</option>
+              </select>
             </div>
             
             <div className="form-group">
-              <label>Statut</label>
-              <select required>
-                <option value="in-stock">En stock</option>
-                <option value="low-stock">Stock faible</option>
-                <option value="out-of-stock">Rupture de stock</option>
-              </select>
+              <label>Images (Télécharger)</label>
+              <input type="file" accept="image/*" multiple />
             </div>
+          </div>
             
             <div className="form-group">
               <label>Composition</label>
@@ -127,6 +125,7 @@ const SellerProducts = () => {
     </div>
   </div>
 )}
+
     </div>
   );
 };

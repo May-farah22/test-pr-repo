@@ -42,43 +42,47 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="product-image">
-      <img src={`http://localhost:5000/${product.image}`} alt={product.name} />
-      <div className="product-info">
-        <h2 className="product-name">{product.name}</h2>
-        <p className="product-price">
-          {product.oldPrice && <span className="old-price">{product.oldPrice} TND</span>}
-          <span className="new-price">{product.price} TND</span>
-        </p>
-        <p className="product-category">{product.category}</p>
-        <p className="product-skinType">{product.skinType}</p>
-        <p className="product-rating">Noté 5.00 sur 5 basé sur 3 avis client</p>
-        <p className="product-availability">Disponible sur commande</p>
-        <p className="product-points">
-          Achetez ce produit maintenant et gagnez 31 Points, 100 points de fidélité peuvent être convertis en un bon de 2 D.T !
-        </p>
-        <div className="quantity">
-          <label>Quantité :</label>
-          <input type="number" min="1" defaultValue={1} />
-        </div>
-        <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
-          Ajouter au panier
-        </button>
-      </div>
+<div className="pd-container">
+  <div className="pd-image">
+    <img src={`http://localhost:5000/${product.image}`} alt={product.name} />
+  </div>
 
-      <div className="product-description">
-        <h3>Description</h3>
-        <p>{product.description}</p>
-
-        <h3>Conseils d’utilisation</h3>
-        <p>
-          Nettoyez le visage et le cou avec la Lotion nettoyante pour Peaux Intolérantes. Appliquez le soin matin et soir. Pressez le tube pour obtenir la dose souhaitée. Après utilisation, enlever l’excédent de produit et refermer.
-        </p>
-
-        <h3>Composition</h3>
-        <p>{product.composition}</p>
-      </div>
+  <div className="pd-info">
+    <h2 className="pd-name">{product.name}</h2>
+    <p className="pd-price">
+      {product.oldPrice && <span className="pd-old-price">{product.oldPrice} TND</span>}
+      <span className="pd-new-price">{product.price} TND</span>
+    </p>
+    <p className="pd-category">{product.category}</p>
+    <p className="pd-skinType">{product.skinType}</p>
+    <p className="pd-rating">Noté 5.00 sur 5 basé sur 3 avis client</p>
+    <p className="pd-availability">Disponible sur commande</p>
+    <p className="pd-points">
+      Achetez ce produit maintenant et gagnez 31 Points, 100 points de fidélité peuvent être convertis en un bon de 2 D.T !
+    </p>
+    <div className="pd-quantity">
+      <label>Quantité :</label>
+      <input type="number" min="1" defaultValue={1} />
     </div>
+    <button className="pd-add-to-cart" onClick={() => handleAddToCart(product)}>
+      Ajouter au panier
+    </button>
+  </div>
+
+  <div className="pd-description">
+    <h3>Description</h3>
+    <p>{product.description}</p>
+
+    <h3>Conseils d’utilisation</h3>
+    <p>
+      Nettoyez le visage et le cou avec la Lotion nettoyante pour Peaux Intolérantes...
+    </p>
+
+    <h3>Composition</h3>
+    <p>{product.composition}</p>
+  </div>
+</div>
+
   );
 };
 

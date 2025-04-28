@@ -21,7 +21,6 @@ const ClientOrders = () => {
               <p>Total</p>
               <strong>$129.99</strong>
             </div>
-            <button className="client-details-btn">View Details</button>
           </div>
         </div>
       
