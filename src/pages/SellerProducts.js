@@ -1,15 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../styles/SellerDashboard.css';
 
 const SellerProducts = () => {
   const [showForm, setShowForm] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    price: '',
+    stock: '',
+    category: '',
+    status: 'in-stock',
+    description: '',
+    image: '',
+  });
 
-  const handleShowForm = () => {
-    setShowForm(true);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?._id || user?.id; // 🔥 Correction ici (ton erreur venait de là)
+
+  useEffect(() => {
+    if (userId) {
+      fetchProducts();
+    }
+  }, [userId]);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/products');
+      // 🔥 Afficher uniquement les produits créés par ce vendeur
+      const sellerProducts = res.data.filter(product => product.userId === userId);
+      setProducts(sellerProducts);
+    } catch (error) {
+      console.error('Erreur lors du chargement des produits:', error);
+    }
   };
 
-  const handleCloseForm = () => {
-    setShowForm(false);
+  const handleShowForm = () => setShowForm(true);
+  const handleCloseForm = () => setShowForm(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userId) {
+      alert('❌ Vous devez être connecté pour ajouter un produit.');
+      return;
+    }
+
+    const newProduct = {
+      ...formData,
+      userId
+    };
+
+    try {
+      await axios.post('http://localhost:5000/api/products', newProduct);
+      alert('✅ Produit ajouté avec succès!');
+      fetchProducts(); // 🔥 Recharge les produits après ajout
+      handleCloseForm();
+      setFormData({
+        name: '',
+        price: '',
+        stock: '',
+        category: '',
+        status: 'in-stock',
+        description: '',
+        image: '',
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du produit:', error);
+      alert('❌ Erreur lors de l\'ajout du produit.');
+    }
   };
 
   return (
@@ -33,99 +100,82 @@ const SellerProducts = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Crème Hydratante Premium</td>
-            <td>49.99 €</td>
-            <td>150</td>
-            <td>Hydratant</td>
-            <td><span className="status in-stock">En stock</span></td>
-          </tr>
-          <tr>
-            <td>Sérum Anti-âge</td>
-            <td>89.99 €</td>
-            <td>75</td>
-            <td>Soin Anti-âge</td>
-            <td><span className="status low-stock">Stock faible</span></td>
-          </tr>
+          {products.length > 0 ? (
+            products.map((product, index) => (
+              <tr key={index}>
+                <td>{product.name}</td>
+                <td>{product.price} €</td>
+                <td>{product.stock}</td>
+                <td>{product.category}</td>
+                <td><span className={`status ${product.status}`}>{product.status}</span></td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>Aucun produit disponible.</td>
+            </tr>
+          )}
         </tbody>
       </table>
 
-{/* Formulaire Modale */}
-{showForm && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h3>Ajouter un Nouveau Produit</h3>
-      <form>
-        <div className="form-fields">
-          {/* Colonne 1 */}
-          <div className="form-column">
-            <div className="form-group">
-              <label>Nom du Produit</label>
-              <input type="text" placeholder="Nom du produit" required />
-            </div>
-            
-            <div className="form-group">
-              <label>Prix (€)</label>
-              <input type="number" step="0.01" placeholder="Prix actuel" required />
-            </div>
-            
-            <div className="form-group">
-              <label>Ancien Prix (€)</label>
-              <input type="number" step="0.01" placeholder="Prix avant réduction" />
-            </div>
-            
-            <div className="form-group">
-              <label>Note</label>
-              <input type="number" step="0.1" min="0" max="5" placeholder="Note sur 5" />
-            </div>
-            
-            
-          
-          {/* Colonne 2 */}
-          <div className="form-column">
-            <div className="form-group">
-              <label>Stock</label>
-              <input type="number" placeholder="Quantité en stock" required />
-            </div>
-            
-            <div className="form-group">
-              <label>Catégorie</label>
-              <select required>
-                <option value="categorie1">Catégorie 1</option>
-                <option value="categorie2">Catégorie 2</option>
-                <option value="categorie3">Catégorie 3</option>
-                <option value="categorie4">Catégorie 4</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label>Images (Télécharger)</label>
-              <input type="file" accept="image/*" multiple />
-            </div>
-          </div>
-            
-            <div className="form-group">
-              <label>Composition</label>
-              <input type="text" placeholder="Ingrédients/composition" />
-            </div>
-          </div>
-        </div>
-        
-        {/* Champ description (pleine largeur) */}
-        <div className="form-group full-width">
-          <label>Description</label>
-          <textarea placeholder="Description détaillée du produit" rows="4"></textarea>
-        </div>
-        
-        <div className="form-actions">
-          <button type="submit">Ajouter Produit</button>
-          <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+      {/* Formulaire Modal */}
+      {showForm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Ajouter un Nouveau Produit</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="form-fields">
+                {/* Colonne 1 */}
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Nom du Produit</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Prix (€)</label>
+                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
+                  </div>
+                  <div className="form-group">
+                    <label>Images (URL)</label>
+                    <input type="text" name="image" value={formData.image} onChange={handleInputChange} />
+                  </div>
+                </div>
 
+                {/* Colonne 2 */}
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Stock</label>
+                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Catégorie</label>
+                    <input type="text" name="category" value={formData.category} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Statut</label>
+                    <select name="status" value={formData.status} onChange={handleInputChange} required>
+                      <option value="in-stock">En stock</option>
+                      <option value="low-stock">Stock faible</option>
+                      <option value="out-of-stock">Rupture de stock</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="form-group full-width">
+                <label>Description</label>
+                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit"></textarea>
+              </div>
+
+              <div className="form-actions">
+                <button type="submit">Ajouter Produit</button>
+                <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

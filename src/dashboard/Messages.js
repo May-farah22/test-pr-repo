@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import "../styles/messages.css";
-import { FaReply } from 'react-icons/fa'; // Import from Font Awesome
+import { FaReply } from 'react-icons/fa'; 
 import { 
   FiMail, 
   FiUser, 
@@ -8,49 +9,31 @@ import {
   FiSearch, 
   FiTrash2, 
   FiArchive,
-} from 'react-icons/fi'; // Import from Feather Icons
+} from 'react-icons/fi'; 
 
 const Messages = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      name: 'Jean Dupont',
-      email: 'jean.dupont@example.com',
-      subject: 'Question about my order',
-      content: 'Hello, I would like to know when my order will be shipped...',
-      date: '2023-06-15 14:30',
-      read: false,
-      archived: false
-    },
-    {
-      id: 2,
-      name: 'Marie Lambert',
-      email: 'marie.lambert@example.com',
-      subject: 'Product return request',
-      content: 'I received the wrong product and would like to return it...',
-      date: '2023-06-14 09:15',
-      read: true,
-      archived: false
-    },
-    {
-      id: 3,
-      name: 'Pierre Martin',
-      email: 'pierre.martin@example.com',
-      subject: 'Feedback about your service',
-      content: 'I wanted to share my positive experience with your store...',
-      date: '2023-06-12 16:45',
-      read: true,
-      archived: true
-    }
-  ]);
-
+  const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('inbox');
 
+  // 🔥 Charger les messages depuis l'API backend
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/messages');
+        setMessages(res.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des messages:', error);
+      }
+    };
+
+    fetchMessages();
+  }, []);
+
   const filteredMessages = messages.filter(message => {
     const matchesSearch = message.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         message.name.toLowerCase().includes(searchTerm.toLowerCase());
+                          message.name.toLowerCase().includes(searchTerm.toLowerCase());
     
     if (activeTab === 'inbox') return matchesSearch && !message.archived;
     if (activeTab === 'archived') return matchesSearch && message.archived;
@@ -60,22 +43,30 @@ const Messages = () => {
   const handleReadMessage = (message) => {
     setSelectedMessage(message);
     setMessages(messages.map(msg => 
-      msg.id === message.id ? {...msg, read: true} : msg
+      msg._id === message._id ? {...msg, read: true} : msg
     ));
   };
 
   const handleArchive = (id) => {
     setMessages(messages.map(message => 
-      message.id === id ? {...message, archived: !message.archived} : message
+      message._id === id ? {...message, archived: !message.archived} : message
     ));
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this message?')) {
-      setMessages(messages.filter(message => message.id !== id));
-      if (selectedMessage?.id === id) setSelectedMessage(null);
+      try {
+        await axios.delete(`http://localhost:5000/api/messages/${id}`);
+        setMessages(messages.filter(message => message._id !== id));
+        if (selectedMessage?._id === id) setSelectedMessage(null);
+        alert('✅ Message supprimé avec succès !');
+      } catch (error) {
+        console.error('Erreur lors de la suppression:', error);
+        alert('❌ Impossible de supprimer le message.');
+      }
     }
   };
+
 
   return (
     <div className="messages-container">
@@ -115,8 +106,8 @@ const Messages = () => {
           <div className="messages-list">
             {filteredMessages.map(message => (
               <div 
-                key={message.id}
-                className={`message-preview ${!message.read ? 'unread' : ''} ${selectedMessage?.id === message.id ? 'active' : ''}`}
+                key={message._id}
+                className={`message-preview ${!message.read ? 'unread' : ''} ${selectedMessage?._id === message._id ? 'active' : ''}`}
                 onClick={() => handleReadMessage(message)}
               >
                 <div className="message-header">
@@ -125,11 +116,11 @@ const Messages = () => {
                     <span className="sender-name">{message.name}</span>
                   </div>
                   <span className="message-date">
-                    <FiClock /> {message.date}
+                    <FiClock /> {new Date(message.createdAt).toLocaleString()}
                   </span>
                 </div>
                 <h4 className="message-subject">{message.subject}</h4>
-                <p className="message-excerpt">{message.content.substring(0, 60)}...</p>
+                <p className="message-excerpt">{message.message.substring(0, 60)}...</p>
               </div>
             ))}
           </div>
@@ -146,13 +137,13 @@ const Messages = () => {
                   </button>
                   <button 
                     className="action-btn archive"
-                    onClick={() => handleArchive(selectedMessage.id)}
+                    onClick={() => handleArchive(selectedMessage._id)}
                   >
                     <FiArchive /> {selectedMessage.archived ? 'Unarchive' : 'Archive'}
                   </button>
                   <button 
                     className="action-btn delete"
-                    onClick={() => handleDelete(selectedMessage.id)}
+                    onClick={() => handleDelete(selectedMessage._id)}
                   >
                     <FiTrash2 /> Delete
                   </button>
@@ -164,12 +155,12 @@ const Messages = () => {
                   <FiUser /> {selectedMessage.name} ({selectedMessage.email})
                 </div>
                 <div className="date">
-                  <FiClock /> {selectedMessage.date}
+                  <FiClock /> {new Date(selectedMessage.createdAt).toLocaleString()}
                 </div>
               </div>
 
               <div className="message-body">
-                <p>{selectedMessage.content}</p>
+                <p>{selectedMessage.message}</p>
               </div>
             </>
           ) : (

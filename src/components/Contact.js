@@ -1,15 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import { MapPin, Phone, Mail, Clock,Send } from "lucide-react"; 
 import "../styles/Contact.css"; // Chemin corrigé pour le fichier CSS
+import axios from "axios";
 
-const Contact = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Message envoyé ! Nous vous répondrons dans les plus brefs délais.");
-  };
-
-  return (
+  const Contact = () => {
+    const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+  
+    const handleChange = (e) => {
+      setFormData({...formData, [e.target.id]: e.target.value});
+    };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      console.log("formData",formData);
+      
+      try {
+        const res = await axios.post('http://localhost:5000/api/messages', formData);
+        if (res.status === 201) {
+          alert("✅ Message envoyé avec succès !");
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        }
+      } catch (error) {
+        console.error(error);
+        alert("❌ Erreur lors de l'envoi du message.");
+      }
+    };
+  
+return (
     <div className="min-vh-100 d-flex flex-column bg-light">
 
       <main className="flex-grow-1">
@@ -103,17 +125,17 @@ const Contact = () => {
           <div className="row g-3 mb-3">
             <div className="col-md-6">
               <label htmlFor="name" className="form-label">Nom</label>
-              <input type="text" className="form-control" id="name" required placeholder="Votre nom" />
+              <input type="text" className="form-control" id="name"  required value={formData.name} onChange={handleChange} placeholder="Votre nom" />
             </div>
             <div className="col-md-6">
               <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" className="form-control" id="email" required placeholder="votre@email.com" />
+              <input type="email" className="form-control" id="email" required value={formData.email} onChange={handleChange} placeholder="votre@email.com" />
             </div>
           </div>
           
           <div className="mb-3">
             <label htmlFor="subject" className="form-label">Sujet</label>
-            <input type="text" className="form-control" id="subject" required placeholder="Sujet de votre message" />
+            <input type="text" className="form-control" id="subject" required value={formData.subject} onChange={handleChange} placeholder="Sujet de votre message" />
           </div>
           
           <div className="mb-3">
@@ -122,7 +144,7 @@ const Contact = () => {
               className="form-control"
               id="message"
               rows="5"
-              required
+              required value={formData.message} onChange={handleChange}
               placeholder="Votre message..."
             ></textarea>
           </div>
