@@ -47,11 +47,13 @@
     padding: 16px;
     background: #f9fafb;
     font-weight: 600;
+    
   }
   
   .data-table td {
     padding: 14px 16px;
     border-bottom: 1px solid #f1f1f1;
+    
   }
   
   .status {
@@ -113,6 +115,7 @@
     justify-content: flex-end; /* ou center si tu veux centré */
     gap: 16px;
     margin: 20px 0;
+   
   }
   
   .actions input[type="text"] {
@@ -124,7 +127,7 @@
     outline: none;
     background-color: white;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    width: 250px; /* ajustable selon besoin */
+    width: 350px; /* ajustable selon besoin */
   }
   
   .actions input[type="text"]:focus {
@@ -239,4 +242,33 @@
 
 .form-actions .cancel-btn:hover {
   background-color: #ec97da;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px; /* ✅ Même taille que .product-table */
+  font-family: 'Segoe UI', sans-serif; /* ✅ Même police que .product-table */
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem; /* ✅ Harmoniser avec la table des produits */
+  text-align: left;
+}
+
+.data-table thead {
+  background-color: #f9fafb; /* ✅ Même fond que .product-table */
+}
+
+.data-table th {
+  color: #666; /* ✅ Même couleur que .product-table */
+  font-weight: 600;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid #eee; /* ✅ Même bordure que .product-table */
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
 }

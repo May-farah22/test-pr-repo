@@ -3,8 +3,9 @@ import '../styles/UserDashboardHome.css';
 import Navbar from '../components/Navbar';
 import UserProfile from '../dashboard-users/UserProfile'; // ✅ Import du composant
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { FiMessageSquare, FiSettings } from "react-icons/fi";
+import {  FiSettings } from "react-icons/fi";
 import { FaShoppingBag, FaHeart, FaBox, FaUser } from "react-icons/fa";
+
 
 const UserDashboardHome = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -32,9 +33,6 @@ const UserDashboardHome = () => {
             </div>
           </div>
           <div className="profile-actions">
-            <button className="support-btn">
-              <FiMessageSquare size={18} /> Support
-            </button>
             <button className="edit-btn" onClick={() => setShowProfile(true)}>
               <FiSettings size={18} /> Profile
             </button>
@@ -114,39 +112,6 @@ const UserDashboardHome = () => {
           </div>
         </div>
       </div>
-
-      {/* Product section */}
-      <section className="product-section">
-        <div className="section-header">
-          <h2>Your Perfect Match</h2>
-          <div className="tabs">
-            <button className="tab active">Recommended</button>
-            <button className="tab">Popular</button>
-            <button className="tab">New Arrivals</button>
-          </div>
-          <button className="view-all">View All</button>
-        </div>
-
-        <div className="product-grid">
-          <div className="product-card">
-            <span className="badge new">NEW</span>
-            <img src="https://via.placeholder.com/200x200" alt="Hydrating Facial Serum" className="product-img" />
-            <div className="product-info">
-              <p className="brand">GLOWESSENCE</p>
-              <h4 className="product-title">Hydrating Facial Serum</h4>
-              <p className="category">Facial Serums</p>
-              <div className="rating">
-                <span className="stars">★★★★★</span>
-                <span className="reviews">(124)</span>
-              </div>
-              <div className="price-row">
-                <span className="price">$39.99</span>
-                <button className="add-btn">🛒 Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ✅ Pop-up profil affiché conditionnellement */}
       {showProfile && (
