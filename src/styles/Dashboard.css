@@ -2,6 +2,10 @@
   padding: 20px;
   background-color: #f5f7fb;
   margin-left: 250px;
+  font-family: 'Inter', 'Poppins', 'Roboto', 'Helvetica Neue', sans-serif;
+  color: #1f2937; /* Gris foncé élégant */
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .dashboard-title {
@@ -244,4 +248,46 @@
 
 .btn-filled:hover {
   background-color: #7c3aed;
+}
+/* Titres (h1, h2, etc.) */
+.dashboard-container h1,
+.dashboard-container h2,
+.dashboard-container h3 {
+  font-weight: 700;
+  color: #111827; /* un peu plus foncé pour les titres */
+  margin-bottom: 8px;
+}
+
+/* Paragraphes et textes normaux */
+.dashboard-container p,
+.dashboard-container td,
+.dashboard-container th,
+.dashboard-container span {
+  font-weight: 400;
+  color: #4b5563; /* Gris doux pour le texte courant */
+}
+
+/* Stat labels et subtexts plus légers */
+.stat-label, .stat-subtext {
+  color: #6b7280; /* Gris clair */
+  font-size: 13px;
+}
+
+/* Mettre en avant certaines valeurs (ex: chiffres) */
+.stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Table headers légèrement plus petits et en majuscules */
+.orders-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Boutons - conserver style défini mais police uniforme */
+.btn-outline, .btn-filled {
+  font-family: inherit;
 }

@@ -14,9 +14,9 @@ import Settings from "./dashboard/Settings.js";
 import Messages from "./dashboard/Messages.js";
 import UserDashboardHome from "./dashboard-users/UserDashboardHome";
 import UserOrders from "./dashboard-users/UserOrders";
-import UserSettings from "./dashboard-users/UserSettings";
 import UserWishlist from "./dashboard-users/UserWishlist.js";
 import UserOverview from "./dashboard-users/UserOverview.js";
+import UserProfile from "./dashboard-users/UserProfile.js";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SkinTypeForm from "./pages/SkinTypeForm";
@@ -136,7 +136,8 @@ const App = () => {
           <Route index element={<UserOverview />} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="wishlist" element={<UserWishlist />} />
-          <Route path="settings" element={<UserSettings />} />
+          <Route path="profile" element={<UserProfile />}/>
+          
         </Route>
         </Route>
         {/* vendeur Dashboard with nested routes */}

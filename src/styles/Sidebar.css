@@ -125,15 +125,17 @@
   color: #4b5563;
   font-size: 15px;
   font-weight: 500;
+  text-decoration: none;
   border: none;
+  outline: none; /* Ajouté pour enlever le style bouton */
+  background: none; /* Ajouté pour enlever le fond du bouton */
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.3s, color 0.3s;
   margin-top: 10px;
 }
 .menu-item:hover {
   background-color: #f3f4f6;
 }
-
 .menu-item.active {
   background-color: #ede9fe;
   color: #7c3aed;

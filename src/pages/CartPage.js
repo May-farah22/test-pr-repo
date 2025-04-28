@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/CartPage.css";
+import Navbar from '../components/Navbar';
+import { FaTrashAlt, FaEuroSign, FaBoxOpen } from 'react-icons/fa';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -67,26 +69,34 @@ const CartPage = () => {
   };
 
   return (
-    <div className="cart-container">
-      <h1 className="cart-title">Mon Panier</h1>
+    <>
+      <Navbar />
 
-      {cartItems.length === 0 ? (
-        <p className="empty-message">Votre panier est vide.</p>
-      ) : (
-        <>
-          <div className="cart-items">
-            {cartItems.map((item, index) => (
-              <div className="cart-item" key={index}>
-                <img src={item.image} alt={item.name} className="item-image" />
-                <div className="item-details">
-                  <h2>{item.name}</h2>
-                  <p>Quantité : {item.quantity}</p>
-                  <p>Prix : {item.price} €</p>
-                  <button className="remove-btn" onClick={() => handleRemoveItem(index)}>Supprimer</button>
+      <div className="cartpage-container">
+        <h1 className="cartpage-title">Mon Panier</h1>
+
+        {cartItems.length === 0 ? (
+          <>
+            <LoadingAnimation />
+            <p className="cartpage-empty-message">Votre panier est vide.</p>
+          </>
+        ) : (
+          <>
+            <div className="cartpage-items">
+              {cartItems.map((item, index) => (
+                <div className="cartpage-item" key={index}>
+                  <img src={item.image} alt={item.name} className="cartpage-item-image" />
+                  <div className="cartpage-item-details">
+                    <h2>{item.name}</h2>
+                    <p><FaBoxOpen /> Quantité : {item.quantity}</p>
+                    <p><FaEuroSign /> Prix : {item.price} €</p>
+                    <button className="cartpage-remove-btn" onClick={() => handleRemoveItem(index)}>
+                      <FaTrashAlt /> Supprimer
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
           <div className="cart-total">
             <h3>Total : {getTotal()} €</h3>

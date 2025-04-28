@@ -89,13 +89,12 @@ const Customers = () => {
   };
 
   return (
-    <div className="customers-container">
-      {/* Header avec titre et boutons */}
-      <div className="customers-header">
-        <h1 className="customers-title">Customers</h1>
-        <div className="customers-actions">
-          <div className="search-bar">
-            <FiSearch className="search-icon" />
+    <div className="custom-customers-container">
+      <div className="custom-customers-header">
+        <h1 className="custom-customers-title">Customers</h1>
+        <div className="custom-customers-actions">
+          <div className="custom-search-bar">
+            <FiSearch className="custom-search-icon" />
             <input
               type="text"
               placeholder="Search customers..."
@@ -104,18 +103,17 @@ const Customers = () => {
             />
           </div>
           <button 
-            className="add-customer-btn"
+            className="custom-add-customer-btn"
             onClick={() => setIsAddModalOpen(true)}
           >
-            <FiUserPlus className="btn-icon" />
+            <FiUserPlus className="custom-btn-icon" />
             <span>Add Customer</span>
           </button>
         </div>
       </div>
 
-      {/* Tableau des clients */}
-      <div className="customers-table-container">
-        <table className="customers-table">
+      <div className="custom-customers-table-container">
+        <table className="custom-customers-table">
           <thead>
             <tr>
               <th>Customer</th>
@@ -129,41 +127,41 @@ const Customers = () => {
           <tbody>
             {filteredCustomers.map(customer => (
               <tr key={customer.id}>
-                <td className="customer-info">
-                  <div className="customer-avatar">
+                <td className="custom-customer-info">
+                  <div className="custom-customer-avatar">
                     <FiUser />
                   </div>
                   <div>
-                    <p className="customer-name">{customer.name}</p>
-                    <p className="customer-email">{customer.email}</p>
+                    <p className="custom-customer-name">{customer.name}</p>
+                    <p className="custom-customer-email">{customer.email}</p>
                   </div>
                 </td>
                 <td>
-                  <div className="contact-info">
-                    <FiMail className="contact-icon" />
+                  <div className="custom-contact-info">
+                    <FiMail className="custom-contact-icon" />
                     <span>{customer.email}</span>
                   </div>
-                  <div className="contact-info">
-                    <FiPhone className="contact-icon" />
+                  <div className="custom-contact-info">
+                    <FiPhone className="custom-contact-icon" />
                     <span>{customer.phone}</span>
                   </div>
                 </td>
-                <td className="orders-count">{customer.orders}</td>
-                <td className="joined-date">{customer.joined}</td>
+                <td className="custom-orders-count">{customer.orders}</td>
+                <td className="custom-joined-date">{customer.joined}</td>
                 <td>
-                  <span className={`status-badge ${customer.status}`}>
+                  <span className={`custom-status-badge ${customer.status}`}>
                     {customer.status}
                   </span>
                 </td>
-                <td className="actions">
+                <td className="custom-actions">
                   <button 
-                    className="action-btn edit"
+                    className="custom-action-btn custom-edit"
                     onClick={() => handleEdit(customer)}
                   >
                     <FiEdit />
                   </button>
                   <button 
-                    className="action-btn delete"
+                    className="custom-action-btn custom-delete"
                     onClick={() => handleDelete(customer.id)}
                   >
                     <FiTrash2 />
@@ -175,18 +173,17 @@ const Customers = () => {
         </table>
       </div>
 
-      {/* Modal d'édition */}
       {isModalOpen && (
-        <div className="customer-modal">
-          <div className="modal-content">
-            <div className="modal-header">
+        <div className="custom-customer-modal">
+          <div className="custom-modal-content">
+            <div className="custom-modal-header">
               <h3>Edit Customer</h3>
               <button onClick={() => setIsModalOpen(false)}>
                 <FiX />
               </button>
             </div>
-            <div className="modal-body">
-              <div className="form-group">
+            <div className="custom-modal-body">
+              <div className="custom-form-group">
                 <label>Name</label>
                 <input
                   type="text"
@@ -194,7 +191,7 @@ const Customers = () => {
                   onChange={(e) => setEditingCustomer({...editingCustomer, name: e.target.value})}
                 />
               </div>
-              <div className="form-group">
+              <div className="custom-form-group">
                 <label>Email</label>
                 <input
                   type="email"
@@ -202,7 +199,7 @@ const Customers = () => {
                   onChange={(e) => setEditingCustomer({...editingCustomer, email: e.target.value})}
                 />
               </div>
-              <div className="form-group">
+              <div className="custom-form-group">
                 <label>Phone</label>
                 <input
                   type="tel"
@@ -210,7 +207,7 @@ const Customers = () => {
                   onChange={(e) => setEditingCustomer({...editingCustomer, phone: e.target.value})}
                 />
               </div>
-              <div className="form-group">
+              <div className="custom-form-group">
                 <label>Status</label>
                 <select
                   value={editingCustomer?.status || 'active'}
@@ -221,11 +218,11 @@ const Customers = () => {
                 </select>
               </div>
             </div>
-            <div className="modal-footer">
-              <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>
+            <div className="custom-modal-footer">
+              <button className="custom-cancel-btn" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
-              <button className="save-btn" onClick={handleSave}>
+              <button className="custom-save-btn" onClick={handleSave}>
                 Save Changes
               </button>
             </div>
@@ -233,19 +230,18 @@ const Customers = () => {
         </div>
       )}
 
-      {/* Modal d'ajout */}
       {isAddModalOpen && (
-        <div className="customer-modal">
-          <div className="modal-content">
-            <div className="modal-header">
+        <div className="custom-customer-modal">
+          <div className="custom-modal-content">
+            <div className="custom-modal-header">
               <h3>Add New Customer</h3>
               <button onClick={() => setIsAddModalOpen(false)}>
                 <FiX />
               </button>
             </div>
-            <div className="modal-body">
-              <div className="form-group">
-                <label>Full Name <span className="required">*</span></label>
+            <div className="custom-modal-body">
+              <div className="custom-form-group">
+                <label>Full Name <span className="custom-required">*</span></label>
                 <input
                   type="text"
                   placeholder="John Doe"
@@ -253,8 +249,8 @@ const Customers = () => {
                   onChange={(e) => setNewCustomer({...newCustomer, name: e.target.value})}
                 />
               </div>
-              <div className="form-group">
-                <label>Email <span className="required">*</span></label>
+              <div className="custom-form-group">
+                <label>Email <span className="custom-required">*</span></label>
                 <input
                   type="email"
                   placeholder="john@example.com"
@@ -262,7 +258,7 @@ const Customers = () => {
                   onChange={(e) => setNewCustomer({...newCustomer, email: e.target.value})}
                 />
               </div>
-              <div className="form-group">
+              <div className="custom-form-group">
                 <label>Phone</label>
                 <input
                   type="tel"
@@ -271,7 +267,7 @@ const Customers = () => {
                   onChange={(e) => setNewCustomer({...newCustomer, phone: e.target.value})}
                 />
               </div>
-              <div className="form-group">
+              <div className="custom-form-group">
                 <label>Status</label>
                 <select
                   value={newCustomer.status}
@@ -282,19 +278,19 @@ const Customers = () => {
                 </select>
               </div>
             </div>
-            <div className="modal-footer">
+            <div className="custom-modal-footer">
               <button 
-                className="cancel-btn" 
+                className="custom-cancel-btn" 
                 onClick={() => setIsAddModalOpen(false)}
               >
                 Cancel
               </button>
               <button 
-                className="save-btn" 
+                className="custom-save-btn" 
                 onClick={handleAddCustomer}
                 disabled={!newCustomer.name || !newCustomer.email}
               >
-                <FiPlus className="btn-icon" />
+                <FiPlus className="custom-btn-icon" />
                 Add Customer
               </button>
             </div>
