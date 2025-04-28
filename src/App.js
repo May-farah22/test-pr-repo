@@ -28,7 +28,7 @@ import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
 import CartPage from "./pages/CartPage";
-/*import ProtectedRoute from './components/ProtectedRoute';*/
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App = () => {
@@ -118,7 +118,7 @@ const App = () => {
         <Route path="/select-role" element={<RoleSelection />} />
 
         {/* Admin Dashboard */}
-       {/* <Route element={<ProtectedRoute allowedRoles={['admin']} />}>*/}
+       {/*<Route element={<ProtectedRoute allowedRoles={['admin']} />}>*/}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="products" element={<Products />} />
@@ -128,30 +128,29 @@ const App = () => {
           <Route path="/dashboard/Messages" element={<Messages/>}/>
           <Route path="charts" element={<SalesDashboardPage />} />
         </Route>
-       {/* </Route>*/}
+        {/*</Route>*/}
 
         {/* User Dashboard with nested routes */}
-        {/*<Route element={<ProtectedRoute allowedRoles={['user']} />}>*/}
+        <Route element={<ProtectedRoute allowedRoles={['user']} />}>
         <Route path="/user-dashboard" element={<UserDashboardHome />}>
           <Route index element={<UserOverview />} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="wishlist" element={<UserWishlist />} />
           <Route path="settings" element={<UserSettings />} />
         </Route>
-        {/*</Route>*/}
+        </Route>
         {/* vendeur Dashboard with nested routes */}
-        {/*<Route element={<ProtectedRoute allowedRoles={['seller']} />}>*/}
-         {/* Redirection de la racine vers /seller */}
-      <Route path="/" element={<Navigate to="/seller" />} />
+       {/* <Route element={<ProtectedRoute allowedRoles={['seller']} />}>*/}
+        
 
 {/* Layout du dashboard vendeur */}
-      <Route path="/seller" element={<SellerDashboard />}>
+       <Route path="/seller" element={<SellerDashboard />}>
         {/* ✅ Route index = page affichée par défaut */}
         <Route index element={<SellerProducts />} />
         <Route path="products" element={<SellerProducts />} />
         <Route path="orders" element={<SellerOrders />} />
       </Route>
-        {/*</Route>*/}
+       {/* </Route>*/}
       </Routes>
     </Router>
     

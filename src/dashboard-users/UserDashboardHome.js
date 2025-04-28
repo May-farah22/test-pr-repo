@@ -12,7 +12,7 @@ const UserDashboardHome = () => {
   console.log("storedUser:", storedUser);
 const avatarUrl = storedUser?.avatar?.startsWith('http')
   ? storedUser.avatar
-  : `http://localhost:5000/${storedUser.avatar}`;
+  : `http://localhost:5000/${storedUser?.avatar}`;
   return (
     <>
     <Navbar />

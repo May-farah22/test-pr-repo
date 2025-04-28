@@ -1,34 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { FiEye, FiEdit, FiX, FiSave } from 'react-icons/fi';
 import "../styles/order.css";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([
-    { 
-      id: 1001, 
-      customer: "John Doe", 
-      date: "2023-05-15", 
-      status: "Completed", 
-      total: 45.00 
-    },
-    { 
-      id: 1002, 
-      customer: "Jane Smith", 
-      date: "2023-05-16", 
-      status: "Processing", 
-      total: 30.00 
-    },
-    { 
-      id: 1003, 
-      customer: "Robert Johnson", 
-      date: "2023-05-17", 
-      status: "Shipped", 
-      total: 60.00 
-    },
-  ]);
-
+  const [orders, setOrders] = useState([]);
   const [editingOrder, setEditingOrder] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 🔥 Charger les commandes depuis l'API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/orders');
+        setOrders(res.data);
+      } catch (error) {
+        console.error('Erreur chargement commandes:', error);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   const getStatusClass = (status) => {
     switch(status.toLowerCase()) {
@@ -46,17 +37,20 @@ const Orders = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditingOrder({
-      ...editingOrder,
+    setEditingOrder(prev => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
-  const handleSave = () => {
-    setOrders(orders.map(order => 
-      order.id === editingOrder.id ? editingOrder : order
-    ));
-    setIsModalOpen(false);
+  const handleSave = async () => {
+    try {
+      await axios.put(`http://localhost:5000/api/orders/${editingOrder._id}`, editingOrder);
+      setOrders(orders.map(order => order._id === editingOrder._id ? editingOrder : order));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+    }
   };
 
   return (
@@ -86,8 +80,8 @@ const Orders = () => {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id} className="orders-row">
-              <td className="orders-id">#{order.id}</td>
+            <tr key={order._id} className="orders-row">
+              <td className="orders-id">#{order._id.slice(-4).toUpperCase()}</td>
               <td className="orders-customer">{order.customer}</td>
               <td className="orders-date">{order.date}</td>
               <td className="orders-status">
@@ -116,12 +110,12 @@ const Orders = () => {
         </tbody>
       </table>
 
-      {/* Edit Modal */}
+      {/* Modal pour Edit */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="edit-modal">
             <div className="modal-header">
-              <h3>Edit Order #{editingOrder.id}</h3>
+              <h3>Edit Order #{editingOrder._id.slice(-4).toUpperCase()}</h3>
               <button onClick={() => setIsModalOpen(false)} className="modal-close-btn">
                 <FiX />
               </button>
