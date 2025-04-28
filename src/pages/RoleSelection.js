@@ -21,7 +21,7 @@ function RoleSelection() {
   const roles = [
     { id: 'user', icon: <FiUser className="role-icon" />, title: 'Utilisateur' },
     { id: 'admin', icon: <FiSettings className="role-icon" />, title: 'Administrateur' },
-    { id: 'vendor', icon: <FiShoppingBag className="role-icon" />, title: 'Vendeur' }
+    { id: 'seller', icon: <FiShoppingBag className="role-icon" />, title: 'Vendeur' }
   ];
 
   return (

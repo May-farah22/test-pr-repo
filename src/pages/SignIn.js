@@ -8,7 +8,6 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const role = new URLSearchParams(location.search).get("role") || "user";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,10 +30,7 @@ const SignIn = () => {
       
       
       
-      if (data.user.role !== role) {
-        alert("Rôle incorrect pour cet utilisateur");
-        return;
-      }
+    
      
 
       localStorage.setItem("token", data.token);

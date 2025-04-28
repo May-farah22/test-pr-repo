@@ -77,7 +77,7 @@ const CartPage = () => {
 
         {cartItems.length === 0 ? (
           <>
-            <LoadingAnimation />
+          
             <p className="cartpage-empty-message">Votre panier est vide.</p>
           </>
         ) : (
@@ -110,6 +110,7 @@ const CartPage = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 

@@ -10,7 +10,8 @@ const SignUp = () => {
   const location = useLocation();
 
   const role = new URLSearchParams(location.search).get("role") || "user";
-
+  console.log("role",role);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
