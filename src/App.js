@@ -118,7 +118,7 @@ const App = () => {
         <Route path="/select-role" element={<RoleSelection />} />
 
         {/* Admin Dashboard */}
-       {/*<Route element={<ProtectedRoute allowedRoles={['admin']} />}>*/}
+       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="products" element={<Products />} />
@@ -128,7 +128,7 @@ const App = () => {
           <Route path="/dashboard/Messages" element={<Messages/>}/>
           <Route path="charts" element={<SalesDashboardPage />} />
         </Route>
-        {/*</Route>*/}
+        </Route>
 
         {/* User Dashboard with nested routes */}
         <Route element={<ProtectedRoute allowedRoles={['user']} />}>
@@ -141,7 +141,7 @@ const App = () => {
         </Route>
         </Route>
         {/* vendeur Dashboard with nested routes */}
-       {/* <Route element={<ProtectedRoute allowedRoles={['seller']} />}>*/}
+       <Route element={<ProtectedRoute allowedRoles={['seller']} />}>
         
 
 {/* Layout du dashboard vendeur */}
@@ -151,7 +151,7 @@ const App = () => {
         <Route path="products" element={<SellerProducts />} />
         <Route path="orders" element={<SellerOrders />} />
       </Route>
-       {/* </Route>*/}
+        </Route>
       </Routes>
     </Router>
     

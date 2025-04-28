@@ -41,19 +41,16 @@ const CartPage = () => {
       alert("Votre panier est vide !");
       return;
     }
-    console.log("cartItems",cartItems.map(item => item._id));
-    
+    console.log("cartItems", cartItems.map(item => item._id));
 
-    // 🛒 Construction de la commande complète
     const order = {
       customer: user.name || "Client anonyme",
       date: new Date().toISOString().split('T')[0],
       status: "Processing",
       total: parseFloat(getTotal()),
-      productIds: cartItems.map(item => item._id) // 🔥 Extraire tous les IDs produits
+      productIds: cartItems.map(item => item._id)
     };
-    console.log("order",order);
-    
+    console.log("order", order);
 
     try {
       const res = await axios.post('http://localhost:5000/api/orders', order);
@@ -77,7 +74,12 @@ const CartPage = () => {
 
         {cartItems.length === 0 ? (
           <>
-            <LoadingAnimation />
+            {/* Animation de chargement simple */}
+            <div className="loading-animation">
+              <div className="spinner"></div>
+              <p>Chargement...</p>
+            </div>
+
             <p className="cartpage-empty-message">Votre panier est vide.</p>
           </>
         ) : (
@@ -98,18 +100,19 @@ const CartPage = () => {
               ))}
             </div>
 
-          <div className="cart-total">
-            <h3>Total : {getTotal()} €</h3>
-            <button className="checkout-btn" onClick={handleCheckout}>
-              Passer la commande
-            </button>
-            <button className="clear-btn" onClick={handleClearCart}>
-              Vider le panier
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+            <div className="cart-total">
+              <h3>Total : {getTotal()} €</h3>
+              <button className="checkout-btn" onClick={handleCheckout}>
+                Passer la commande
+              </button>
+              <button className="clear-btn" onClick={handleClearCart}>
+                Vider le panier
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
