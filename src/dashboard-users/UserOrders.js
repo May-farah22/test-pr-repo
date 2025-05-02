@@ -1,57 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/UserOrders.css';
-import serumImg from '../assets/images/creme hyd.jpg';
-import moisturizerImg from '../assets/images/gel bio.jpg';
-import nightCreamImg from '../assets/images/serum roch.jpg';
+import axios from 'axios';
 
 const ClientOrders = () => {
+  const [orders, setOrders] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Récupérer le userId depuis localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && storedUser.id) {
+      setUserId(storedUser.id);
+
+      const fetchOrders = async () => {
+        try {
+          const res = await axios.get(`http://localhost:5000/api/orders/${storedUser.id}`);
+          setOrders(res.data);
+        } catch (error) {
+          console.error('Erreur lors du chargement des commandes :', error);
+        }
+      };
+
+      fetchOrders();
+    }
+  }, []);
+
   return (
     <div className="client-orders-container">
       <h2 className="client-section-title">Your Orders</h2>
 
-      <div className="client-order-card">
-        <div className="client-order-header">
-          <div>
-            <p className="client-order-id">Order #ORD-7231</p>
-            <p className="client-order-date">Placed on April 10, 2025</p>
-          </div>
-          <div className="client-order-status-price">
-            <span className="client-order-status">Delivered</span>
-            <div className="client-order-total">
-              <p>Total</p>
-              <strong>$129.99</strong>
+      {orders.length === 0 ? (
+        <p>You have no orders yet.</p>
+      ) : (
+        orders.map((order, index) => (
+          <div className="client-order-card" key={index}>
+            <div className="client-order-header">
+              <div>
+                <p className="client-order-id">Order #{order?.orderId || order?._id}</p>
+                <p className="client-order-date">
+                  Placed on {new Date(order?.date).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="client-order-status-price">
+                <span className="client-order-status">{order?.status}</span>
+                <div className="client-order-total">
+                  <p>Total</p>
+                  <strong>${order?.total?.toFixed(2)}</strong>
+                </div>
+              </div>
             </div>
+
+            {Array.isArray(order.items) && order.items.map((item, i) => (
+              <div className="client-order-item" key={i}>
+                <img
+                  src={
+                    item.image?.startsWith('http')
+                      ? item.image
+                      : `${process.env.PUBLIC_URL}${item.image}`
+                  }
+                  alt={item.name}
+                />
+                <div className="client-item-info">
+                  <p>{item.name}</p>
+                  <small>Qty: {item.quantity}</small>
+                </div>
+                <span className="client-item-price">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </span>
+              </div>
+            ))}
           </div>
-        </div>
-      
-      <div className="client-order-item">
-        <img src={serumImg} alt="Hydrating Serum" />
-        <div className="client-item-info">
-          <p>Hydrating Facial Serum</p>
-          <small>Qty: 1</small>
-        </div>
-        <span className="client-item-price">$39.99</span>
-      </div>
-
-      <div className="client-order-item">
-        <img src={moisturizerImg} alt="Vitamin C Moisturizer" />
-        <div className="client-item-info">
-          <p>Vitamin C Brightening Moisturizer</p>
-          <small>Qty: 1</small>
-        </div>
-        <span className="client-item-price">$49.99</span>
-      </div>
-
-      <div className="client-order-item">
-        <img src={nightCreamImg} alt="Night Cream" />
-        <div className="client-item-info">
-          <p>Retinol Night Repair Cream</p>
-          <small>Qty: 1</small>
-        </div>
-        <span className="client-item-price">$40.01</span>
-      </div>
-      
-      </div>
+        ))
+      )}
     </div>
   );
 };

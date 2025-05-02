@@ -44,7 +44,7 @@ const CartPage = () => {
     console.log("cartItems", cartItems.map(item => item._id));
 
     const order = {
-      customer: user.name || "Client anonyme",
+      user: user.id || "Client anonyme",
       date: new Date().toISOString().split('T')[0],
       status: "Processing",
       total: parseFloat(getTotal()),

@@ -1,86 +1,116 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Products.css";
 
 const BoxProducts = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "Box S", price: 10, stock: 100 },
-    { id: 2, name: "Box M", price: 15, stock: 80 },
-    { id: 3, name: "Box L", price: 20, stock: 60 },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
-  const [formData, setFormData] = useState({ name: "", price: "", stock: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    oldPrice: "",
+    id: "",
+    skintype: "",
+    category: "",
+    status: "",
+    image: null,
+    rating: "",
+    composition: "",
+    description: ""
+  });
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log('user',storedUser.id)
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/products");
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Erreur chargement produits:", err);
+    }
+  };
 
   const handleAddProduct = () => {
     setEditProduct(null);
-    setFormData({ name: "", price: "", stock: "" });
+   
+    setFormData({
+      name: "",
+      price: "",
+      stock: "",
+      skintype: "",
+      category: "",
+    
+      image: "",
+     userId:storedUser.id,
+      description: ""
+    });
     setShowModal(true);
   };
 
-  const handleViewProduct = (product) => {
-    // Exemple d'action : afficher un modal, rediriger vers une page de détail, etc.
-    console.log("Produit à voir :", product);
-    // navigate(`/products/${product.id}`); // si tu utilises React Router
-  };
-  
-  const handleDeleteProduct = (productId) => {
-    // Affiche une confirmation avant de supprimer
+  const handleDeleteProduct = async (productId) => {
     const confirmed = window.confirm("Voulez-vous vraiment supprimer ce produit ?");
     if (confirmed) {
-      // Ici, tu peux appeler une API ou mettre à jour ton state pour supprimer le produit
-      // Exemple si tu utilises un state local :
-      setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
+      try {
+        await axios.delete(`http://localhost:5000/api/products/${productId}`);
+        setProducts(prev => prev.filter(p => p._id !== productId));
+      } catch (err) {
+        console.error("Erreur suppression produit :", err);
+      }
     }
   };
-  
+
+  const handleInputChange = (e) => {
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData(prev => ({ ...prev, [name]: files[0] }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
     setEditProduct(null);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  const handleInputChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: files[0],
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editProduct) {
-      // Modification
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === editProduct.id ? { ...p, ...formData } : p
-        )
-      );
-    } else {
-      // Ajout
-      const newProduct = {
-        id: Date.now(),
-        name: formData.name,
-        price: parseFloat(formData.price),
-        stock: parseInt(formData.stock),
-      };
-      setProducts((prev) => [...prev, newProduct]);
+    try {
+      const submitData = new FormData();
+      for (const key in formData) {
+        if (formData[key]) submitData.append(key, formData[key]);
+      }
+
+      const url = editProduct
+        ? `http://localhost:5000/api/products/${editProduct._id}`
+        : "http://localhost:5000/api/products";
+
+      const method = editProduct ? "put" : "post";
+
+      const res = await axios({
+        method,
+        url,
+        data: submitData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (editProduct) {
+        setProducts(prev =>
+          prev.map(p => (p._id === editProduct._id ? res.data : p))
+        );
+      } else {
+        setProducts(prev => [...prev, res.data]);
+      }
+
+      setShowModal(false);
+    } catch (err) {
+      console.error("Erreur soumission produit :", err);
     }
-    handleCloseModal();
   };
 
   return (
@@ -102,184 +132,83 @@ const BoxProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
+          {products.map(product => (
+            <tr key={product._id}>
               <td>{product.name}</td>
-              <td>{product.price} €</td>
+              <td>{product.price} DT</td>
               <td>{product.stock}</td>
               <td>
                 <button
                   className="action-button view"
-                  onClick={() => handleViewProduct(product)}
+                  onClick={() => console.log("View", product)}
                 >
-                   Voir
+                  Voir
                 </button>
                 <button
                   className="action-button delete"
-                  onClick={() => handleDeleteProduct(product.id)}
+                  onClick={() => handleDeleteProduct(product._id)}
                 >
-                   Supprimer
+                  Supprimer
                 </button>
               </td>
-
-
             </tr>
           ))}
         </tbody>
       </table>
 
       {showModal && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-fields">
-          {/* Colonne 1 */}
-          <div className="form-column">
-            <div className="form-group">
-              <label>Nom <span className="required">*</span></label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+              <div className="form-fields">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Nom <span className="required">*</span></label>
+                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Prix (DT) <span className="required">*</span></label>
+                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
+                  </div>
+                 
+                 
+                 
+                </div>
 
-            <div className="form-group">
-              <label>Prix (DT) <span className="required">*</span></label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                step="0.01"
-                required
-              />
-            </div>
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Stock <span className="required">*</span></label>
+                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Catégorie</label>
+                    <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
+                  </div>
+                
+                  <div className="form-group">
+                    <label>Image</label>
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
+                  </div>
+                
+                </div>
+              </div>
 
-            <div className="form-group">
-              <label>Ancien prix (DT)</label>
-              <input
-                type="number"
-                name="oldPrice"
-                value={formData.oldPrice}
-                onChange={handleChange}
-              />
-            </div>
+            
 
-            <div className="form-group">
-              <label>ID <span className="required">*</span></label>
-              <input
-                type="number"
-                name="id"
-                value={formData.id}
-                onChange={handleChange}
-                required
-              />
-            </div>
+              <div className="form-group full-width">
+                <label>Description</label>
+                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit" />
+              </div>
 
-            <div className="form-group">
-              <label>Type de peau <span className="required">*</span></label>
-              <input
-                type="text"
-                name="skintype"
-                value={formData.skintype}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Colonne 2 */}
-          <div className="form-column">
-            <div className="form-group">
-              <label>Stock <span className="required">*</span></label>
-              <input
-                type="number"
-                name="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Catégorie</label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Statut <span className="required">*</span></label>
-              <select name="status" value={formData.status} onChange={handleChange} required>
-                <option value="">Sélectionner</option>
-                <option value="in-stock">En stock</option>
-                <option value="low-stock">Stock faible</option>
-                <option value="out-of-stock">Rupture de stock</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>
-                Image 
-              </label>
-              <input
-                type="file"
-                name="image"
-                accept=".jpg,.jpeg,.png"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Note (sur 5)</label>
-              <input
-                type="number"
-                name="rating"
-                step="0.1"
-                value={formData.rating}
-                onChange={handleChange}
-              />
-            </div>
+              <div className="form-actions">
+                <button type="submit">{editProduct ? "Modifier" : "Ajouter"}</button>
+                <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
+              </div>
+            </form>
           </div>
         </div>
-
-        {/* Zone Description & Composition */}
-        <div className="form-group full-width">
-          <label>Composition</label>
-          <input
-            type="text"
-            name="composition"
-            value={formData.composition}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group full-width">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="4"
-            placeholder="Description détaillée du produit"
-          />
-        </div>
-
-        <div className="form-actions">
-          <button type="submit">{editProduct ? "Modifier" : "Ajouter"}</button>
-          <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   );
 };

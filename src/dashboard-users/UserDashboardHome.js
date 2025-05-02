@@ -13,7 +13,7 @@ const UserDashboardHome = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
   const [showSkinModal, setShowSkinModal] = useState(false);
-  
+  console.log('storedUser',storedUser)
 
 const handleRoutineComplete = () => {
   // Tu peux ici ajouter une logique comme : afficher une notif, envoyer vers backend, etc.
@@ -22,9 +22,7 @@ const handleRoutineComplete = () => {
 
 
   const userName = storedUser?.name || 'User';
-  const avatarUrl = storedUser?.avatar?.startsWith('http')
-    ? storedUser.avatar
-    : `http://localhost:5000/${storedUser?.avatar}`;
+  const avatarUrl =  `http://localhost:5000/uploads/${storedUser.avatar}`;
 
   const [showProfile, setShowProfile] = useState(false);
   const [showRoutineModal, setShowRoutineModal] = useState(false);

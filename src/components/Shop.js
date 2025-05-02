@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [skinTypes, setSkinTypes] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState([]);
+  const [selectedPriceLabels, setSelectedPriceLabels] = useState([]);
   const [selectedSkinType, setSelectedSkinType] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Tous les produits");
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,9 +46,9 @@ const Shop = () => {
     { label: "Plus de 40DT", min: 40, max: Infinity },
   ];
 
-  const handlePriceFilter = (range) => {
-    setSelectedPrice((prev) =>
-      prev.includes(range) ? prev.filter((p) => p !== range) : [...prev, range]
+  const handlePriceFilter = (label) => {
+    setSelectedPriceLabels((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
     );
   };
 
@@ -80,20 +80,23 @@ const Shop = () => {
   const handleAddToWishlist = (product) => {
     const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     const isAlreadyInWishlist = existingWishlist.some(item => item._id === product._id);
-
+  
     if (!isAlreadyInWishlist) {
-      existingWishlist.push(product);
+      existingWishlist.push(product); // ✅ ici tu ajoutes tout le produit
       localStorage.setItem("wishlist", JSON.stringify(existingWishlist));
       alert("Produit ajouté à la wishlist !");
     } else {
       alert("Ce produit est déjà dans votre wishlist !");
     }
   };
+  
 
   const filteredProducts = products.filter((product) => {
     const matchesPrice =
-      selectedPrice.length === 0 ||
-      selectedPrice.some((range) => product.price >= range.min && product.price <= range.max);
+      selectedPriceLabels.length === 0 ||
+      priceRanges
+        .filter((r) => selectedPriceLabels.includes(r.label))
+        .some((range) => product.price >= range.min && product.price <= range.max);
 
     const matchesSkinType =
       selectedSkinType.length === 0 ||
@@ -164,8 +167,8 @@ const Shop = () => {
             <label key={range.label}>
               <input
                 type="checkbox"
-                checked={selectedPrice.some(r => r.label === range.label)}
-                onChange={() => handlePriceFilter(range)}
+                checked={selectedPriceLabels.includes(range.label)}
+                onChange={() => handlePriceFilter(range.label)}
               />
               {range.label}
             </label>
