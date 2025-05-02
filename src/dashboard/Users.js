@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiUser, FiMail, FiPhone, FiEdit, FiTrash2, FiSearch, FiX, FiPlus, FiUserPlus } from 'react-icons/fi';
+import { FiUser, FiMail, FiPhone, FiEdit, FiTrash2, FiSearch,  FiPlus, FiUserPlus } from 'react-icons/fi';
 import "../styles/user.css";
 
 const Customers = () => {
@@ -178,9 +178,7 @@ const Customers = () => {
           <div className="custom-modal-content">
             <div className="custom-modal-header">
               <h3>Edit Customer</h3>
-              <button onClick={() => setIsModalOpen(false)}>
-                <FiX />
-              </button>
+              
             </div>
             <div className="custom-modal-body">
               <div className="custom-form-group">
@@ -235,9 +233,7 @@ const Customers = () => {
           <div className="custom-modal-content">
             <div className="custom-modal-header">
               <h3>Add New Customer</h3>
-              <button onClick={() => setIsAddModalOpen(false)}>
-                <FiX />
-              </button>
+              
             </div>
             <div className="custom-modal-body">
               <div className="custom-form-group">

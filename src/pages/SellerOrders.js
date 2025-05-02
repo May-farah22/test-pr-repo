@@ -35,7 +35,6 @@ const SellerOrders = () => {
 
       <div className="actions">
         <input type="text" placeholder="Rechercher une commande..." />
-        <button className="add-btn" onClick={handleShowForm}>+ Nouvelle Commande</button>
       </div>
 
       <table className="data-table">

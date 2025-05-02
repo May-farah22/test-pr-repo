@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../styles/ProductDetails.css';
-import { useNavigate } from "react-router-dom";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-
   const [cart, setCart] = useState(() => {
     const storedCart = localStorage.getItem("cart");
     return storedCart ? JSON.parse(storedCart) : [];
   });
+
   const navigate = useNavigate();
+
   useEffect(() => {
     axios.get(`http://localhost:5000/api/products/${id}`)
       .then((res) => setProduct(res.data))
@@ -20,8 +21,8 @@ const ProductDetails = () => {
 
   const handleAddToCart = (product) => {
     const existingItem = cart.find(item => item._id === product._id);
-
     let updatedCart;
+
     if (existingItem) {
       updatedCart = cart.map(item =>
         item._id === product._id
@@ -42,47 +43,44 @@ const ProductDetails = () => {
   }
 
   return (
-<div className="pd-container">
-  <div className="pd-image">
-    <img src={`http://localhost:5000/${product.image}`} alt={product.name} />
-  </div>
+    <div className="product-details-container">
+      <div className="product-details-image">
+        <img src={`http://localhost:5000/${product.image}`} alt={product.name} />
+      </div>
 
-  <div className="pd-info">
-    <h2 className="pd-name">{product.name}</h2>
-    <p className="pd-price">
-      {product.oldPrice && <span className="pd-old-price">{product.oldPrice} TND</span>}
-      <span className="pd-new-price">{product.price} TND</span>
-    </p>
-    <p className="pd-category">{product.category}</p>
-    <p className="pd-skinType">{product.skinType}</p>
-    <p className="pd-rating">Noté 5.00 sur 5 basé sur 3 avis client</p>
-    <p className="pd-availability">Disponible sur commande</p>
-    <p className="pd-points">
-      Achetez ce produit maintenant et gagnez 31 Points, 100 points de fidélité peuvent être convertis en un bon de 2 D.T !
-    </p>
-    <div className="pd-quantity">
-      <label>Quantité :</label>
-      <input type="number" min="1" defaultValue={1} />
+      <div className="product-details-info">
+        <h2 className="product-details-name">{product.name}</h2>
+        <p className="product-details-price">
+          {product.oldPrice && <span className="product-details-old-price">{product.oldPrice} TND</span>}
+          <span className="product-details-new-price">{product.price} TND</span>
+        </p>
+        <p className="product-details-category">{product.category}</p>
+        <p className="product-details-skinType">{product.skinType}</p>
+        <p className="product-details-rating">Noté 5.00 sur 5 basé sur 3 avis client</p>
+        <p className="product-details-availability">Disponible sur commande</p>
+        <p className="product-details-points">
+          Achetez ce produit maintenant et gagnez 31 Points, 100 points de fidélité peuvent être convertis en un bon de 2 D.T !
+        </p>
+        <div className="product-details-quantity">
+          <label>Quantité :</label>
+          <input type="number" min="1" defaultValue={1} />
+        </div>
+        <button className="product-details-add-to-cart" onClick={() => handleAddToCart(product)}>
+          Ajouter au panier
+        </button>
+      </div>
+
+      <div className="product-details-description">
+        <h3>Description</h3>
+        <p>{product.description}</p>
+
+        <h3>Conseils d’utilisation</h3>
+        <p>Nettoyez le visage et le cou avec la Lotion nettoyante pour Peaux Intolérantes...</p>
+
+        <h3>Composition</h3>
+        <p>{product.composition}</p>
+      </div>
     </div>
-    <button className="pd-add-to-cart" onClick={() => handleAddToCart(product)}>
-      Ajouter au panier
-    </button>
-  </div>
-
-  <div className="pd-description">
-    <h3>Description</h3>
-    <p>{product.description}</p>
-
-    <h3>Conseils d’utilisation</h3>
-    <p>
-      Nettoyez le visage et le cou avec la Lotion nettoyante pour Peaux Intolérantes...
-    </p>
-
-    <h3>Composition</h3>
-    <p>{product.composition}</p>
-  </div>
-</div>
-
   );
 };
 

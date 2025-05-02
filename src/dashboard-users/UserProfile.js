@@ -38,23 +38,13 @@ const UserProfile = ({ onClose, onQuitToDashboard }) => {
     onClose(); // Fermer le pop-up après sauvegarde
   };
 
-  // Fonction pour gérer le retour au dashboard
-  const handleQuit = () => {
-    if (onQuitToDashboard) {
-      onQuitToDashboard(); // Utilise la prop spécifique si elle existe
-    } else {
-      onClose(); // Fallback à onClose si onQuitToDashboard n'existe pas
-    }
-  };
+  
 
   return (
     <div className="profile-popup-overlay-new">
       <div className="profile-popup-container-new">
         <div className="user-profile-card-new">
-          <button className="close-btn-new" onClick={handleQuit}>
-            &times;
-          </button>
-
+  
           <div className="profile-header-new">
             <div className="avatar-container-new">
               <img 
@@ -121,6 +111,7 @@ const UserProfile = ({ onClose, onQuitToDashboard }) => {
 
             <div className="form-actions-new">
               <button type="submit" className="save-btn-new">Save Changes</button>
+              <button type="submit" className="cancel-btn-new">Annuler</button>
             </div>
           </form>
         </div>

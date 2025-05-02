@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FiEye, FiEdit, FiX, FiSave } from 'react-icons/fi';
+import { FiEye, FiEdit,  FiSave } from 'react-icons/fi';
 import "../styles/order.css";
 
 const Orders = () => {
@@ -11,7 +11,7 @@ const Orders = () => {
   // 🔥 Charger les commandes depuis l'API
   useEffect(() => {
     const fetchOrders = async () => {
-      try {
+      try { 
         const res = await axios.get('http://localhost:5000/api/orders');
         setOrders(res.data);
       } catch (error) {
@@ -116,9 +116,7 @@ const Orders = () => {
           <div className="edit-modal">
             <div className="modal-header">
               <h3>Edit Order #{editingOrder._id.slice(-4).toUpperCase()}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="modal-close-btn">
-                <FiX />
-              </button>
+              
             </div>
             
             <div className="modal-body">

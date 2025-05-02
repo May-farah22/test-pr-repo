@@ -43,8 +43,11 @@ const Sidebar = () => {
         <FiMessageSquare className="icon" />
         <span>Messages</span>
       </Link>
+      <Link to="/dashboard/settings" className="menu-item">
+          <FiSettings className="icon" />
+          <span>Settings</span>
+        </Link>
       </div>
-
       <div className="sidebar-footer">
         <div className="user-info">
           <div className="user-icon"><FiUser /></div>
@@ -53,11 +56,7 @@ const Sidebar = () => {
             <p className="user-email">admin@glowcare.com</p>
           </div>
         </div>
-        <div className="footer-actions">
-        <Link to="/dashboard/settings" className="menu-item">
-          <FiSettings className="icon" />
-          <span>Settings</span>
-        </Link>         
+        <div className="footer-actions">         
         <button onClick={handleLogout} className="menu-item">
           <FiLogOut className="icon" />
           <span>Logout</span>

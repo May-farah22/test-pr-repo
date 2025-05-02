@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../styles/SellerDashboard.css';
 
@@ -16,24 +16,23 @@ const SellerProducts = () => {
   });
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user?._id || user?.id; // 🔥 Correction ici (ton erreur venait de là)
+  const userId = user?._id || user?.id;
 
-  useEffect(() => {
-    if (userId) {
-      fetchProducts();
-    }
-  }, [userId]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/products');
-      // 🔥 Afficher uniquement les produits créés par ce vendeur
       const sellerProducts = res.data.filter(product => product.userId === userId);
       setProducts(sellerProducts);
     } catch (error) {
       console.error('Erreur lors du chargement des produits:', error);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchProducts();
+    }
+  }, [userId, fetchProducts]);
 
   const handleShowForm = () => setShowForm(true);
   const handleCloseForm = () => setShowForm(false);
@@ -62,7 +61,7 @@ const SellerProducts = () => {
     try {
       await axios.post('http://localhost:5000/api/products', newProduct);
       alert('✅ Produit ajouté avec succès!');
-      fetchProducts(); // 🔥 Recharge les produits après ajout
+      fetchProducts();
       handleCloseForm();
       setFormData({
         name: '',
@@ -104,7 +103,7 @@ const SellerProducts = () => {
             products.map((product, index) => (
               <tr key={index}>
                 <td>{product.name}</td>
-                <td>{product.price} €</td>
+                <td>{product.price} DT</td>
                 <td>{product.stock}</td>
                 <td>{product.category}</td>
                 <td><span className={`status ${product.status}`}>{product.status}</span></td>
@@ -118,41 +117,53 @@ const SellerProducts = () => {
         </tbody>
       </table>
 
-      {/* Formulaire Modal */}
       {showForm && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>Ajouter un Nouveau Produit</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-fields">
-                {/* Colonne 1 */}
                 <div className="form-column">
                   <div className="form-group">
-                    <label>Nom du Produit</label>
+                    <label>
+                      Nom du Produit <span className="required">*</span>
+                    </label>
                     <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
-                    <label>Prix (€)</label>
+                    <label>
+                      Prix (DT) <span className="required">*</span>
+                    </label>
                     <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
                   </div>
                   <div className="form-group">
-                    <label>Images (URL)</label>
-                    <input type="text" name="image" value={formData.image} onChange={handleInputChange} />
+                    <label>Image</label>
+                    <input
+                      type="file"
+                      name="image"
+                      accept=".jpg,.jpeg,.png"
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
 
-                {/* Colonne 2 */}
                 <div className="form-column">
                   <div className="form-group">
-                    <label>Stock</label>
+                    <label>
+                      Stock <span className="required">*</span>
+                    </label>
                     <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
-                    <label>Catégorie</label>
+                    <label>
+                      Catégorie <span className="required">*</span>
+                    </label>
                     <input type="text" name="category" value={formData.category} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
-                    <label>Statut</label>
+                    <label>
+                      Statut <span className="required">*</span>
+                    </label>
                     <select name="status" value={formData.status} onChange={handleInputChange} required>
                       <option value="in-stock">En stock</option>
                       <option value="low-stock">Stock faible</option>
@@ -162,7 +173,6 @@ const SellerProducts = () => {
                 </div>
               </div>
 
-              {/* Description */}
               <div className="form-group full-width">
                 <label>Description</label>
                 <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit"></textarea>

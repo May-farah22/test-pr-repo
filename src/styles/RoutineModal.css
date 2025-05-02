@@ -1,0 +1,99 @@
+/* Style global pour le modal */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Titre du modal */
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Contenu principal du modal */
+  .modal-body {
+    padding: 20px 0;
+  }
+  
+  /* Textes et éléments de la routine */
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .form-check-label {
+    font-size: 1rem;
+    color: #333;
+    margin-left: 10px;
+  }
+  
+  .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  /* Barre de progression */
+  .progress-bar {
+    background-color: #28a745;
+  }
+  
+  .progress-bar-label {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  /* Boutons du footer */
+  button {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  /* Bouton "Finish Routine" */
+  button:disabled {
+    background-color: #d6d6d6;
+    color: #999;
+  }
+  
+  button.success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  button.secondary {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  button.success:hover {
+    background-color: #218838;
+  }
+  
+  button.secondary:hover {
+    background-color: #e2e2e2;
+  }
+  
+  /* Animation pour le succès */
+  .alert-success {
+    display: flex;
+    align-items: center;
+    background-color: #e9f7e8;
+    border-color: #28a745;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 0;
+  }
+  
+  .alert-success svg {
+    color: #28a745;
+  }
+  
+  .alert-success .alert-text {
+    margin-left: 10px;
+    font-size: 1rem;
+  }
+  

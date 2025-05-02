@@ -61,9 +61,12 @@ const Navbar = ()  => {
             <button className="icon-btn" onClick={() => navigate("/cart")}>
         <ShoppingBag className="icon" />{cartCount}
       </button>
-            <button className="icon-btn">
-              <Heart className="icon" />
-            </button>
+        <Link to="/wishlist">
+          <button className="icon-btn">
+            <Heart className="icon" />
+          </button>
+        </Link>
+
 
 
             <div className="user-menu" ref={menuRef}>

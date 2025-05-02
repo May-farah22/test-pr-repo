@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route,Navigate} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from "./components/Home";
 import Shop from "./components/Shop";
@@ -28,6 +28,7 @@ import SellerDashboard from './sellerDashboard/SellerDashboard';
 import SellerProducts from './pages/SellerProducts';
 import SellerOrders from './pages/SellerOrders';
 import CartPage from "./pages/CartPage";
+import Wishlist from "./pages/Wishlist";
 import ProtectedRoute from './components/ProtectedRoute';
 
 
@@ -68,7 +69,11 @@ const App = () => {
           element={
           <CartPage />
           } /> {/* Route panier */}
-
+        <Route
+         path="/wishlist"
+          element={
+          <Wishlist />
+          } />
         <Route
           path="/contact"
           element={

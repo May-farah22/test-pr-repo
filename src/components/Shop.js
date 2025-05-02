@@ -40,10 +40,10 @@ const Shop = () => {
   const categories = ["Tous les produits", ...new Set(products.map(p => p.category))];
 
   const priceRanges = [
-    { label: "Moins de 20€", min: 0, max: 20 },
-    { label: "20€ - 30€", min: 20, max: 30 },
-    { label: "30€ - 40€", min: 30, max: 40 },
-    { label: "Plus de 40€", min: 40, max: Infinity },
+    { label: "Moins de 20DT", min: 0, max: 20 },
+    { label: "20DT - 30DT", min: 20, max: 30 },
+    { label: "30DT - 40DT", min: 30, max: 40 },
+    { label: "Plus de 40DT", min: 40, max: Infinity },
   ];
 
   const handlePriceFilter = (range) => {
@@ -61,6 +61,33 @@ const Shop = () => {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1);
+  };
+
+  const handleAddToCart = (product) => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = existingCart.findIndex(item => item._id === product._id);
+
+    if (existingItemIndex >= 0) {
+      existingCart[existingItemIndex].quantity += 1;
+    } else {
+      existingCart.push({ ...product, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    alert("Produit ajouté au panier !");
+  };
+
+  const handleAddToWishlist = (product) => {
+    const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const isAlreadyInWishlist = existingWishlist.some(item => item._id === product._id);
+
+    if (!isAlreadyInWishlist) {
+      existingWishlist.push(product);
+      localStorage.setItem("wishlist", JSON.stringify(existingWishlist));
+      alert("Produit ajouté à la wishlist !");
+    } else {
+      alert("Ce produit est déjà dans votre wishlist !");
+    }
   };
 
   const filteredProducts = products.filter((product) => {
@@ -95,20 +122,6 @@ const Shop = () => {
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleAddToCart = (product) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingItemIndex = existingCart.findIndex(item => item._id === product._id);
-
-    if (existingItemIndex >= 0) {
-      existingCart[existingItemIndex].quantity += 1;
-    } else {
-      existingCart.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(existingCart));
-    alert("Produit ajouté au panier !");
-  };
 
   return (
     <div className="shop-container">
@@ -176,12 +189,21 @@ const Shop = () => {
             currentProducts.map((product) => (
               <Link to={`/product/${product._id}`} className="product-link" key={product._id}>
                 <div className="shop-product-card">
+                  <div
+                    className="wishlist-icon"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToWishlist(product);
+                    }}
+                  >
+                    ❤️
+                  </div>
                   <img
                     src={`http://localhost:5000/${product.image}`}
                     alt={product.name}
                   />
                   <h4>{product.name}</h4>
-                  <p>{product.price.toFixed(2)} € ⭐ {product.rating}</p>
+                  <p>{product.price.toFixed(2)} DT ⭐ {product.rating}</p>
                   <button
                     className="btn btn-primary add-to-cart"
                     onClick={(e) => {

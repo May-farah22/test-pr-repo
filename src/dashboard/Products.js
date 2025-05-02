@@ -18,16 +18,22 @@ const BoxProducts = () => {
     setShowModal(true);
   };
 
-  const handleEditProduct = (product) => {
-    setEditProduct(product);
-    setFormData({
-      name: product.name,
-      price: product.price,
-      stock: product.stock,
-    });
-    setShowModal(true);
+  const handleViewProduct = (product) => {
+    // Exemple d'action : afficher un modal, rediriger vers une page de détail, etc.
+    console.log("Produit à voir :", product);
+    // navigate(`/products/${product.id}`); // si tu utilises React Router
   };
-
+  
+  const handleDeleteProduct = (productId) => {
+    // Affiche une confirmation avant de supprimer
+    const confirmed = window.confirm("Voulez-vous vraiment supprimer ce produit ?");
+    if (confirmed) {
+      // Ici, tu peux appeler une API ou mettre à jour ton state pour supprimer le produit
+      // Exemple si tu utilises un state local :
+      setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
+    }
+  };
+  
   const handleCloseModal = () => {
     setShowModal(false);
     setEditProduct(null);
@@ -40,7 +46,21 @@ const BoxProducts = () => {
       [name]: value,
     }));
   };
-
+  const handleInputChange = (e) => {
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editProduct) {
@@ -76,7 +96,7 @@ const BoxProducts = () => {
         <thead>
           <tr>
             <th>Produits</th>
-            <th>Prix (€)</th>
+            <th>Prix (DT)</th>
             <th>Stock</th>
             <th>Actions</th>
           </tr>
@@ -89,101 +109,148 @@ const BoxProducts = () => {
               <td>{product.stock}</td>
               <td>
                 <button
-                  className="action-button edit"
-                  onClick={() => handleEditProduct(product)}
+                  className="action-button view"
+                  onClick={() => handleViewProduct(product)}
                 >
-                  ✏️ Modifier
+                   Voir
                 </button>
-                <button className="action-button delete">🗑 Supprimer</button>
+                <button
+                  className="action-button delete"
+                  onClick={() => handleDeleteProduct(product.id)}
+                >
+                   Supprimer
+                </button>
               </td>
+
+
             </tr>
           ))}
         </tbody>
       </table>
 
-  {/* Modal */}
-  {showModal && (
+      {showModal && (
   <div className="modal-overlay">
     <div className="modal-content">
       <h2>{editProduct ? "Modifier le produit" : "Ajouter un produit"}</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Nom</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-fields">
+          {/* Colonne 1 */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Nom <span className="required">*</span></label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Prix (DT) <span className="required">*</span></label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                step="0.01"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Ancien prix (DT)</label>
+              <input
+                type="number"
+                name="oldPrice"
+                value={formData.oldPrice}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>ID <span className="required">*</span></label>
+              <input
+                type="number"
+                name="id"
+                value={formData.id}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Type de peau <span className="required">*</span></label>
+              <input
+                type="text"
+                name="skintype"
+                value={formData.skintype}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Colonne 2 */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Stock <span className="required">*</span></label>
+              <input
+                type="number"
+                name="stock"
+                value={formData.stock}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Catégorie</label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Statut <span className="required">*</span></label>
+              <select name="status" value={formData.status} onChange={handleChange} required>
+                <option value="">Sélectionner</option>
+                <option value="in-stock">En stock</option>
+                <option value="low-stock">Stock faible</option>
+                <option value="out-of-stock">Rupture de stock</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>
+                Image 
+              </label>
+              <input
+                type="file"
+                name="image"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Note (sur 5)</label>
+              <input
+                type="number"
+                name="rating"
+                step="0.1"
+                value={formData.rating}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Prix (€)</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Ancien prix (€)</label>
-          <input
-            type="number"
-            name="oldPrice"
-            value={formData.oldPrice}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Stock</label>
-          <input
-            type="number"
-            name="stock"
-            value={formData.stock}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>ID</label>
-          <input
-            type="number"
-            name="id"
-            value={formData.id}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Type de peau</label>
-          <input
-            type="text"
-            name="skintype"
-            value={formData.skintype}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Images (URL)</label>
-          <input
-            type="text"
-            name="images"
-            value={formData.images}
-            onChange={handleChange}
-            placeholder="Séparer par des virgules si plusieurs"
-          />
-        </div>
-
-        <div className="form-group">
+        {/* Zone Description & Composition */}
+        <div className="form-group full-width">
           <label>Composition</label>
           <input
             type="text"
@@ -193,47 +260,26 @@ const BoxProducts = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Note (sur 5)</label>
-          <input
-            type="number"
-            step="0.1"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Catégorie</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
+        <div className="form-group full-width">
           <label>Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
+            rows="4"
+            placeholder="Description détaillée du produit"
           />
         </div>
-              <div className="form-actions">
-                <button type="submit">
-                  {editProduct ? "Modifier" : "Ajouter"}
-                </button>
-                <button type="button" className="cancel-btn" onClick={handleCloseModal}>
-                  Annuler
-                </button>
-              </div>
-            </form>
-          </div>
+
+        <div className="form-actions">
+          <button type="submit">{editProduct ? "Modifier" : "Ajouter"}</button>
+          <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
