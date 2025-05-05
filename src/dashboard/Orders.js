@@ -83,7 +83,7 @@ const Orders = () => {
             <th>Customer</th>
             <th>Date</th>
             <th>Status</th>
-            <th>Total ($)</th>
+            <th>Total (DT)</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -161,7 +161,7 @@ const Orders = () => {
               </div>
 
               <div className="form-group">
-                <label>Total ($)</label>
+                <label>Total (DT)</label>
                 <input
                   type="number"
                   name="total"
