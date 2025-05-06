@@ -13,6 +13,8 @@ const CartPage = () => {
     setCartItems(storedCart);
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  
     setUser(storedUser);
   }, []);
 
@@ -87,7 +89,8 @@ const CartPage = () => {
             <div className="cartpage-items">
               {cartItems.map((item, index) => (
                 <div className="cartpage-item" key={index}>
-                  <img src={item.image} alt={item.name} className="cartpage-item-image" />
+                  <img src={`http://localhost:5000/${item.image}`} alt={item.name} />
+
                   <div className="cartpage-item-details">
                     <h2>{item.name}</h2>
                     <p><FaBoxOpen /> Quantité : {item.quantity}</p>
