@@ -10,6 +10,7 @@ const Customers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
   const [newCustomer, setNewCustomer] = useState({
     name: '',
@@ -22,8 +23,12 @@ const Customers = () => {
     const fetchCustomers = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/users');
-        console.log('res',res)  ;   
-           setCustomers(res.data);
+        console.log('res',res)  ;
+        let filteredUsers = res.data;   
+        if (storedUser?.role === 'admin') {
+          filteredUsers = res.data.filter(u => u.role === 'user' || u.role ==='seller');
+        }
+           setCustomers(filteredUsers);
       } catch (error) {
         console.error('Erreur chargement clients:', error);
       } finally {
@@ -200,8 +205,9 @@ const Customers = () => {
                 >
                   <option value="user">User</option>
                   <option value="seller">seller</option>
-                  <option value="admin">admin</option>
-
+                  {storedUser?.role === 'super-admin' && (
+    <option value="admin">Admin</option>
+  )}
                 </select>
               </div>
             </div>
@@ -257,7 +263,9 @@ const Customers = () => {
                  >
                   <option value="user">User</option>
                   <option value="seller">seller</option>
-                  <option value="admin">admin</option>
+                  {storedUser?.role === 'super-admin' && (
+    <option value="admin">Admin</option>
+  )}
 
                
                 </select>

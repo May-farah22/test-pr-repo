@@ -13,9 +13,10 @@ const UserProfile = ({ onClose, onQuitToDashboard }) => {
   });
   const [avatarFile, setAvatarFile] = useState(null);
   const stored = JSON.parse(localStorage.getItem('user'));
-  const avatarUrl =  `http://localhost:5000/uploads/${stored.avatar}`;
+  const img = localStorage.getItem('userPhoto');
+  const avatarUrl =  `http://localhost:5000/uploads/${img}`;
 
-console.log('stored',stored.avatar);
+console.log('stored',img);
   useEffect(() => {
     if (stored) {
       setUser({

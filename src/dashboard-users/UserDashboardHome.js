@@ -11,6 +11,7 @@ import { FaShoppingBag, FaHeart, FaBox, FaUser } from 'react-icons/fa';
 
 const UserDashboardHome = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
+  const img = localStorage.getItem('userPhoto');
   const navigate = useNavigate();
   const [showSkinModal, setShowSkinModal] = useState(false);
   console.log('storedUser',storedUser)
@@ -20,9 +21,9 @@ const handleRoutineComplete = () => {
   console.log("Routine terminée !");
 };
 
-
+console.log('img',img)
   const userName = storedUser?.name || 'User';
-  const avatarUrl =  `http://localhost:5000/uploads/${storedUser.avatar}`;
+  const avatarUrl =  `http://localhost:5000/uploads/${img}`;
 
   const [showProfile, setShowProfile] = useState(false);
   const [showRoutineModal, setShowRoutineModal] = useState(false);

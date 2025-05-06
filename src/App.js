@@ -123,17 +123,19 @@ const App = () => {
         <Route path="/select-role" element={<RoleSelection />} />
 
         {/* Admin Dashboard */}
-       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<DashboardHome />} />
-          <Route path="products" element={<Products />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="users" element={<Users />} />
-          <Route path="/dashboard/settings" element={<Settings />} />
-          <Route path="/dashboard/Messages" element={<Messages/>}/>
-          <Route path="charts" element={<SalesDashboardPage />} />
-        </Route>
-        </Route>
+      {/* Admin Dashboard */}
+<Route element={<ProtectedRoute allowedRoles={['admin', 'super-admin']} />}>
+  <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route index element={<DashboardHome />} />
+    <Route path="products" element={<Products />} />
+    <Route path="orders" element={<Orders />} />
+    <Route path="users" element={<Users />} />
+    <Route path="settings" element={<Settings />} />
+    <Route path="messages" element={<Messages />} />
+    <Route path="charts" element={<SalesDashboardPage />} />
+  </Route>
+</Route>
+
 
         {/* User Dashboard with nested routes */}
         <Route element={<ProtectedRoute allowedRoles={['user']} />}>
