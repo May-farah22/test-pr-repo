@@ -177,22 +177,22 @@ return (
  {/* FAQ Section */}
         <section className="faq-section py-5">
           <div className="container">
-            <h2 className="faq-title text-center mb-5">Questions fréquentes</h2>
+            <h2 className="faq-title text-center mb-5">Questions fréquentes sur les soins de la peau</h2>
             
             <div className="faq-grid">
               {/* Question 1 */}
               <div className="faq-card">
-                <h3 className="faq-question">Comment puis-je suivre ma commande ?</h3>
+                <h3 className="faq-question">Quel type de soin convient à ma peau ?</h3>
                 <p className="faq-answer">
-                  Vous recevrez un email de confirmation avec un numéro de suivi une fois votre commande expédiée.
+                Cela dépend de votre type de peau (sèche, grasse, mixte ou sensible). Vous pouvez utiliser notre test de peau pour obtenir des recommandations personnalisées.
                 </p>
               </div>
 
               {/* Question 2 */}
               <div className="faq-card">
-                <h3 className="faq-question">Quelle est votre politique de retour ?</h3>
+                <h3 className="faq-question">Quelle est la différence entre une crème hydratante et un sérum ?</h3>
                 <p className="faq-answer">
-                  Nous acceptons les retours dans les 30 jours suivant la réception de votre commande.
+                Le sérum est plus concentré en actifs et pénètre en profondeur, tandis que la crème hydratante protège la barrière cutanée en surface.
                 </p>
               </div>
 

@@ -94,7 +94,7 @@ const CartPage = () => {
                   <div className="cartpage-item-details">
                     <h2>{item.name}</h2>
                     <p><FaBoxOpen /> Quantité : {item.quantity}</p>
-                    <p><FaEuroSign /> Prix : {item.price} €</p>
+                    <p><FaEuroSign /> Prix : {item.price} DT</p>
                     <button className="cartpage-remove-btn" onClick={() => handleRemoveItem(index)}>
                       <FaTrashAlt /> Supprimer
                     </button>
@@ -103,15 +103,16 @@ const CartPage = () => {
               ))}
             </div>
 
-            <div className="cart-total">
-              <h3>Total : {getTotal()} €</h3>
-              <button className="checkout-btn" onClick={handleCheckout}>
-                Passer la commande
-              </button>
-              <button className="clear-btn" onClick={handleClearCart}>
-                Vider le panier
-              </button>
-            </div>
+            <div className="cartpage-total">
+            <h3>Total : {getTotal()} DT</h3>
+            <button className="cartpage-checkout-btn" onClick={handleCheckout}>
+              Passer la commande
+            </button>
+            <button className="cartpage-clear-btn" onClick={handleClearCart}>
+              Vider le panier
+            </button>
+          </div>
+
           </>
         )}
       </div>

@@ -30,17 +30,17 @@ const Sidebar = () => {
         </Link>
         <Link to="/dashboard/products" className="menu-item ">
         <FiBox className="icon" />
-        <span>Products</span>
+        <span>Produits</span>
       </Link>
 
       <Link to="/dashboard/orders" className="menu-item ">
         <FiShoppingBag className="icon" />
-        <span>Orders</span>
+        <span>Commandes</span>
       </Link>
 
       <Link to="/dashboard/users" className="menu-item ">
         <FiUsers className="icon" />
-        <span>Customers</span>
+        <span>vendeurs</span>
       </Link>
 
       <Link to="/dashboard/Messages" className="menu-item ">

@@ -21,7 +21,7 @@ const Wishlist = () => {
       <Navbar />
       <div className="wishlist-wrapper">
         <div className="wishlist-header">
-          <h1>💖 Ma Wishlist</h1>
+          <h1> Ma Wishlist</h1>
           <p>Découvrez tous vos produits favoris ici !</p>
         </div>
   

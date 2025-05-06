@@ -6,6 +6,7 @@ const BoxProducts = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [viewProduct, setViewProduct] = useState(null); // 👉 Nouveau : pour la visualisation
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -20,8 +21,10 @@ const BoxProducts = () => {
     composition: "",
     description: ""
   });
+
   const storedUser = JSON.parse(localStorage.getItem("user"));
-  console.log('user',storedUser.id)
+  console.log('user', storedUser.id);
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -37,16 +40,14 @@ const BoxProducts = () => {
 
   const handleAddProduct = () => {
     setEditProduct(null);
-   
     setFormData({
       name: "",
       price: "",
       stock: "",
       skintype: "",
       category: "",
-    
       image: "",
-     userId:storedUser.id,
+      userId: storedUser.id,
       description: ""
     });
     setShowModal(true);
@@ -140,7 +141,7 @@ const BoxProducts = () => {
               <td>
                 <button
                   className="action-button view"
-                  onClick={() => console.log("View", product)}
+                  onClick={() => setViewProduct(product)} // 👉 Afficher détails
                 >
                   Voir
                 </button>
@@ -171,9 +172,6 @@ const BoxProducts = () => {
                     <label>Prix (DT) <span className="required">*</span></label>
                     <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
                   </div>
-                 
-                 
-                 
                 </div>
 
                 <div className="form-column">
@@ -185,16 +183,12 @@ const BoxProducts = () => {
                     <label>Catégorie</label>
                     <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
                   </div>
-                
                   <div className="form-group">
                     <label>Image</label>
                     <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
                   </div>
-                
                 </div>
               </div>
-
-            
 
               <div className="form-group full-width">
                 <label>Description</label>
@@ -206,6 +200,32 @@ const BoxProducts = () => {
                 <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {viewProduct && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Détails du produit</h2>
+            <p><strong>Nom :</strong> {viewProduct.name}</p>
+            <p><strong>Prix :</strong> {viewProduct.price} DT</p>
+            <p><strong>Stock :</strong> {viewProduct.stock}</p>
+            <p><strong>Catégorie :</strong> {viewProduct.category}</p>
+            <p><strong>Description :</strong> {viewProduct.description}</p>
+            {viewProduct.image && (
+              <div style={{ marginTop: "10px" }}>
+                <strong>Image :</strong><br />
+                <img
+                  src={`http://localhost:5000/uploads/${viewProduct.image}`}
+                  alt={viewProduct.name}
+                  style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
+                />
+              </div>
+            )}
+            <div className="form-actions" style={{ marginTop: "20px" }}>
+              <button onClick={() => setViewProduct(null)}>Fermer</button>
+            </div>
           </div>
         </div>
       )}
