@@ -35,7 +35,7 @@ const SignIn = () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      if (data.user.role === 'admin') navigate('/dashboard');
+      if (data.user.role === 'admin' || data.user.role === 'super-admin') navigate('/dashboard');
       else if (data.user.role === "user") navigate('/user-dashboard');
       else if (data.user.role === 'seller') navigate('/seller');
 

@@ -9,6 +9,10 @@ const Sidebar = () => {
     
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('userPhoto');
+    localStorage.removeItem('wishlist');
+
     navigate('/signin');
   };
   return (

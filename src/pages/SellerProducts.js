@@ -10,9 +10,8 @@ const SellerProducts = () => {
     price: '',
     stock: '',
     category: '',
-    status: 'in-stock',
     description: '',
-    image: '',
+    image: null,
   });
 
   const user = JSON.parse(localStorage.getItem('user'));
@@ -38,11 +37,18 @@ const SellerProducts = () => {
   const handleCloseForm = () => setShowForm(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setFormData(prev => ({
+        ...prev,
+        image: files[0]
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -53,13 +59,21 @@ const SellerProducts = () => {
       return;
     }
 
-    const newProduct = {
-      ...formData,
-      userId
-    };
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('price', formData.price);
+    data.append('stock', formData.stock);
+    data.append('category', formData.category);
+    data.append('description', formData.description);
+    data.append('userId', userId);
+    if (formData.image) {
+      data.append('image', formData.image);
+    }
 
     try {
-      await axios.post('http://localhost:5000/api/products', newProduct);
+      await axios.post('http://localhost:5000/api/products', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       alert('✅ Produit ajouté avec succès!');
       fetchProducts();
       handleCloseForm();
@@ -68,9 +82,8 @@ const SellerProducts = () => {
         price: '',
         stock: '',
         category: '',
-        status: 'in-stock',
         description: '',
-        image: '',
+        image: null,
       });
     } catch (error) {
       console.error('Erreur lors de l\'ajout du produit:', error);
@@ -95,7 +108,6 @@ const SellerProducts = () => {
             <th>Prix</th>
             <th>Stock</th>
             <th>Catégorie</th>
-            <th>Statut</th>
           </tr>
         </thead>
         <tbody>
@@ -106,12 +118,11 @@ const SellerProducts = () => {
                 <td>{product.price} DT</td>
                 <td>{product.stock}</td>
                 <td>{product.category}</td>
-                <td><span className={`status ${product.status}`}>{product.status}</span></td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="5" style={{ textAlign: "center" }}>Aucun produit disponible.</td>
+              <td colSpan="4" style={{ textAlign: "center" }}>Aucun produit disponible.</td>
             </tr>
           )}
         </tbody>
@@ -125,57 +136,34 @@ const SellerProducts = () => {
               <div className="form-fields">
                 <div className="form-column">
                   <div className="form-group">
-                    <label>
-                      Nom du Produit <span className="required">*</span>
-                    </label>
+                    <label>Nom du Produit *</label>
                     <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
-                    <label>
-                      Prix (DT) <span className="required">*</span>
-                    </label>
+                    <label>Prix (DT) *</label>
                     <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
                   </div>
                   <div className="form-group">
                     <label>Image</label>
-                    <input
-                      type="file"
-                      name="image"
-                      accept=".jpg,.jpeg,.png"
-                      onChange={handleInputChange}
-                    />
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
                   </div>
                 </div>
 
                 <div className="form-column">
                   <div className="form-group">
-                    <label>
-                      Stock <span className="required">*</span>
-                    </label>
+                    <label>Stock *</label>
                     <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
-                    <label>
-                      Catégorie <span className="required">*</span>
-                    </label>
+                    <label>Catégorie *</label>
                     <input type="text" name="category" value={formData.category} onChange={handleInputChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>
-                      Statut <span className="required">*</span>
-                    </label>
-                    <select name="status" value={formData.status} onChange={handleInputChange} required>
-                      <option value="in-stock">En stock</option>
-                      <option value="low-stock">Stock faible</option>
-                      <option value="out-of-stock">Rupture de stock</option>
-                    </select>
                   </div>
                 </div>
               </div>
 
               <div className="form-group full-width">
                 <label>Description</label>
-                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit"></textarea>
+                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit" />
               </div>
 
               <div className="form-actions">

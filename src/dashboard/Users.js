@@ -37,12 +37,35 @@ const Customers = () => {
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+
   const [newCustomer, setNewCustomer] = useState({
     name: '',
     email: '',
     phone: '',
     status: 'active'
   });
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/users');
+        console.log('res',res)  ;
+        let filteredUsers = res.data;   
+        if (storedUser?.role === 'admin') {
+          filteredUsers = res.data.filter(u => u.role === 'user' || u.role ==='seller');
+        }
+           setCustomers(filteredUsers);
+      } catch (error) {
+        console.error('Erreur chargement clients:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
 
   const filteredCustomers = customers.filter(customer =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -211,8 +234,11 @@ const Customers = () => {
                   value={editingCustomer?.status || 'active'}
                   onChange={(e) => setEditingCustomer({ ...editingCustomer, status: e.target.value })}
                 >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="user">User</option>
+                  <option value="seller">seller</option>
+                  {storedUser?.role === 'super-admin' && (
+    <option value="admin">Admin</option>
+  )}
                 </select>
               </div>
             </div>
@@ -268,9 +294,15 @@ const Customers = () => {
                 <select
                   value={newCustomer.status}
                   onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                
+                 >
+                  <option value="user">User</option>
+                  <option value="seller">seller</option>
+                  {storedUser?.role === 'super-admin' && (
+    <option value="admin">Admin</option>
+  )}
+
+               
                 </select>
               </div>
             </div>
