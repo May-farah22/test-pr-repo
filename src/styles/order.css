@@ -60,7 +60,7 @@
   border-bottom: none;
 }
 
-/* Status */
+/* Statut */
 .orders-status-badge {
   padding: 4px 8px;
   border-radius: 12px;
@@ -68,17 +68,20 @@
   font-weight: 500;
 }
 
-.orders-status--completed {
+/* Terminé */
+.orders-status--termine {
   background-color: #d4edda;
   color: #155724;
 }
 
-.orders-status--processing {
+/* En traitement */
+.orders-status--en-traitement {
   background-color: #fff3cd;
   color: #856404;
 }
 
-.orders-status--shipped {
+/* Expédié */
+.orders-status--expedie {
   background-color: #cce5ff;
   color: #004085;
 }

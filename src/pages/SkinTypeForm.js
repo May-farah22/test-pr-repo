@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import ajouté
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SkinTypeForm.css";
 
 const SkinTypeForm = () => {
+  const navigate = useNavigate(); // ✅ Hook pour la navigation
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,31 +21,25 @@ const SkinTypeForm = () => {
 
   const concernsList = ["Acné", "Taches", "Rides", "Déshydratation"];
 
-  // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       const storedUser = localStorage.getItem("user");
-      console.log("Stored User:", storedUser);
-      
       if (storedUser) {
         try {
           const user = JSON.parse(storedUser);
-          console.log("User object:", user);
-
           setFormData((prev) => ({
             ...prev,
             name: user.name || "",
             email: user.email || "",
           }));
         } catch (error) {
-          console.error("Error parsing user data:", error);
+          console.error("Erreur parsing user data:", error);
         }
       }
     };
     fetchUserData();
   }, []);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === "checkbox") {
@@ -55,32 +52,17 @@ const SkinTypeForm = () => {
     } else if (type === "file") {
       const file = files[0];
       setFormData({ ...formData, photo: file });
-      console.log("setFormData",setFormData);
-      
       setPhotoPreview(URL.createObjectURL(file));
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  // Submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
       const token = localStorage.getItem("token");
       const formDataToSend = new FormData();
-      console.log("formData.name",formData.name);
-      console.log("formData.email",formData.email);
-
-      console.log("formData.skinType",formData.skinType);
-
-      console.log("formData.message",formData.message);
-
-      console.log("formData.concerns",formData.concerns);
-     
-
-      
       formDataToSend.append("user", formData.name);
       formDataToSend.append("email", formData.email);
       formDataToSend.append("skinType", formData.skinType);
@@ -89,25 +71,19 @@ const SkinTypeForm = () => {
       if (formData.photo) {
         formDataToSend.append("photo", formData.photo);
       }
-      console.log("formDataToSend.......", formDataToSend);
-      console.log("formDataToSend.......",  formData.photo);
-      for (let [key, value] of formDataToSend.entries()) {
-        console.log(`${key}:`, value);
-      }
-      // Use correct endpoint for updating the form
-      console.log("token",token);
-      
+
       const res = await fetch("http://localhost:5000/api/client/update-form", {
         method: "PUT",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formDataToSend,
       });
 
       if (res.ok) {
         alert("Modifications enregistrées !");
-        setIsEditing(false);  // Switch back to view mode after successful submission
+        setIsEditing(false);
+        navigate('/user-dashboard'); // ✅ Redirection ici
       } else {
         alert("Erreur lors de l'enregistrement des modifications.");
       }
@@ -117,12 +93,10 @@ const SkinTypeForm = () => {
     }
   };
 
-  // Toggle between editing and saving state
   const handleUpdate = () => {
-    setIsEditing(!isEditing);  // Toggle between editing and saving state
+    setIsEditing(!isEditing);
   };
 
-  // Fetch available skin types
   useEffect(() => {
     const fetchSkinTypes = async () => {
       try {
@@ -130,10 +104,9 @@ const SkinTypeForm = () => {
         const data = await response.json();
         setSkinTypes(data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des types de peau :", error);
+        console.error("Erreur récupération types de peau :", error);
       }
     };
-
     fetchSkinTypes();
   }, []);
 
@@ -198,7 +171,7 @@ const SkinTypeForm = () => {
           </select>
         </div>
 
-        {/* Préoccupations cutanées */}
+        {/* Préoccupations */}
         <div className="mb-3">
           <label className="form-label skin-form-label">
             Préoccupations <span className="text-danger">*</span>
@@ -216,7 +189,10 @@ const SkinTypeForm = () => {
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
-                <label className="form-check-label skin-form-checkbox-label" htmlFor={`concern-${index}`}>
+                <label
+                  className="form-check-label skin-form-checkbox-label"
+                  htmlFor={`concern-${index}`}
+                >
                   {concern}
                 </label>
               </div>
@@ -241,7 +217,7 @@ const SkinTypeForm = () => {
           ></textarea>
         </div>
 
-        {/* Upload photo avec drag & drop */}
+        {/* Upload photo */}
         <div className="mb-3">
           <label className="form-label skin-form-label">
             Photo de votre visage <span className="text-danger">*</span>

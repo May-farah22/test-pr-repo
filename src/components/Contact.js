@@ -60,8 +60,9 @@ return (
             </div>
             <h3 className="h5 fw-bold mb-3">Notre Adresse</h3>
             <p className="text-muted mb-0">
-              123 Avenue des Champs-Élysées<br />
-              75008 Paris, France
+            Rue de la Liberté, Centre Urbain Nord<br />
+              1082 Tunis, Tunisie
+
             </p>
           </div>
         </div>
@@ -75,8 +76,8 @@ return (
               <Phone className="icon" size={24} />
             </div>
             <h3 className="h5 fw-bold mb-3">Téléphone</h3>
-            <p className="text-muted mb-1">+33 1 23 45 67 89</p>
-            <p className="text-muted mb-0">Service client: 0800 123 456</p>
+            <p className="text-muted mb-1">+216 21 58 477 </p>
+            <p className="text-muted mb-0">Service client: 73 150 221</p>
           </div>
         </div>
       </div>

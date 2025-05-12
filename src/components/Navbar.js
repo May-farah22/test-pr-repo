@@ -42,7 +42,7 @@ const Navbar = ()  => {
       case 'user':
         return '/user-dashboard';
       case 'seller':
-        return '/seller-dashboard';
+        return '/seller';
       case 'admin':
       case 'super-admin':
         return '/dashboard';

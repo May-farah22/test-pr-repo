@@ -83,7 +83,7 @@
   }
   
   .spm-actions button[type='submit'] {
-    background-color: #7a6ff0;
+    background: linear-gradient(135deg, #dd67ba, #9e659b); /* Couleur au survol */
     color: white;
   }
   

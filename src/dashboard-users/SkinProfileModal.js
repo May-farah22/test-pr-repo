@@ -41,17 +41,17 @@ const SkinProfileModal = ({ onClose }) => {
   return (
     <div className="spm-overlay">
       <div className="spm-content">
-        <h2>Update Your Skin Profile</h2>
+        <h2>Mettre à jour votre profil de peau</h2>
         <form className="spm-form" onSubmit={handleSubmit}>
-          <label className="spm-label">Skin Type:</label>
+          <label className="spm-label">Type de peau :</label>
           <select className="spm-select" value={skinType} onChange={(e) => setSkinType(e.target.value)}>
-            <option value="Dry">Dry</option>
-            <option value="Oily">Oily</option>
-            <option value="Combination">Combination</option>
-            <option value="Normal">Normal</option>
+            <option value="Dry">Sèche</option>
+            <option value="Oily">Grasse</option>
+            <option value="Combination">Mixte</option>
+            <option value="Normal">Normale</option>
           </select>
 
-          <label className="spm-label">Skin Concerns (comma-separated):</label>
+          <label className="spm-label">Préoccupations cutanées :</label>
           <input
             type="text"
             className="spm-input"
@@ -59,16 +59,16 @@ const SkinProfileModal = ({ onClose }) => {
             onChange={(e) => setConcerns(e.target.value.split(',').map(s => s.trim()))}
           />
 
-          <label className="spm-label">Sensitivity:</label>
+          <label className="spm-label">Sensibilité :</label>
           <select className="spm-select" value={sensitivity} onChange={(e) => setSensitivity(e.target.value)}>
-            <option value="Low">Low</option>
-            <option value="Moderate">Moderate</option>
-            <option value="High">High</option>
+            <option value="Low">Faible</option>
+            <option value="Moderate">Modérée</option>
+            <option value="High">Élevée</option>
           </select>
 
           <div className="spm-actions">
-            <button type="submit">Save</button>
-            <button type="button" onClick={onClose} className="spm-btn-cancel">Cancel</button>
+            <button type="submit">Enregistrer</button>
+            <button type="button" onClick={onClose} className="spm-btn-cancel">Annuler</button>
           </div>
         </form>
       </div>

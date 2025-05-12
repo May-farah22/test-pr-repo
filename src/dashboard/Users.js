@@ -1,50 +1,30 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { FiUser, FiMail, FiPhone, FiEdit, FiTrash2, FiSearch, FiPlus, FiUserPlus } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react';
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiEdit,
+  FiTrash2,
+  FiSearch,
+  FiUserPlus
+} from 'react-icons/fi';
+import axios from 'axios';
 import "../styles/user.css";
 
 const Customers = () => {
-  const [customers, setCustomers] = useState([
-    {
-      id: 1,
-      name: 'Jean Dupont',
-      email: 'jean.dupont@example.com',
-      phone: '+33 6 12 34 56 78',
-      orders: 12,
-      joined: '2023-01-15',
-      status: 'active'
-    },
-    {
-      id: 2,
-      name: 'Marie Lambert',
-      email: 'marie.lambert@example.com',
-      phone: '+33 6 98 76 54 32',
-      orders: 5,
-      joined: '2023-03-22',
-      status: 'active'
-    },
-    {
-      id: 3,
-      name: 'Pierre Martin',
-      email: 'pierre.martin@example.com',
-      phone: '+33 6 45 67 89 01',
-      orders: 0,
-      joined: '2023-05-10',
-      status: 'inactive'
-    }
-  ]);
-
+  const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true); // ✅ Corrigé ici
   const storedUser = JSON.parse(localStorage.getItem('user'));
 
   const [newCustomer, setNewCustomer] = useState({
     name: '',
     email: '',
     phone: '',
+ 
     role: '',
     password:''
   });
@@ -53,16 +33,15 @@ const Customers = () => {
     const fetchCustomers = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/users');
-        console.log('res-------------',res.data)  ;
-        let filteredUsers = res.data;   
+        let filteredUsers = res.data;
         if (storedUser?.role === 'admin') {
-          filteredUsers = res.data.filter(u => u.role === 'user' || u.role ==='seller');
+          filteredUsers = res.data.filter(u => u.role === 'user' || u.role === 'seller');
         }
-           setCustomers(filteredUsers);
+        setCustomers(filteredUsers);
       } catch (error) {
         console.error('Erreur chargement clients:', error);
       } finally {
-        setLoading(false);
+        setLoading(false); // ✅ Corrigé ici
       }
     };
 
@@ -70,8 +49,8 @@ const Customers = () => {
   }, []);
 
   const filteredCustomers = customers.filter(customer =>
-    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+    customer.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleEdit = (customer) => {
@@ -98,6 +77,15 @@ const Customers = () => {
     return;
   }
 
+    setCustomers([
+      ...customers,
+      {
+        ...newCustomer,
+        id: Math.max(...customers.map(c => c.id || 0)) + 1,
+        orders: 0,
+        joined: new Date().toISOString().split('T')[0]
+      }
+    ]);
   try {
     const res = await axios.post('http://localhost:5000/api/users', {
       name: newCustomer.name,
@@ -114,6 +102,7 @@ const Customers = () => {
       name: '',
       email: '',
       phone: '',
+      status: 'seller'
       password:'',
       role: ''
     });
@@ -219,7 +208,9 @@ const Customers = () => {
                 <input
                   type="text"
                   value={editingCustomer?.name || ''}
-                  onChange={(e) => setEditingCustomer({ ...editingCustomer, name: e.target.value })}
+                  onChange={(e) =>
+                    setEditingCustomer({ ...editingCustomer, name: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
@@ -227,7 +218,9 @@ const Customers = () => {
                 <input
                   type="email"
                   value={editingCustomer?.email || ''}
-                  onChange={(e) => setEditingCustomer({ ...editingCustomer, email: e.target.value })}
+                  onChange={(e) =>
+                    setEditingCustomer({ ...editingCustomer, email: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
@@ -235,25 +228,32 @@ const Customers = () => {
                 <input
                   type="tel"
                   value={editingCustomer?.phone || ''}
-                  onChange={(e) => setEditingCustomer({ ...editingCustomer, phone: e.target.value })}
+                  onChange={(e) =>
+                    setEditingCustomer({ ...editingCustomer, phone: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
                 <label>Status</label>
                 <select
-                  value={editingCustomer?.status || 'active'}
-                  onChange={(e) => setEditingCustomer({ ...editingCustomer, status: e.target.value })}
+                  value={editingCustomer?.status || 'seller'}
+                  onChange={(e) =>
+                    setEditingCustomer({ ...editingCustomer, status: e.target.value })
+                  }
                 >
                   <option value="user">User</option>
-                  <option value="seller">seller</option>
+                  <option value="seller">Seller</option>
                   {storedUser?.role === 'super-admin' && (
-    <option value="admin">Admin</option>
-  )}
+                    <option value="admin">Admin</option>
+                  )}
                 </select>
               </div>
             </div>
             <div className="custom-modal-footer">
-              <button className="custom-cancel-btn" onClick={() => setIsModalOpen(false)}>
+              <button
+                className="custom-cancel-btn"
+                onClick={() => setIsModalOpen(false)}
+              >
                 Cancel
               </button>
               <button className="custom-save-btn" onClick={handleSave}>
@@ -278,7 +278,9 @@ const Customers = () => {
                   type="text"
                   placeholder="John Doe"
                   value={newCustomer.name}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, name: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
@@ -287,7 +289,9 @@ const Customers = () => {
                   type="email"
                   placeholder="john@example.com"
                   value={newCustomer.email}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, email: e.target.value })}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, email: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
@@ -296,32 +300,28 @@ const Customers = () => {
                   type="tel"
                   placeholder="+33 6 12 34 56 78"
                   value={newCustomer.phone}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
-                />
-              </div>
-               <div className="custom-form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  placeholder="***********"
-                  value={newCustomer.password}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, password: e.target.value })}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, phone: e.target.value })
+                  }
                 />
               </div>
               <div className="custom-form-group">
-                <label>Role</label>
+                <label>Status</label>
                 <select
+                  value={newCustomer.status}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, status: e.target.value })
+                  }
+                >
                   value={newCustomer.role}
                   onChange={(e) => setNewCustomer({ ...newCustomer, role: e.target.value })}
                 
                  >
                   <option value="user">User</option>
-                  <option value="seller">seller</option>
+                  <option value="seller">Seller</option>
                   {storedUser?.role === 'super-admin' && (
-    <option value="admin">Admin</option>
-  )}
-
-               
+                    <option value="admin">Admin</option>
+                  )}
                 </select>
               </div>
             </div>
@@ -332,12 +332,7 @@ const Customers = () => {
               >
                 Cancel
               </button>
-              <button
-                className="custom-save-btn"
-                onClick={handleAddCustomer}
-                disabled={!newCustomer.name || !newCustomer.email}
-              >
-                <FiPlus className="custom-btn-icon" />
+              <button className="custom-save-btn" onClick={handleAddCustomer}>
                 Add Vendeur
               </button>
             </div>

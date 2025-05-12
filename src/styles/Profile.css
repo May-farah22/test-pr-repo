@@ -68,7 +68,7 @@
     display: flex;
     align-items: center;
     padding: 2rem;
-    background: linear-gradient(135deg, #e799d0, #9e659b); /* Couleur au survol */
+    background: linear-gradient(135deg, #dd67ba, #9e659b); /* Couleur au survol */
     color: white;
     position: relative;
   }
@@ -203,7 +203,7 @@
   }
   
   .save-btn-new {
-    background:  #4a5568;
+    background: linear-gradient(135deg, #dd67ba, #9e659b); /* Couleur au survol */
     color: white;
     border: none;
     padding: 0.8rem 2rem;
