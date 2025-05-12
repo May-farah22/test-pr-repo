@@ -102,7 +102,7 @@ const Customers = () => {
       name: '',
       email: '',
       phone: '',
-      status: 'seller'
+
       password:'',
       role: ''
     });
@@ -308,11 +308,7 @@ const Customers = () => {
               <div className="custom-form-group">
                 <label>Status</label>
                 <select
-                  value={newCustomer.status}
-                  onChange={(e) =>
-                    setNewCustomer({ ...newCustomer, status: e.target.value })
-                  }
-                >
+                 
                   value={newCustomer.role}
                   onChange={(e) => setNewCustomer({ ...newCustomer, role: e.target.value })}
                 
