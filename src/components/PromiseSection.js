@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import "../styles/PromiseSection.css"; // Import du fichier CSS
+import "../styles/PromiseSection.css";
 
 import newImage from '../assets/images/rose.png';
 
@@ -12,15 +12,15 @@ const PromiseSection = () => {
         <div className="promise-container">
           {/* Colonne Texte */}
           <div className="promise-text">
-            <h2 className="promise-title">PURE + SIMPLE SKINCARE</h2>
-            <h3 className="promise-subtitle">OUR PROMISE TO YOU</h3>
+            <h2 className="promise-title">SOINS SIMPLES & PURS</h2>
+            <h3 className="promise-subtitle">NOTRE PROMESSE POUR VOUS</h3>
             <p className="promise-description">
-              We only use raw, highly concentrated ingredients to create products that are intentional, 
-              targeted, and handcrafted to make you look and feel good!
+              Nous utilisons uniquement des ingrédients bruts et hautement concentrés pour créer des produits 
+              intentionnels, ciblés et faits main, conçus pour vous faire sentir et paraître radieuse !
             </p>
             <Link to="/about">
               <Button variant="outline-dark" className="promise-button">
-                READ OUR STORY
+                DÉCOUVRIR NOTRE HISTOIRE
               </Button>
             </Link>
           </div>
@@ -29,7 +29,7 @@ const PromiseSection = () => {
           <div className="promise-image-container">
             <img 
               src={newImage} 
-              alt="Skincare Products" 
+              alt="Produits de soin" 
               className="promise-image" 
             />
           </div>

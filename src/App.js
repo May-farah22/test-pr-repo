@@ -101,15 +101,13 @@ const App = () => {
             </>
           }
         />
-        <Route
-          path="/skin-type-form"
-          element={
-            <>
-              <Navbar />
-              <SkinTypeForm />
-            </>
-          }
+      <Route
+       path="/skin-type-form"
+        element={
+        <SkinTypeForm />
+        } 
         />
+
         <Route
           path="/recommended-products"
           element={

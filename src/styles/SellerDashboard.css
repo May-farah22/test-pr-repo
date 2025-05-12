@@ -505,3 +505,39 @@
   color: red;
   margin-left: 4px;
 }
+/* Colonne d'actions */
+.product-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Bouton modifier */
+.edit-btn {
+  background-color: #d788f7;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #d788f7;
+}
+
+/* Bouton supprimer */
+.delete-btn {
+  background-color:rgb(228, 157, 181);
+  color: white;  
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color:rgb(228, 157, 181);
+}

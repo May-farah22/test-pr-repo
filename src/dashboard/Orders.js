@@ -4,74 +4,88 @@ import { FiEye, FiEdit, FiSave } from 'react-icons/fi';
 import "../styles/order.css";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [filteredStatus, setFilteredStatus] = useState("All");
-  const [editingOrder, setEditingOrder] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commandes, setCommandes] = useState([]);
+  const [filtreStatut, setFiltreStatut] = useState("Toutes");
+  const [commandeEnEdition, setCommandeEnEdition] = useState(null);
+  const [modalOuvert, setModalOuvert] = useState(false);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const recupererCommandes = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/orders');
-        console.log('res',res.data)
-        setOrders(res.data);
+        setCommandes(res.data);
       } catch (error) {
-        console.error('Erreur chargement commandes:', error);
+        console.error('Erreur lors du chargement des commandes:', error);
       }
     };
-    fetchOrders();
+    recupererCommandes();
   }, []);
 
-  const getStatusClass = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'completed': return 'orders-status--completed';
-      case 'processing': return 'orders-status--processing';
-      case 'shipped': return 'orders-status--shipped';
+  const traduireStatut = (statut) => {
+    switch (statut?.toLowerCase()) {
+      case 'processing':
+      case 'en traitement':
+      case 'en cours':
+        return 'En cours';
+      case 'shipped':
+      case 'expédié':
+      case 'expédiée':
+        return 'Expédiée';
+      case 'completed':
+      case 'terminé':
+      case 'terminée':
+        return 'Terminé';
+      default:
+        return statut;
+    }
+  };
+
+  const obtenirClasseStatut = (statut) => {
+    switch (traduireStatut(statut)) {
+      case 'En cours': return 'orders-status--en-traitement';
+      case 'Expédiée': return 'orders-status--expedie';
+      case 'Terminé': return 'orders-status--termine';
       default: return '';
     }
   };
 
-  const handleEditClick = (order) => {
-    setEditingOrder({ ...order });
-    setIsModalOpen(true);
+  const gererClicEditer = (commande) => {
+    setCommandeEnEdition({ ...commande });
+    setModalOuvert(true);
   };
 
-  const handleInputChange = (e) => {
+  const gererChangementInput = (e) => {
     const { name, value } = e.target;
-    setEditingOrder((prev) => ({
+    setCommandeEnEdition((prev) => ({
       ...prev,
       [name]: value
     }));
   };
 
-  const handleSave = async () => {
+  const sauvegarderModification = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/${editingOrder._id}`, editingOrder);
-      setOrders(orders.map(order => order._id === editingOrder._id ? editingOrder : order));
-      setIsModalOpen(false);
+      await axios.put(`http://localhost:5000/api/orders/${commandeEnEdition._id}`, commandeEnEdition);
+      setCommandes(commandes.map(c => c._id === commandeEnEdition._id ? commandeEnEdition : c));
+      setModalOuvert(false);
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
     }
   };
 
-  const handleFilterChange = (e) => {
-    setFilteredStatus(e.target.value);
-  };
-
-  const filteredOrders = orders.filter(order =>
-    filteredStatus === "All" || order.status === filteredStatus
+  const commandesFiltrees = commandes.filter((commande) =>
+    filtreStatut === "Toutes" || traduireStatut(commande.status) === filtreStatut
   );
 
   return (
     <div className="orders-container">
       <div className="orders-header">
-        <h1 className="orders-title">Orders</h1>
+        <h1 className="orders-title">Commandes</h1>
         <div className="orders-filters">
-          <select className="orders-filter" value={filteredStatus} onChange={handleFilterChange}>
-            <option value="All">All Orders</option>
-            <option value="Completed">Completed</option>
-            <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
+          <select className="orders-filter" value={filtreStatut} onChange={(e) => setFiltreStatut(e.target.value)}>
+            <option value="Toutes">Toutes les commandes</option>
+            <option value="Terminé">Terminée</option>
+            <option value="En cours">En cours</option>
+            <option value="Expédiée">Expédiée</option>
           </select>
         </div>
       </div>
@@ -79,38 +93,38 @@ const Orders = () => {
       <table className="orders-table">
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
+            <th>ID Commande</th>
+            <th>Client</th>
             <th>Date</th>
-            <th>Status</th>
+            <th>Statut</th>
             <th>Total (DT)</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.map((order) => (
-            <tr key={order._id} className="orders-row">
-              <td className="orders-id">#{order._id?.slice(-4).toUpperCase()}</td>
-              <td className="orders-customer">{order.customer || order.userId}</td>
-              <td className="orders-date">{order.date}</td>
+          {commandesFiltrees.map((commande) => (
+            <tr key={commande._id} className="orders-row">
+              <td className="orders-id">#{commande._id?.slice(-4).toUpperCase()}</td>
+              <td className="orders-customer">{commande.customer || commande.userId}</td>
+              <td className="orders-date">{commande.date}</td>
               <td className="orders-status">
-                <span className={`orders-status-badge ${getStatusClass(order.status)}`}>
-                  {order.status}
+                <span className={`orders-status-badge ${obtenirClasseStatut(commande.status)}`}>
+                  {traduireStatut(commande.status)}
                 </span>
               </td>
-              <td className="orders-total">${order.total?.toFixed(2)}</td>
+              <td className="orders-total">{commande.total?.toFixed(2)}DT</td>
               <td className="orders-actions">
                 <div className="orders-actions-container">
                   <button className="orders-action-btn orders-action-btn--view">
                     <FiEye className="orders-action-icon" />
-                    <span>View</span>
+                    <span>Voir</span>
                   </button>
                   <button
                     className="orders-action-btn orders-action-btn--edit"
-                    onClick={() => handleEditClick(order)}
+                    onClick={() => gererClicEditer(commande)}
                   >
                     <FiEdit className="orders-action-icon" />
-                    <span>Edit</span>
+                    <span>Modifier</span>
                   </button>
                 </div>
               </td>
@@ -119,21 +133,20 @@ const Orders = () => {
         </tbody>
       </table>
 
-      {isModalOpen && (
+      {modalOuvert && (
         <div className="modal-overlay">
           <div className="edit-modal">
             <div className="modal-header">
-              <h3>Edit Order #{editingOrder._id?.slice(-4).toUpperCase()}</h3>
+              <h3>Modifier la commande #{commandeEnEdition._id?.slice(-4).toUpperCase()}</h3>
             </div>
-
             <div className="modal-body">
               <div className="form-group">
-                <label>Customer</label>
+                <label>Client</label>
                 <input
                   type="text"
                   name="customer"
-                  value={editingOrder.customer}
-                  onChange={handleInputChange}
+                  value={commandeEnEdition.customer}
+                  onChange={gererChangementInput}
                 />
               </div>
 
@@ -142,21 +155,21 @@ const Orders = () => {
                 <input
                   type="date"
                   name="date"
-                  value={editingOrder.date}
-                  onChange={handleInputChange}
+                  value={commandeEnEdition.date}
+                  onChange={gererChangementInput}
                 />
               </div>
 
               <div className="form-group">
-                <label>Status</label>
+                <label>Statut</label>
                 <select
                   name="status"
-                  value={editingOrder.status}
-                  onChange={handleInputChange}
+                  value={commandeEnEdition.status}
+                  onChange={gererChangementInput}
                 >
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Completed">Completed</option>
+                  <option value="En cours">En cours</option>
+                  <option value="Expédiée">Expédiée</option>
+                  <option value="Terminé">Terminée</option>
                 </select>
               </div>
 
@@ -165,19 +178,19 @@ const Orders = () => {
                 <input
                   type="number"
                   name="total"
-                  value={editingOrder.total}
-                  onChange={handleInputChange}
+                  value={commandeEnEdition.total}
+                  onChange={gererChangementInput}
                   step="0.01"
                 />
               </div>
             </div>
 
             <div className="modal-footer">
-              <button onClick={() => setIsModalOpen(false)} className="modal-cancel-btn">
-                Cancel
+              <button onClick={() => setModalOuvert(false)} className="modal-cancel-btn">
+                Annuler
               </button>
-              <button onClick={handleSave} className="modal-save-btn">
-                <FiSave /> Save Changes
+              <button onClick={sauvegarderModification} className="modal-save-btn">
+                <FiSave /> Enregistrer les modifications
               </button>
             </div>
           </div>

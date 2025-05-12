@@ -5,6 +5,7 @@ import '../styles/SellerDashboard.css';
 const SellerProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [products, setProducts] = useState([]);
+  const [editingProductId, setEditingProductId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -12,6 +13,7 @@ const SellerProducts = () => {
     category: '',
     description: '',
     image: null,
+    skinType: '', // Ajouté ici
   });
 
   const user = JSON.parse(localStorage.getItem('user'));
@@ -33,8 +35,24 @@ const SellerProducts = () => {
     }
   }, [userId, fetchProducts]);
 
-  const handleShowForm = () => setShowForm(true);
-  const handleCloseForm = () => setShowForm(false);
+  const handleShowForm = () => {
+    setEditingProductId(null); // reset édition
+    setFormData({
+      name: '',
+      price: '',
+      stock: '',
+      category: '',
+      description: '',
+      image: null,
+      skinType: '', // Réinitialiser le type de peau ici
+    });
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    setEditingProductId(null);
+  };
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -66,29 +84,58 @@ const SellerProducts = () => {
     data.append('category', formData.category);
     data.append('description', formData.description);
     data.append('userId', userId);
+    data.append('skinType', formData.skinType); // Ajouté ici
     if (formData.image) {
       data.append('image', formData.image);
     }
 
     try {
-      await axios.post('http://localhost:5000/api/products', data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      alert('✅ Produit ajouté avec succès!');
+      if (editingProductId) {
+        await axios.put(`http://localhost:5000/api/products/${editingProductId}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        alert('✅ Produit modifié avec succès!');
+      } else {
+        await axios.post('http://localhost:5000/api/products', data, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        alert('✅ Produit ajouté avec succès!');
+      }
+
       fetchProducts();
       handleCloseForm();
-      setFormData({
-        name: '',
-        price: '',
-        stock: '',
-        category: '',
-        description: '',
-        image: null,
-      });
     } catch (error) {
-      console.error('Erreur lors de l\'ajout du produit:', error);
-      alert('❌ Erreur lors de l\'ajout du produit.');
+      console.error('Erreur lors de l\'envoi du produit:', error);
+      alert('❌ Une erreur est survenue.');
     }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?");
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      alert("✅ Produit supprimé avec succès.");
+      fetchProducts();
+    } catch (error) {
+      console.error("Erreur lors de la suppression du produit:", error);
+      alert("❌ Erreur lors de la suppression.");
+    }
+  };
+
+  const handleEdit = (product) => {
+    setEditingProductId(product._id);
+    setFormData({
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      category: product.category,
+      description: product.description,
+      image: null, // l’image n’est pas réutilisée ici
+      skinType: product.skinType || '', // Assurer que type de peau est bien assigné
+    });
+    setShowForm(true);
   };
 
   return (
@@ -108,6 +155,8 @@ const SellerProducts = () => {
             <th>Prix</th>
             <th>Stock</th>
             <th>Catégorie</th>
+            <th>Type de peau</th> {/* Nouvelle colonne ici */}
+            <th className="actions-header">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -118,11 +167,16 @@ const SellerProducts = () => {
                 <td>{product.price} DT</td>
                 <td>{product.stock}</td>
                 <td>{product.category}</td>
+                <td>{product.skinType}</td> {/* Affichage du type de peau */}
+                <td className="product-actions">
+                  <button onClick={() => handleEdit(product)} className="edit-btn">Modifier</button>
+                  <button onClick={() => handleDelete(product._id)} className="delete-btn">Supprimer</button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>Aucun produit disponible.</td>
+              <td colSpan="6" style={{ textAlign: "center" }}>Aucun produit disponible.</td>
             </tr>
           )}
         </tbody>
@@ -131,7 +185,7 @@ const SellerProducts = () => {
       {showForm && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>Ajouter un Nouveau Produit</h3>
+            <h3>{editingProductId ? "Modifier le Produit" : "Ajouter un Nouveau Produit"}</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-fields">
                 <div className="form-column">
@@ -146,6 +200,19 @@ const SellerProducts = () => {
                   <div className="form-group">
                     <label>Image</label>
                     <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
+                  </div>
+
+                  {/* ✅ Nouveau champ Type de peau */}
+                  <div className="form-group">
+                    <label>Type de peau</label>
+                    <select name="skinType" value={formData.skinType} onChange={handleInputChange} className="form-control">
+                      <option value="">Sélectionner</option>
+                      <option value="sèche">Sèche</option>
+                      <option value="grasse">Grasse</option>
+                      <option value="mixte">Mixte</option>
+                      <option value="sensible">Sensible</option>
+                      <option value="normale">Normale</option>
+                    </select>
                   </div>
                 </div>
 
@@ -167,7 +234,7 @@ const SellerProducts = () => {
               </div>
 
               <div className="form-actions">
-                <button type="submit">Ajouter Produit</button>
+                <button type="submit">{editingProductId ? "Mettre à jour" : "Ajouter Produit"}</button>
                 <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
               </div>
             </form>

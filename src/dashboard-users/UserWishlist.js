@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/UserOrders.css';
 
-const ClientWishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
+const ListeSouhaitsClient = () => {
+  const [listeSouhaits, setListeSouhaits] = useState([]);
 
   useEffect(() => {
-    const storedWishlist = localStorage.getItem('wishlist');
+    const souhaitsStockés = localStorage.getItem('wishlist');
 
-    if (storedWishlist) {
-      setWishlist(JSON.parse(storedWishlist));
+    if (souhaitsStockés) {
+      setListeSouhaits(JSON.parse(souhaitsStockés));
     }
   }, []);
 
   return (
     <div className="client-wishlist-container">
-      <h2 className="client-section-title">Your Wishlist</h2>
+      <h2 className="client-section-title">Votre Liste de Souhaits</h2>
 
       <div className="client-wishlist-items">
-        {wishlist.length === 0 ? (
-          <p>No items in your wishlist.</p>
+        {listeSouhaits.length === 0 ? (
+          <p>Aucun article dans votre liste de souhaits.</p>
         ) : (
-          wishlist.map((item, index) => (
+          listeSouhaits.map((article, index) => (
             <div className="client-wishlist-item" key={index}>
               <img
-                src={item.image.startsWith('http') ? item.image : `http://localhost:5000/${item.image}`}
-                alt={item.title}
+                src={article.image.startsWith('http') ? article.image : `http://localhost:5000/${article.image}`}
+                alt={article.title}
               />
               <div className="client-item-info">
-                <p>{item.title}</p>
+                <p>{article.title}</p>
               </div>
-              <span className="client-item-price">${item.price.toFixed(2)}</span>
+              <span className="client-item-price">{article.price.toFixed(2)} DT</span>
             </div>
           ))
         )}
@@ -38,4 +38,4 @@ const ClientWishlist = () => {
   );
 };
 
-export default ClientWishlist;
+export default ListeSouhaitsClient;

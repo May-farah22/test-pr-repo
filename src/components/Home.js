@@ -1,36 +1,35 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom"; // Import du hook de navigation
-
+import { useNavigate } from "react-router-dom";
 
 import '../styles/Home.css';
-import ClayMaskSection from "../components/ClayMaskSection"; // Assure-toi que ce chemin est correct !
+import ClayMaskSection from "../components/ClayMaskSection";
 import PromiseSection from "../components/PromiseSection";
 import ExclusiveBenefits from "../components/ExclusiveBenefits";
 import Chatbot from "../components/Chatbot";
 import Footer from "../components/Footer";
 
 const Home = () => {
-  const navigate = useNavigate(); // Hook de navigation
+  const navigate = useNavigate();
 
   return (
     <>
-      {/* Header avec image de fond */}
+      {/* En-tête avec image de fond */}
       <header className="header-section">
         <Container>
           <Row className="justify-content-end align-items-start">
             <Col md={6} className="text-end header-text">
-              <h1 className="header-title">Discover Your Perfect Beauty Routine</h1>
+              <h1 className="header-title">Découvrez votre routine beauté idéale</h1>
               <p className="header-subtitle">
-                Personalized skincare recommendations tailored to your unique needs.
+                Des recommandations de soins personnalisées, adaptées à vos besoins uniques.
               </p>
               <Button 
                 variant="light" 
                 size="lg" 
                 className="header-button"
-                onClick={() => navigate("/shop")} // Redirection vers la page shop
+                onClick={() => navigate("/shop")}
               >
-                SHOP COLLECTION
+                VOIR LA COLLECTION
               </Button>
             </Col>
           </Row>
@@ -41,7 +40,6 @@ const Home = () => {
       <ClayMaskSection />
       <PromiseSection />
 
-
       {/* Nouvelle section inspirée de la capture */}
       <section className="promise-section">
         <Container>
@@ -50,28 +48,28 @@ const Home = () => {
             <Col md={6} className="text-center">
               <img 
                 src={require('../assets/images/girl.jpg')}
-                alt="Skincare Products"
+                alt="Produits de soin"
                 className="promise-image"
               />
             </Col>
 
             {/* Texte à droite */}
             <Col md={6}>
-              <h2 className="promise-title">PURE + SIMPLE SKINCARE</h2>
-              <h3 className="promise-subtitle">POWERED BY NATURE, BACKED BY SCIENCE</h3>
+              <h2 className="promise-title">SOINS SIMPLES & PURS</h2>
+              <h3 className="promise-subtitle">PROPULSÉS PAR LA NATURE, VALIDÉS PAR LA SCIENCE</h3>
               <p className="promise-description">
-              High-performance skincare formulated with potent botanical extracts. Targeted solutions designed to nourish, protect, and rejuvenate your skin.
+                Des soins hautes performances formulés avec des extraits botaniques puissants. Des solutions ciblées conçues pour nourrir, protéger et régénérer votre peau.
               </p>
               <Button variant="outline-dark" size="lg" className="promise-button">
-              LEARN MORE
+                EN SAVOIR PLUS
               </Button>
             </Col>
           </Row>
         </Container>
       </section>
-<ExclusiveBenefits/>
-<Chatbot />
-      {/* Footer */}
+
+      <ExclusiveBenefits />
+      <Chatbot />
       <Footer />
     </>
   );

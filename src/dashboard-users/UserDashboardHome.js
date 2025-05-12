@@ -14,16 +14,15 @@ const UserDashboardHome = () => {
   const img = localStorage.getItem('userPhoto');
   const navigate = useNavigate();
   const [showSkinModal, setShowSkinModal] = useState(false);
-  console.log('storedUser',storedUser)
+  console.log('storedUser', storedUser)
 
-const handleRoutineComplete = () => {
-  // Tu peux ici ajouter une logique comme : afficher une notif, envoyer vers backend, etc.
-  console.log("Routine terminée !");
-};
+  const handleRoutineComplete = () => {
+    console.log("Routine terminée !");
+  };
 
-console.log('img',img)
-  const userName = storedUser?.name || 'User';
-  const avatarUrl =  `http://localhost:5000/uploads/${img}`;
+  console.log('img', img)
+  const userName = storedUser?.name || 'Utilisateur';
+  const avatarUrl = `http://localhost:5000/uploads/${img}`;
 
   const [showProfile, setShowProfile] = useState(false);
   const [showRoutineModal, setShowRoutineModal] = useState(false);
@@ -37,12 +36,12 @@ console.log('img',img)
         {/* Profile Header */}
         <div className="profile-header">
           <div className="profile-info">
-            <img src={avatarUrl} alt="User Avatar" className="avatar" />
+            <img src={avatarUrl} alt="Avatar utilisateur" className="avatar" />
             <div>
               <h2>{userName}</h2>
               <p>
-                Member since{' '}
-                {new Date(storedUser?.joined).toLocaleString('en-US', {
+                Membre depuis{' '}
+                {new Date(storedUser?.joined).toLocaleString('fr-FR', {
                   month: 'long',
                   year: 'numeric',
                 })}
@@ -51,7 +50,7 @@ console.log('img',img)
           </div>
           <div className="profile-actions">
             <button className="edit-btn" onClick={() => setShowProfile(true)}>
-              <FiSettings size={18} /> Profile
+              <FiSettings size={18} /> Profil
             </button>
           </div>
         </div>
@@ -62,19 +61,19 @@ console.log('img',img)
             to="/user-dashboard"
             className={({ isActive }) => (isActive ? 'tab-btn active' : 'tab-btn')}
           >
-            Overview
+            Vue d'ensemble
           </NavLink>
           <NavLink
             to="/user-dashboard/orders"
             className={({ isActive }) => (isActive ? 'tab-btn active' : 'tab-btn')}
           >
-            Orders
+            Commandes
           </NavLink>
           <NavLink
             to="/user-dashboard/wishlist"
             className={({ isActive }) => (isActive ? 'tab-btn active' : 'tab-btn')}
           >
-            Wishlist
+            Liste de souhaits
           </NavLink>
         </div>
 
@@ -84,33 +83,33 @@ console.log('img',img)
         <div className="dashboard-cards">
           {/* Skin Profile */}
           <div className="card">
-            <h3>Your Skin Profile</h3>
+            <h3>Votre profil de peau</h3>
             <p>
-              <strong>Skin Type:</strong> <span className="tag">Combination</span>
+              <strong>Type de peau :</strong> <span className="tag">Mixte</span>
             </p>
             <p>
-              <strong>Skin Concerns:</strong>
+              <strong>Préoccupations :</strong>
             </p>
             <div className="tags">
-              <span className="tag">Dehydration</span>
-              <span className="tag">Occasional Breakouts</span>
-              <span className="tag">Fine Lines</span>
+              <span className="tag">Déshydratation</span>
+              <span className="tag">Éruptions occasionnelles</span>
+              <span className="tag">Ridules</span>
             </div>
             <p>
-              <strong>Sensitivity:</strong> <span className="bold">Moderate</span>
+              <strong>Sensibilité :</strong> <span className="bold">Modérée</span>
             </p>
             <p className="update-text">
-  Last updated: March 15, 2025 <span className="update-link" onClick={() => setShowSkinModal(true)}>Update</span>
-</p>
-
+              Dernière mise à jour : 15 mars 2025{' '}
+              <span className="update-link" onClick={() => setShowSkinModal(true)}>Modifier</span>
+            </p>
           </div>
 
           {/* Skincare Routine */}
           <div className="card skincare-card">
-            <h3>Skincare Routine</h3>
+            <h3>Routine de soin</h3>
 
             <div className="routine-header">
-              <span>Daily Progress</span>
+              <span>Progression quotidienne</span>
               <span className="bold">{routineCompleted ? '100%' : '75%'}</span>
             </div>
 
@@ -123,19 +122,19 @@ console.log('img',img)
 
             <ul className="routine-list">
               <li className="done">
-                <span className="icon">✔</span> Cleansing
+                <span className="icon">✔</span> Nettoyage
               </li>
               <li className="done">
-                <span className="icon">✔</span> Toning
+                <span className="icon">✔</span> Tonique
               </li>
               <li className="done">
-                <span className="icon">✔</span> Treatment
+                <span className="icon">✔</span> Traitement
               </li>
               <li className={routineCompleted ? 'done' : 'pending'}>
-                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Moisturizing
+                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Hydratation
               </li>
               <li className={routineCompleted ? 'done' : 'pending'}>
-                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Sunscreen
+                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Écran solaire
               </li>
             </ul>
 
@@ -144,37 +143,37 @@ console.log('img',img)
               onClick={() => setShowRoutineModal(true)}
               disabled={routineCompleted}
             >
-              {routineCompleted ? "Routine Completed" : "Complete Today's Routine"}
+              {routineCompleted ? "Routine terminée" : "Terminer la routine d’aujourd’hui"}
             </button>
           </div>
 
           {/* Quick Actions */}
           <div className="card">
-            <h3>Quick Actions</h3>
+            <h3>Actions rapides</h3>
             <div className="actions-grid">
               <div className="action-box">
                 <FaShoppingBag size={20} /> <br />
-                Shop
+                Boutique
                 <br />
-                <small>Browse products</small>
+                <small>Parcourir les produits</small>
               </div>
               <div className="action-box">
                 <FaHeart size={20} /> <br />
-                Wishlist
+                Favoris
                 <br />
-                <small>View saved items</small>
+                <small>Voir les articles enregistrés</small>
               </div>
               <div className="action-box">
                 <FaBox size={20} /> <br />
-                Orders
+                Commandes
                 <br />
-                <small>Track packages</small>
+                <small>Suivre les colis</small>
               </div>
               <div className="action-box">
                 <FaUser size={20} /> <br />
-                Profile
+                Profil
                 <br />
-                <small>Update details</small>
+                <small>Mettre à jour les informations</small>
               </div>
             </div>
           </div>
@@ -189,15 +188,12 @@ console.log('img',img)
         />
       )}
 
-
-
-<RoutineModal
-  show={showRoutineModal}
-  onClose={() => setShowRoutineModal(false)}
-  onComplete={handleRoutineComplete}
-/>
-{showSkinModal && <SkinProfileModal onClose={() => setShowSkinModal(false)} />}
-
+      <RoutineModal
+        show={showRoutineModal}
+        onClose={() => setShowRoutineModal(false)}
+        onComplete={handleRoutineComplete}
+      />
+      {showSkinModal && <SkinProfileModal onClose={() => setShowSkinModal(false)} />}
     </>
   );
 };
