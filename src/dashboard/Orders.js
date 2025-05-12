@@ -98,7 +98,7 @@ const Orders = () => {
                   {order.status}
                 </span>
               </td>
-              <td className="orders-total">${order.total?.toFixed(2)}</td>
+              <td className="orders-total"> {Number(order.total)?.toFixed(2)} DT</td>
               <td className="orders-actions">
                 <div className="orders-actions-container">
                   <button className="orders-action-btn orders-action-btn--view">
@@ -132,7 +132,8 @@ const Orders = () => {
                 <input
                   type="text"
                   name="customer"
-                  value={editingOrder.customer}
+                  disabled
+                  value={editingOrder.userId}
                   onChange={handleInputChange}
                 />
               </div>
@@ -142,6 +143,7 @@ const Orders = () => {
                 <input
                   type="date"
                   name="date"
+                  disabled
                   value={editingOrder.date}
                   onChange={handleInputChange}
                 />

@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/SkinProfileModal.css';
 
 const SkinProfileModal = ({ onClose }) => {
-  const [skinType, setSkinType] = useState('Combination');
-  const [concerns, setConcerns] = useState(['Dehydration', 'Fine Lines']);
-  const [sensitivity, setSensitivity] = useState('Moderate');
+  const [skinType, setSkinType] = useState('');
+  const [concerns, setConcerns] = useState([]);
+  const [sensitivity, setSensitivity] = useState('');
+  const stored = JSON.parse(localStorage.getItem('user'));
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    fetch('http://localhost:8000/api/skin-type')
+      .then(res => res.json())
+      .then(data => {
+        setSkinType(data.skinType);
+        setConcerns(data.concerns);
+        setSensitivity(data.sensitivity);
+      })
+      .catch(err => console.error('❌ Failed to fetch profile:', err));
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ skinType, concerns, sensitivity });
-    onClose();
+
+    try {
+      const res = await fetch( `http://localhost:5000/api/skin-type/${stored.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skinType, concerns, sensitivity }),
+      });
+
+      if (!res.ok) throw new Error('Failed to save profile');
+
+      const result = await res.json();
+      console.log('✅ Profile updated:', result);
+      onClose();
+    } catch (error) {
+      console.error('❌ Error submitting profile:', error);
+    }
   };
 
   return (
@@ -25,7 +51,7 @@ const SkinProfileModal = ({ onClose }) => {
             <option value="Normal">Normal</option>
           </select>
 
-          <label className="spm-label">Skin Concerns:</label>
+          <label className="spm-label">Skin Concerns (comma-separated):</label>
           <input
             type="text"
             className="spm-input"

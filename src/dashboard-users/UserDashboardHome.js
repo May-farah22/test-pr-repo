@@ -11,7 +11,7 @@ import { FaShoppingBag, FaHeart, FaBox, FaUser } from 'react-icons/fa';
 
 const UserDashboardHome = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
-  const img = localStorage.getItem('userPhoto');
+  const img = storedUser.avatar;
   const navigate = useNavigate();
   const [showSkinModal, setShowSkinModal] = useState(false);
   console.log('storedUser',storedUser)

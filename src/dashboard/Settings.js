@@ -1,29 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FiSettings, FiUser, FiLock } from 'react-icons/fi';
 import "../styles/settings.css";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
-    name: 'Admin User',
-    email: 'admin@glowcare.com',
-    language: 'en',
-    notifications: true,
-    theme: 'light'
+    name: '',
+    email: ''
   });
 
+  // Récupération des infos user depuis localStorage au montage
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setFormData({
+        name: storedUser.name || '',
+        email: storedUser.email || ''
+      });
+    }
+  }, []);
+
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Settings saved successfully!');
-    // Ici vous ajouteriez la logique pour sauvegarder les paramètres
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (!storedUser?.id) return;
+
+    try {
+      await axios.put(`http://localhost:5000/api/users/${storedUser.id}`, {
+        name: formData.name,
+        email: formData.email
+      });
+      alert('Informations mises à jour avec succès !');
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour :", error);
+      alert('Erreur lors de la sauvegarde.');
+    }
   };
 
   return (

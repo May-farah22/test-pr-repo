@@ -77,7 +77,8 @@ const Navbar = ()  => {
               <Search className="icon mobile-search" />
             </button>
             <button className="icon-btn" onClick={() => navigate("/cart")}>
-              <ShoppingBag className="icon" />{cartCount}
+              <ShoppingBag className="icon" />
+                {isLoggedIn && cartCount}
             </button>
             <Link to="/wishlist">
               <button className="icon-btn">

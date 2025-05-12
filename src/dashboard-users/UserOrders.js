@@ -15,6 +15,7 @@ const ClientOrders = () => {
       const fetchOrders = async () => {
         try {
           const res = await axios.get(`http://localhost:5000/api/orders/${storedUser.id}`);
+          console.log('res',res.data)
           setOrders(res.data);
         } catch (error) {
           console.error('Erreur lors du chargement des commandes :', error);

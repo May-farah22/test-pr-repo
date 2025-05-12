@@ -33,15 +33,14 @@ const DashboardHome = () => {
       try {
         // Appels API pour récupérer les données dynamiques
         const ordersRes = await axios.get('http://localhost:5000/api/orders');
-        
+        const userRes = await axios.get('http://localhost:5000/api/users') 
         const productRes =await axios.get('http://localhost:5000/api/products');
         
         // Calcul dynamique des stats :
         const totalRevenue = ordersRes.data.reduce((sum, order) => sum + order.total, 0);
-        const customersSet = new Set(ordersRes.data.map(order => order.customer));
         const totalOrders = ordersRes.data.length;
-        const totalProducts = productRes.data.length; // ⚠️ Ici tu peux faire une autre API pour compter les produits
-
+        const totalProducts = productRes.data.length; 
+        const totalUsers =userRes.data.length
         setOrders(ordersRes.data);
 
         setStats([
@@ -61,7 +60,7 @@ const DashboardHome = () => {
           },
           {
             label: "Customers",
-            value: `${customersSet.size}`,
+            value: `${totalUsers}`,
             icon: "👥",
             iconBg: "#e6f6f3",
             subtext: "Total registered users",

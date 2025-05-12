@@ -13,17 +13,17 @@ const UserProfile = ({ onClose, onQuitToDashboard }) => {
   });
   const [avatarFile, setAvatarFile] = useState(null);
   const stored = JSON.parse(localStorage.getItem('user'));
-  const img = localStorage.getItem('userPhoto');
+  const img = stored.avatar;
   const avatarUrl =  `http://localhost:5000/uploads/${img}`;
 
-console.log('stored',img);
+console.log('stored',stored.avatar);
   useEffect(() => {
     if (stored) {
       setUser({
         uid: stored.id,
         name: stored.name,
         email: stored.email,
-        avatar: localStorage.getItem('userPhoto') || '',
+        avatar: stored.avatar || '',
         memberSince: new Date(stored.joined).toLocaleDateString(),
         password: '',
       });
@@ -85,8 +85,7 @@ console.log('stored',img);
       );
   
      
-        localStorage.setItem('userPhoto',res.data.photo);
-      console.log('avatarFile',res.data.photo)
+       
   
       const updatedUser = {
         ...stored,

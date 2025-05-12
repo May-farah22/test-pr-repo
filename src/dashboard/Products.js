@@ -64,6 +64,7 @@ const BoxProducts = () => {
       }
     }
   };
+  console.log('products',products)
 
   const handleInputChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -217,7 +218,7 @@ const BoxProducts = () => {
               <div style={{ marginTop: "10px" }}>
                 <strong>Image :</strong><br />
                 <img
-                  src={`http://localhost:5000/uploads/${viewProduct.image}`}
+                  src={`http://localhost:5000/${viewProduct.image}`}
                   alt={viewProduct.name}
                   style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
                 />

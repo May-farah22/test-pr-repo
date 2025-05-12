@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { FiUser, FiMail, FiPhone, FiEdit, FiTrash2, FiSearch, FiPlus, FiUserPlus } from 'react-icons/fi';
 import "../styles/user.css";
 
@@ -44,14 +45,15 @@ const Customers = () => {
     name: '',
     email: '',
     phone: '',
-    status: 'active'
+    role: '',
+    password:''
   });
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/users');
-        console.log('res',res)  ;
+        console.log('res-------------',res.data)  ;
         let filteredUsers = res.data;   
         if (storedUser?.role === 'admin') {
           filteredUsers = res.data.filter(u => u.role === 'user' || u.role ==='seller');
@@ -90,26 +92,39 @@ const Customers = () => {
     setIsModalOpen(false);
   };
 
-  const handleAddCustomer = () => {
-    if (!newCustomer.name || !newCustomer.email) {
-      alert('Please fill in all required fields');
-      return;
-    }
+ const handleAddCustomer = async () => {
+  if (!newCustomer.name || !newCustomer.email) {
+    alert('Please fill in all required fields');
+    return;
+  }
 
-    setCustomers([...customers, {
-      ...newCustomer,
-      id: Math.max(...customers.map(c => c.id)) + 1,
-      orders: 0,
-      joined: new Date().toISOString().split('T')[0]
-    }]);
+  try {
+    const res = await axios.post('http://localhost:5000/api/users', {
+      name: newCustomer.name,
+      email: newCustomer.email,
+      phone: newCustomer.phone,
+      password:newCustomer.password,
+        role: newCustomer.role,
+    });
+
+    // Ajouter le nouveau client retourné par l’API à la liste
+    setCustomers([...customers, res.data]);
     setIsAddModalOpen(false);
     setNewCustomer({
       name: '',
       email: '',
       phone: '',
-      status: 'active'
+      password:'',
+      role: ''
     });
-  };
+
+    alert('Vendeur ajouté avec succès');
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du vendeur :", error);
+    alert('Erreur lors de l’ajout. Vérifiez les champs ou l’email déjà utilisé.');
+  }
+};
+
 
   return (
     <div className="custom-customers-container">
@@ -141,9 +156,9 @@ const Customers = () => {
             <tr>
               <th>Vendeur</th>
               <th>Contact</th>
-              <th>Orders</th>
+            
               <th>Joined</th>
-              <th>Status</th>
+              
               <th>Actions</th>
             </tr>
           </thead>
@@ -169,13 +184,8 @@ const Customers = () => {
                     <span>{customer.phone}</span>
                   </div>
                 </td>
-                <td className="custom-orders-count">{customer.orders}</td>
                 <td className="custom-joined-date">{customer.joined}</td>
-                <td>
-                  <span className={`custom-status-badge ${customer.status}`}>
-                    {customer.status}
-                  </span>
-                </td>
+               
                 <td className="custom-actions">
                   <button
                     className="custom-action-btn custom-edit"
@@ -289,11 +299,20 @@ const Customers = () => {
                   onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
                 />
               </div>
+               <div className="custom-form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  placeholder="***********"
+                  value={newCustomer.password}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, password: e.target.value })}
+                />
+              </div>
               <div className="custom-form-group">
-                <label>Status</label>
+                <label>Role</label>
                 <select
-                  value={newCustomer.status}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
+                  value={newCustomer.role}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, role: e.target.value })}
                 
                  >
                   <option value="user">User</option>

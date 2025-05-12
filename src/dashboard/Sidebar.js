@@ -4,9 +4,10 @@ import '../styles/Sidebar.css';
 import { FiBox, FiShoppingBag, FiUsers, FiMessageSquare, FiLogOut, FiSettings, FiBarChart2, FiUser } from 'react-icons/fi';
 const Sidebar = () => {
   const navigate = useNavigate();
+     const user =  JSON.parse(localStorage.getItem('user'));
+     console.log('user',user)
   const handleLogout = () => {
     console.log('logout');
-    
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('cart');
@@ -21,7 +22,7 @@ const Sidebar = () => {
   <Link to="/dashboard" className="logo-link">
     <h2>Glow<span>Care</span>Admin</h2>
   </Link>
-</div>
+      </div>
 
       <div className="sidebar-menu">
         <Link to="/dashboard" className="menu-item active">
@@ -56,8 +57,8 @@ const Sidebar = () => {
         <div className="user-info">
           <div className="user-icon"><FiUser /></div>
           <div>
-            <p className="user-name">Admin User</p>
-            <p className="user-email">admin@glowcare.com</p>
+            <p className="user-name">{user.name}</p>
+            <p className="user-email">{user.email}</p>
           </div>
         </div>
         <div className="footer-actions">         
