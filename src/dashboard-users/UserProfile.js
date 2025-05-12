@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Profile.css';
 import axios from 'axios';
 
-const ProfilUtilisateur = ({ onClose, onQuitToDashboard }) => {
-  const [utilisateur, setUtilisateur] = useState({
+const UserProfile = ({ onClose, onQuitToDashboard }) => {
+  const [user, setUser] = useState({
     uid: '',
     avatar: '',
     name: '',
@@ -32,7 +32,7 @@ console.log('stored',stored.avatar);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUtilisateur((prev) => ({
+    setUser((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -41,10 +41,10 @@ console.log('stored',stored.avatar);
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFichierAvatar(file);
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUtilisateur((prev) => ({
+        setUser((prev) => ({
           ...prev,
           avatar: reader.result,
         }));
@@ -55,25 +55,27 @@ console.log('stored',stored.avatar);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const stocké = JSON.parse(localStorage.getItem('user'));
+    const stored = JSON.parse(localStorage.getItem('user'));
     const formData = new FormData();
-
-    if (utilisateur.name) {
-      formData.append('nom', utilisateur.name);
+    if (user.name ) {
+      formData.append('nom', user.name);
     }
-    if (utilisateur.email) {
-      formData.append('email', utilisateur.email);
+  
+    if (user.email ) {
+      formData.append('email', user.email);
     }
-    if (utilisateur.password) {
-      formData.append('password', utilisateur.password);
+  
+    if (user.password ) {
+      formData.append('password', user.password);
     }
-    if (fichierAvatar) {
-      formData.append('image', fichierAvatar);
+  
+    if (avatarFile) {
+      formData.append('image', avatarFile);
     }
-
+  
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/auth/${stocké.id}`,
+        `http://localhost:5000/api/auth/${stored.id}`,
         formData,
         {
           headers: {
@@ -91,8 +93,8 @@ console.log('stored',stored.avatar);
         email: user.email,
         avatar:res.data.photo
       };
-      localStorage.setItem('user', JSON.stringify(utilisateurMisAJour));
-      setUtilisateur((prev) => ({ ...prev, password: '' }));
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser((prev) => ({ ...prev, password: '' }));
       alert('Profil mis à jour avec succès !');
       onClose();
     } catch (err) {
@@ -100,6 +102,7 @@ console.log('stored',stored.avatar);
       alert("Erreur lors de la mise à jour du profil");
     }
   };
+  
 
   return (
     <div className="profile-popup-overlay-new">
@@ -108,69 +111,69 @@ console.log('stored',stored.avatar);
           <div className="profile-header-new">
             <div className="avatar-container-new">
               <img
-                src={urlAvatar}
-                alt="Avatar utilisateur"
+                src={avatarUrl}
+                alt="User Avatar"
                 className="avatar-new"
               />
               <label className="avatar-upload-btn-new">
                 <input type="file" onChange={handleAvatarChange} accept="image/*" />
-                <span>Changer la photo</span>
+                <span>Change Photo</span>
               </label>
             </div>
 
             <div className="user-info-new">
-              <h2>{utilisateur.name}</h2>
-              <p className="email-new">{utilisateur.email}</p>
-              <p className="member-since-new">Membre depuis le {utilisateur.memberSince}</p>
+              <h2>{user.name}</h2>
+              <p className="email-new">{user.email}</p>
+              <p className="member-since-new">Member since {user.memberSince}</p>
             </div>
           </div>
 
           <form className="profile-form-new" onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="form-section-new">
-              <h3>Informations du profil</h3>
+              <h3>Profile Information</h3>
 
               <div className="form-group-new">
-                <label>Nom complet</label>
+                <label>Full Name</label>
                 <input
                   type="text"
                   name="name"
-                  value={utilisateur.name}
+                  value={user.name}
                   onChange={handleInputChange}
-                  placeholder="Entrez votre nom complet"
+                  placeholder="Enter your full name"
                   required
                 />
               </div>
 
               <div className="form-group-new">
-                <label>Adresse email</label>
+                <label>Email Address</label>
                 <input
                   type="email"
                   name="email"
-                  value={utilisateur.email}
+                  value={user.email}
                   onChange={handleInputChange}
-                  placeholder="Entrez votre adresse email"
+                  placeholder="Enter your email"
                   required
                 />
               </div>
             </div>
 
             <div className="form-section-new">
-              <h3>Sécurité</h3>
+              <h3>Security</h3>
 
               <div className="form-group-new">
-                <label>Changer le mot de passe</label>
+                <label>Change Password</label>
                 <input
                   type="password"
                   name="password"
-                  value={utilisateur.password}
+                  value={user.password}
                   onChange={handleInputChange}
-                  placeholder="Entrez un nouveau mot de passe"
+                  placeholder="Enter new password"
                 />
               </div>
             </div>
 
             <div className="form-actions-new">
-              <button type="submit" className="save-btn-new">Enregistrer les modifications</button>
+              <button type="submit" className="save-btn-new">Save Changes</button>
               <button type="button" className="cancel-btn-new" onClick={onClose}>Annuler</button>
             </div>
           </form>
@@ -180,4 +183,4 @@ console.log('stored',stored.avatar);
   );
 };
 
-export default ProfilUtilisateur;
+export default UserProfile;
