@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SignIn.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,19 +29,14 @@ const SignIn = () => {
         alert(data.msg || "Erreur de connexion");
         return;
       }
-      
-      
-      
-    
-     
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      if (data.user.role === 'admin' || data.user.role === 'super-admin') navigate('/dashboard');
-      else if (data.user.role === "user") navigate('/user-dashboard');
-      else if (data.user.role === 'seller') navigate('/seller');
 
-   
+      if (data.user.role === "admin" || data.user.role === "super-admin")
+        navigate("/dashboard");
+      else if (data.user.role === "user") navigate("/user-dashboard");
+      else if (data.user.role === "seller") navigate("/seller");
     } catch (error) {
       console.error("Erreur:", error);
       alert("Erreur serveur");
@@ -57,13 +54,23 @@ const SignIn = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+
+        <div className="input-with-icon">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Mot de passe"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <FontAwesomeIcon
+            icon={showPassword ? faEyeSlash : faEye}
+            className="toggle-password-icon"
+            onClick={() => setShowPassword(!showPassword)}
+            title={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          />
+        </div>
+
         <button type="submit">Se connecter</button>
       </form>
     </div>
