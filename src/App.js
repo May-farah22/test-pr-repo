@@ -17,6 +17,7 @@ import UserOrders from "./dashboard-users/UserOrders";
 import UserWishlist from "./dashboard-users/UserWishlist.js";
 import UserOverview from "./dashboard-users/UserOverview.js";
 import UserProfile from "./dashboard-users/UserProfile.js";
+import ChatPopup from './dashboard-users/ChatPopup'; 
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SkinTypeForm from "./pages/SkinTypeForm";
@@ -142,6 +143,7 @@ const App = () => {
           <Route path="orders" element={<UserOrders />} />
           <Route path="wishlist" element={<UserWishlist />} />
           <Route path="profile" element={<UserProfile />}/>
+          <Route path="/user-dashboard/messages" element={<ChatPopup />} />
           
         </Route>
         </Route>

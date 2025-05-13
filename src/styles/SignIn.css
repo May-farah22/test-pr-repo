@@ -85,4 +85,24 @@
       transform: translateY(0);
     }
   }
+  .input-with-icon {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-with-icon input {
+    width: 100%;
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+  
+  .toggle-password-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #777;
+  }
   

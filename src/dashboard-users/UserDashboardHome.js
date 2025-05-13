@@ -5,28 +5,26 @@ import Navbar from '../components/Navbar';
 import UserProfile from '../dashboard-users/UserProfile';
 import RoutineModal from '../dashboard-users/RoutineModal';
 import SkinProfileModal from '../dashboard-users/SkinProfileModal';
+import ChatPopup from '../dashboard-users/ChatPopup';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
-import { FaShoppingBag, FaHeart, FaBox, FaUser } from 'react-icons/fa';
 
 const UserDashboardHome = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const img = storedUser.avatar;
   const navigate = useNavigate();
   const [showSkinModal, setShowSkinModal] = useState(false);
-  console.log('storedUser', storedUser)
+  const [showProfile, setShowProfile] = useState(false);
+  const [showRoutineModal, setShowRoutineModal] = useState(false);
+  const [routineCompleted] = useState(false);
+  const [showMessages, setShowMessages] = useState(false);
 
   const handleRoutineComplete = () => {
     console.log("Routine terminée !");
   };
 
-  console.log('img', img)
   const userName = storedUser?.name || 'Utilisateur';
   const avatarUrl = `http://localhost:5000/uploads/${img}`;
-
-  const [showProfile, setShowProfile] = useState(false);
-  const [showRoutineModal, setShowRoutineModal] = useState(false);
-  const [routineCompleted] = useState(false);
 
   return (
     <>
@@ -51,6 +49,13 @@ const UserDashboardHome = () => {
           <div className="profile-actions">
             <button className="edit-btn" onClick={() => setShowProfile(true)}>
               <FiSettings size={18} /> Profil
+            </button>
+            <button
+              className="edit-btn"
+              onClick={() => setShowMessages(true)}
+              style={{ marginLeft: '10px' }}
+            >
+              💬 Messages
             </button>
           </div>
         </div>
@@ -146,41 +151,10 @@ const UserDashboardHome = () => {
               {routineCompleted ? "Routine terminée" : "Terminer la routine d’aujourd’hui"}
             </button>
           </div>
-
-          {/* Quick Actions */}
-          <div className="card">
-            <h3>Actions rapides</h3>
-            <div className="actions-grid">
-              <div className="action-box">
-                <FaShoppingBag size={20} /> <br />
-                Boutique
-                <br />
-                <small>Parcourir les produits</small>
-              </div>
-              <div className="action-box">
-                <FaHeart size={20} /> <br />
-                Favoris
-                <br />
-                <small>Voir les articles enregistrés</small>
-              </div>
-              <div className="action-box">
-                <FaBox size={20} /> <br />
-                Commandes
-                <br />
-                <small>Suivre les colis</small>
-              </div>
-              <div className="action-box">
-                <FaUser size={20} /> <br />
-                Profil
-                <br />
-                <small>Mettre à jour les informations</small>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Show User Profile */}
+      {/* Modals */}
       {showProfile && (
         <UserProfile
           onClose={() => setShowProfile(false)}
@@ -193,7 +167,15 @@ const UserDashboardHome = () => {
         onClose={() => setShowRoutineModal(false)}
         onComplete={handleRoutineComplete}
       />
-      {showSkinModal && <SkinProfileModal onClose={() => setShowSkinModal(false)} />}
+
+      {showSkinModal && (
+        <SkinProfileModal onClose={() => setShowSkinModal(false)} />
+      )}
+
+      {/* Chat Pop-up */}
+      {showMessages && (
+        <ChatPopup user={storedUser} onClose={() => setShowMessages(false)} />
+      )}
     </>
   );
 };
