@@ -6,18 +6,18 @@ import {
 import '../styles/Charts.css';
 
 const revenueData = [
-  { name: 'Jan', revenue: 12000 },
-  { name: 'Feb', revenue: 9500 },
-  { name: 'Mar', revenue: 15500 },
-  { name: 'Apr', revenue: 18000 },
-  { name: 'May', revenue: 14000 },
-  { name: 'Jun', revenue: 20000 },
+  { name: 'Janvier', revenue: 1200 },
+  { name: 'Fevrier', revenue: 9500 },
+  { name: 'Mars', revenue: 1550},
+  { name: 'Avril', revenue: 1800 },
+  { name: 'May', revenue: 1400 },
+  { name: 'Juin', revenue: 2000 },
 ];
 
 const categoryData = [
   { name: 'Skincare', value: 340 },
   { name: 'Handcare', value: 250 },
-  { name: 'Haircare', value: 200 },
+  { name: 'Eyecare', value: 200 },
   { name: 'Body Care', value: 150 },
   { name: 'Fragrance', value: 100 },
 ];
@@ -35,8 +35,8 @@ const SalesDashboardPage = () => {
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis tickFormatter={(value) => `$${value}`} />
-              <Tooltip formatter={(value) => `$${value}`} />
+              <YAxis tickFormatter={(value) => `${value}`} />
+              <Tooltip formatter={(value) => `${value}`} />
               <Bar dataKey="revenue" fill="#a78bfa" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

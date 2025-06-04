@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SignUp.css";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,7 +17,6 @@ const SignUp = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!fullName || !email || !password) {
       alert("Veuillez remplir tous les champs !");
       return;
@@ -79,13 +81,22 @@ const SignUp = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="input-with-icon">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Mot de passe"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    className="toggle-password-icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                    title={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                  />
+                </div>
+        
         <button type="submit">S'inscrire</button>
       </form>
     </div>

@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   width: 80%;
+  height: 50%;
   margin-left: 250px;
 }
 
@@ -164,10 +165,6 @@
   font-weight: 600;
 }
 
-.action-btn-custom:hover {
-  background-color: #357ABD;
-}
-
 .reply-custom {
   background-color: #f1b7ca;
 }
@@ -222,18 +219,19 @@
 }
 
 .send-reply-btn-custom {
-  align-self: flex-end;
-  padding: 0.75rem 1.5rem;
-  background-color: #f0acc3;
+  background-color: #e48da0; /* ou autre couleur visible */
   color: white;
-  font-weight: 600;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: block; /* ← S'assurer qu’il est visible */
 }
 
 .send-reply-btn-custom:hover {
-  background-color: #f0acac;
+  background-color: #c76d89;
 }
 
 .no-message-selected-custom {
