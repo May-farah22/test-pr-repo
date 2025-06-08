@@ -5,13 +5,16 @@ import "../styles/Contact.css"; // Chemin corrigé pour le fichier CSS
 import axios from "axios";
 
   const Contact = () => {
+    const user=JSON.parse(localStorage.getItem("user"));
     const [formData, setFormData] = useState({
+      userId:user.id,
       name: "",
       email: "",
       subject: "",
       message: "",
     });
   
+  console.log('user',user.id)
     const handleChange = (e) => {
       setFormData({...formData, [e.target.id]: e.target.value});
     };
@@ -23,7 +26,7 @@ import axios from "axios";
         const res = await axios.post('http://localhost:5000/api/messages', formData);
         if (res.status === 201) {
           alert("✅ Message envoyé avec succès !");
-          setFormData({ name: "", email: "", subject: "", message: "" });
+          setFormData({ userId:user.id,name: "", email: "", subject: "", message: "" });
         }
       } catch (error) {
         console.error(error);

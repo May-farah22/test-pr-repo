@@ -17,6 +17,7 @@ const SkinProfileModal = ({ onClose }) => {
           },
         });
         const data = await res.json();
+        console.log('data',data)
         setSkinType(data.skinType || '');
         setConcerns(data.concerns || []);
         setSensitivity(data.sensitivity || '');
@@ -67,10 +68,10 @@ const SkinProfileModal = ({ onClose }) => {
             onChange={(e) => setSkinType(e.target.value)}
           >
             <option value="">-- Sélectionnez --</option>
-            <option value="Dry">Sèche</option>
-            <option value="Oily">Grasse</option>
-            <option value="Combination">Mixte</option>
-            <option value="Normal">Normale</option>
+            <option value="Sèche">Sèche</option>
+            <option value="Grasse">Grasse</option>
+            <option value="Mixte">Mixte</option>
+            <option value="Normale">Normale</option>
           </select>
 
           <label className="spm-label">Préoccupations cutanées :</label>
@@ -90,9 +91,9 @@ const SkinProfileModal = ({ onClose }) => {
             onChange={(e) => setSensitivity(e.target.value)}
           >
             <option value="">-- Sélectionnez --</option>
-            <option value="Low">Faible</option>
-            <option value="Moderate">Modérée</option>
-            <option value="High">Élevée</option>
+            <option value="Faible">Faible</option>
+            <option value="Modérée">Modérée</option>
+            <option value="Élevée">Élevée</option>
           </select>
 
           <div className="spm-actions">

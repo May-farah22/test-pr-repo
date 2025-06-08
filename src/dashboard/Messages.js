@@ -18,25 +18,23 @@ const Messages = () => {
   const [activeTab, setActiveTab] = useState('inbox');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyMessage, setReplyMessage] = useState('');
-  const [replies, setReplies] = useState({});
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/messages');
+        const res = await axios.get('http://localhost:5000/api/messages/all');
         setMessages(res.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des messages:', error);
       }
     };
-
     fetchMessages();
   }, []);
 
   const filteredMessages = messages.filter((message) => {
     const matchesSearch =
-      message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.name.toLowerCase().includes(searchTerm.toLowerCase());
+      message.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      message.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
     if (activeTab === 'inbox') return matchesSearch && !message.archived;
     if (activeTab === 'archived') return matchesSearch && message.archived;
@@ -46,22 +44,64 @@ const Messages = () => {
   const handleReadMessage = (message) => {
     setSelectedMessage(message);
     setShowReplyBox(false);
-    setMessages(messages.map((msg) =>
-      msg._id === message._id ? { ...msg, read: true } : msg
-    ));
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg._id === message._id ? { ...msg, read: true } : msg
+      )
+    );
   };
 
+ const handleSendReply = async () => {
+  if (!replyMessage.trim()) {
+    alert('❌ Reply message is empty!');
+    return;
+  }
+
+  try {
+
+    const token = localStorage.getItem('token'); // or sessionStorage if you used that
+console.log('token',token)
+    const res = await axios.post(
+      `http://localhost:5000/api/messages/${selectedMessage._id}/reply`,
+      { reply: replyMessage },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const updated = res.data;
+console.log('updated',updated)
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg._id === updated._id ? updated : msg
+      )
+    );
+
+    setSelectedMessage(updated);
+    setReplyMessage('');
+    setShowReplyBox(false);
+  } catch (err) {
+    console.error('❌ Failed to send reply:', err);
+    alert('Failed to send reply. Make sure you are logged in.');
+  }
+};
+
+
   const handleArchive = (id) => {
-    setMessages(messages.map((message) =>
-      message._id === id ? { ...message, archived: !message.archived } : message
-    ));
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg._id === id ? { ...msg, archived: !msg.archived } : msg
+      )
+    );
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this message?')) {
       try {
         await axios.delete(`http://localhost:5000/api/messages/${id}`);
-        setMessages(messages.filter((message) => message._id !== id));
+        setMessages((prev) => prev.filter((msg) => msg._id !== id));
         if (selectedMessage?._id === id) setSelectedMessage(null);
         alert('✅ Message supprimé avec succès !');
       } catch (error) {
@@ -123,7 +163,9 @@ const Messages = () => {
                   </span>
                 </div>
                 <h4 className="message-subject-custom">{message.subject}</h4>
-                <p className="message-excerpt-custom">{message.message.substring(0, 60)}...</p>
+                <p className="message-excerpt-custom">
+                  {message.message.substring(0, 60)}...
+                </p>
               </div>
             ))}
           </div>
@@ -169,16 +211,16 @@ const Messages = () => {
                 <p>{selectedMessage.message}</p>
               </div>
 
-              {replies[selectedMessage._id]?.length > 0 && (
-                <div className="replies-custom">
-                  <h4>Replies:</h4>
-                  {replies[selectedMessage._id].map((reply, index) => (
-                    <div key={index} className="reply-message-custom">
-                      <p>{reply}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+             {selectedMessage.replies.map((reply, index) => (
+  <div key={index} className="reply-message-custom">
+    <p>
+      <strong>{reply.sender}:</strong> {reply.content}
+      <br />
+      <small>{new Date(reply.createdAt).toLocaleString()}</small>
+    </p>
+  </div>
+))}
+
 
               {showReplyBox && (
                 <div className="reply-box-custom">
@@ -189,21 +231,7 @@ const Messages = () => {
                   />
                   <button
                     className="send-reply-btn-custom"
-                    onClick={() => {
-                      if (replyMessage.trim()) {
-                        setReplies((prev) => ({
-                          ...prev,
-                          [selectedMessage._id]: [
-                            ...(prev[selectedMessage._id] || []),
-                            replyMessage
-                          ]
-                        }));
-                        setReplyMessage('');
-                        setShowReplyBox(false);
-                      } else {
-                        alert('❌ Reply message is empty!');
-                      }
-                    }}
+                    onClick={handleSendReply}
                   >
                     Send Reply
                   </button>

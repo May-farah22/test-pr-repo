@@ -1,5 +1,5 @@
 // pages/UserDashboardHome.jsx
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import '../styles/UserDashboardHome.css';
 import Navbar from '../components/Navbar';
 import UserProfile from '../dashboard-users/UserProfile';
@@ -16,12 +16,32 @@ const UserDashboardHome = () => {
   const [showSkinModal, setShowSkinModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showRoutineModal, setShowRoutineModal] = useState(false);
-  const [routineCompleted] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
-
+const [profile, setProfile] = useState(null);
+  const [routineCompleted, setRoutineCompleted] = useState(false);
   const handleRoutineComplete = () => {
     console.log("Routine terminée !");
   };
+  const fetchProfile = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch('http://localhost:5000/api/client/profile', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch profile');
+    const data = await res.json();
+    setProfile(data);
+  } catch (error) {
+    console.error("❌ Error fetching skin profile:", error);
+  }
+};
+ useEffect(() => {
+  
+    
+
+    fetchProfile();
+  }, []);
 
   const userName = storedUser?.name || 'Utilisateur';
   const avatarUrl = `http://localhost:5000/uploads/${img}`;
@@ -85,73 +105,85 @@ const UserDashboardHome = () => {
         <Outlet />
 
         {/* Main Cards */}
-        <div className="dashboard-cards">
-          {/* Skin Profile */}
-          <div className="card">
-            <h3>Votre profil de peau</h3>
+         <div className="dashboard-cards">
+      {/* Skin Profile */}
+      <div className="card">
+        <h3>Votre profil de peau</h3>
+        {profile ? (
+          <>
             <p>
-              <strong>Type de peau :</strong> <span className="tag">Mixte</span>
+              <strong>Type de peau :</strong>{' '}
+              <span className="tag">{profile.skinType}</span>
             </p>
             <p>
               <strong>Préoccupations :</strong>
             </p>
             <div className="tags">
-              <span className="tag">Déshydratation</span>
-              <span className="tag">Éruptions occasionnelles</span>
-              <span className="tag">Ridules</span>
+              {profile.concerns?.map((c, i) => (
+                <span key={i} className="tag">{c}</span>
+              ))}
             </div>
             <p>
-              <strong>Sensibilité :</strong> <span className="bold">Modérée</span>
+              <strong>Sensibilité :</strong>{' '}
+              <span className="bold">{profile.sensitivity || 'N/A'}</span>
             </p>
             <p className="update-text">
-              Dernière mise à jour : 15 mars 2025{' '}
-              <span className="update-link" onClick={() => setShowSkinModal(true)}>Modifier</span>
+              Dernière mise à jour :{' '}
+              {new Date(profile.updatedAt).toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              })}{' '}
+              <span className="update-link" onClick={() => setShowSkinModal(true)}>
+                Modifier
+              </span>
             </p>
-          </div>
+          </>
+        ) : (
+          <p>Chargement du profil...</p>
+        )}
+      </div>
 
-          {/* Skincare Routine */}
-          <div className="card skincare-card">
-            <h3>Routine de soin</h3>
+      {/* Skincare Routine */}
+      <div className="card skincare-card">
+        <h3>Routine de soin</h3>
 
-            <div className="routine-header">
-              <span>Progression quotidienne</span>
-              <span className="bold">{routineCompleted ? '100%' : '75%'}</span>
-            </div>
-
-            <div className="progress-bar">
-              <div
-                className="progress"
-                style={{ width: routineCompleted ? '100%' : '75%' }}
-              ></div>
-            </div>
-
-            <ul className="routine-list">
-              <li className="done">
-                <span className="icon">✔</span> Nettoyage
-              </li>
-              <li className="done">
-                <span className="icon">✔</span> Tonique
-              </li>
-              <li className="done">
-                <span className="icon">✔</span> Traitement
-              </li>
-              <li className={routineCompleted ? 'done' : 'pending'}>
-                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Hydratation
-              </li>
-              <li className={routineCompleted ? 'done' : 'pending'}>
-                <span className="icon">{routineCompleted ? '✔' : '○'}</span> Écran solaire
-              </li>
-            </ul>
-
-            <button
-              className="routine-btn btn btn-primary"
-              onClick={() => setShowRoutineModal(true)}
-              disabled={routineCompleted}
-            >
-              {routineCompleted ? "Routine terminée" : "Terminer la routine d’aujourd’hui"}
-            </button>
-          </div>
+        <div className="routine-header">
+          <span>Progression quotidienne</span>
+          <span className="bold">{routineCompleted ? '100%' : '75%'}</span>
         </div>
+
+        <div className="progress-bar">
+          <div
+            className="progress"
+            style={{ width: routineCompleted ? '100%' : '75%' }}
+          ></div>
+        </div>
+
+        <ul className="routine-list">
+          <li className="done"><span className="icon">✔</span> Nettoyage</li>
+          <li className="done"><span className="icon">✔</span> Tonique</li>
+          <li className="done"><span className="icon">✔</span> Traitement</li>
+          <li className={routineCompleted ? 'done' : 'pending'}>
+            <span className="icon">{routineCompleted ? '✔' : '○'}</span> Hydratation
+          </li>
+          <li className={routineCompleted ? 'done' : 'pending'}>
+            <span className="icon">{routineCompleted ? '✔' : '○'}</span> Écran solaire
+          </li>
+        </ul>
+
+        <button
+          className="routine-btn btn btn-primary"
+          onClick={() => setShowRoutineModal(true)}
+          disabled={routineCompleted}
+        >
+          {routineCompleted
+            ? 'Routine terminée'
+            : 'Terminer la routine d’aujourd’hui'}
+        </button>
+      </div>
+    </div>
+  
       </div>
 
       {/* Modals */}
