@@ -50,7 +50,7 @@ const Sidebar = () => {
       </Link>
       <Link to="/dashboard/settings" className="menu-item">
           <FiSettings className="icon" />
-          <span>Settings</span>
+          <span>paramètres</span>
         </Link>
       </div>
       <div className="sidebar-footer">
@@ -64,7 +64,7 @@ const Sidebar = () => {
         <div className="footer-actions">         
         <button onClick={handleLogout} className="menu-item">
           <FiLogOut className="icon" />
-          <span>Logout</span>
+          <span>Déconnexion</span>
         </button>
         </div>
       </div>

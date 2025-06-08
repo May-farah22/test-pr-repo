@@ -54,7 +54,7 @@ const SellerOrders = () => {
                 <td>#{order._id.slice(-4).toUpperCase()}</td>
                 <td>{order.customer}</td>
                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td>{order.total} €</td>
+                <td>{order.total} DT</td>
                 <td>
                   <span className={`status ${order.status.toLowerCase()}`}>
                     {order.status}

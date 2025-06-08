@@ -29,8 +29,8 @@ const SalesDashboardPage = () => {
     <div className="chart-page">
       <div className="chart-grid">
         <div className="chart-card">
-          <h2>Sales Revenue</h2>
-          <p>Monthly sales revenue overview</p>
+          <h2>Chiffre d'affaires</h2>
+          <p>Aperçu du chiffre d'affaires mensuel</p>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -43,8 +43,8 @@ const SalesDashboardPage = () => {
         </div>
 
         <div className="chart-card">
-          <h2>Sales by Category</h2>
-          <p>Product category distribution</p>
+          <h2>Ventes par catégorie</h2>
+          <p>Répartition des catégories de produits</p>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie

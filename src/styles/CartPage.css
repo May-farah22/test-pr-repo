@@ -229,3 +229,11 @@
   background-color: #f3f0ff;
   transform: translateY(-2px);
 }
+.cartpage-item-image {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  border: 1px solid #ffe1d6;
+}

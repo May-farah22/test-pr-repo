@@ -49,7 +49,7 @@ const SellerDashboard = () => {
       <div className="summary-cards">
         <div className="card">
           <p>Revenu Total</p>
-          <h2>{getTotalRevenue()} €</h2>
+          <h2>{getTotalRevenue()} </h2>
           <span className="up">↑ 12.5% 30 derniers jours</span> {/* Plus tard rendre ça dynamique */}
         </div>
         <div className="card">

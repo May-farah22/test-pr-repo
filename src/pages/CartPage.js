@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/CartPage.css";
 import Navbar from '../components/Navbar';
-import { FaTrashAlt, FaEuroSign, FaBoxOpen } from 'react-icons/fa';
+import { FaTrashAlt,  FaBoxOpen } from 'react-icons/fa';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -89,12 +89,16 @@ const CartPage = () => {
             <div className="cartpage-items">
               {cartItems.map((item, index) => (
                 <div className="cartpage-item" key={index}>
-                  <img src={`http://localhost:5000/${item.image}`} alt={item.name} />
+                 <img
+                    src={`http://localhost:5000/${item.image}`}
+                    alt={item.name}
+                    className="cartpage-item-image"
+                  />
 
                   <div className="cartpage-item-details">
                     <h2>{item.name}</h2>
                     <p><FaBoxOpen /> Quantité : {item.quantity}</p>
-                    <p><FaEuroSign /> Prix : {item.price} DT</p>
+                    <p>Prix : {item.price} DT</p>
                     <button className="cartpage-remove-btn" onClick={() => handleRemoveItem(index)}>
                       <FaTrashAlt /> Supprimer
                     </button>

@@ -45,28 +45,28 @@ const DashboardHome = () => {
 
         setStats([
           {
-            label: "Total Revenue",
+            label: "Revenue total",
             value: `${totalRevenue.toFixed(2)}DT`,
             icon: "DT",
             iconBg: "#f0f4ff",
             change: { value: "12.5%", isPositive: true },
           },
           {
-            label: "Orders",
+            label: "Commandes",
             value: `${totalOrders}`,
             icon: "🛒",
             iconBg: "#f3f7ff",
             change: { value: "8.2%", isPositive: true },
           },
           {
-            label: "Customers",
+            label: "Clients",
             value: `${totalUsers}`,
             icon: "👥",
             iconBg: "#e6f6f3",
             subtext: "Utilisateurs enregistrés",
           },
           {
-            label: "Products",
+            label: "Produits",
             value: `${totalProducts}`,
             icon: "📦",
             iconBg: "#fff7e6",
