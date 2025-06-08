@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Products.css";
-import { FiEye, FiTrash2 ,FiEdit} from "react-icons/fi";
+import { FiEye, FiTrash2} from "react-icons/fi";
 
 const BoxProducts = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +19,7 @@ const BoxProducts = () => {
     image: null,
     rating: "",
     composition: "",
+    advice: "",
     description: ""
   });
 
@@ -46,7 +47,9 @@ const BoxProducts = () => {
       category: "",
       image: "",
       userId: storedUser.id,
-      description: ""
+      description: "",
+      composition: "",
+      advice: ""
     });
     setShowModal(true);
   };
@@ -141,56 +144,74 @@ const BoxProducts = () => {
       </table>
 
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Ajouter un produit</h2>
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <div className="form-fields">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Nom <span className="required">*</span></label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Prix (DT) <span className="required">*</span></label>
-                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
-                  </div>
-                </div>
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Ajouter un produit</h2>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="form-grid">
+          {/* Colonne de gauche */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Nom <span className="required">*</span></label>
+              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Prix (DT) <span className="required">*</span></label>
+              <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
+            </div>
 
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Stock <span className="required">*</span></label>
-                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Catégorie</label>
-                    <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
-                  </div>
-                  <div className="form-group">
-                    <label>Type de peau</label>
-                    <input type="text" name="skintype" value={formData.skintype} onChange={handleInputChange} />
-                  </div>
-                  <div className="form-group">
-                    <label>Image</label>
-                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
-                  </div>
-                </div>
+            <div className="form-group">
+              <label>Type de peau</label>
+              <input type="text" name="skintype" value={formData.skintype} onChange={handleInputChange} />
+            </div>
+          </div>
+
+          {/* Colonne de droite */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Stock <span className="required">*</span></label>
+              <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Catégorie</label>
+              <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
+            </div>
+
+            <div className="form-group">
+              <label>Image</label>
+              <div className="file-upload">
+                <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
+                <span className="file-info">Aucun fichier choisi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-separator"></div>
+
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="- Description détaillée du produit" />
+        </div>
+        <div className="form-group full-width">
+                <label>Composition</label>
+                <textarea name="composition" value={formData.composition} onChange={handleInputChange} rows="3" placeholder="Ex : Eau, Glycérine, Vitamine C..." />
               </div>
 
               <div className="form-group full-width">
-                <label>Description</label>
-                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit" />
+                <label>Conseils d'utilisation</label>
+                <textarea name="advice" value={formData.advice} onChange={handleInputChange} rows="3" placeholder="Ex : Appliquer matin et soir sur une peau propre." />
               </div>
-
-              <div className="form-actions">
-                <button type="submit">Ajouter</button>
-                <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
-              </div>
-            </form>
-          </div>
+        <div className="form-actions">
+          <button type="submit">Ajouter</button>
+          <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
         </div>
-      )}
-
+      </form>
+    </div>
+  </div>
+)}
       {viewProduct && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -200,6 +221,8 @@ const BoxProducts = () => {
             <p><strong>Stock :</strong> {viewProduct.stock}</p>
             <p><strong>Catégorie :</strong> {viewProduct.category}</p>
             <p><strong>Description :</strong> {viewProduct.description}</p>
+            <p><strong>Composition :</strong> {viewProduct.composition}</p>
+            <p><strong>Conseils d'utilisation :</strong> {viewProduct.advice}</p>
             {viewProduct.image && (
               <div style={{ marginTop: "10px" }}>
                 <strong>Image :</strong><br />
