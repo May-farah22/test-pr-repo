@@ -67,7 +67,8 @@ const SkinTypeForm = () => {
       formDataToSend.append("email", formData.email);
       formDataToSend.append("skinType", formData.skinType);
       formDataToSend.append("message", formData.message);
-      formDataToSend.append("concerns", formData.concerns);
+     formDataToSend.append("concerns", JSON.stringify(formData.concerns));
+
       if (formData.photo) {
         formDataToSend.append("photo", formData.photo);
       }
