@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FiEye, FiEdit, FiSave } from 'react-icons/fi';
+
 import "../styles/order.css";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [filteredStatus, setFilteredStatus] = useState("All");
   const [editingOrder, setEditingOrder] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -49,7 +52,12 @@ const Orders = () => {
 
   const handleEditClick = (order) => {
     setEditingOrder({ ...order });
-    setIsModalOpen(true);
+    setIsEditModalOpen(true);
+  };
+
+  const handleViewClick = (order) => {
+    setSelectedOrder(order);
+    setIsViewModalOpen(true);
   };
 
   const handleInputChange = (e) => {
@@ -64,7 +72,7 @@ const Orders = () => {
     try {
       await axios.put(`http://localhost:5000/api/orders/${editingOrder._id}`, editingOrder);
       setOrders(orders.map(order => order._id === editingOrder._id ? editingOrder : order));
-      setIsModalOpen(false);
+      setIsEditModalOpen(false);
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
     }
@@ -117,14 +125,13 @@ const Orders = () => {
               <td className="orders-total">{Number(order.total)?.toFixed(2)} DT</td>
               <td className="orders-actions">
                 <div className="orders-actions-container">
-                  <button className="orders-action-btn orders-action-btn--view">
+                  <button className="orders-action-btn orders-action-btn--view"
+                          onClick={() => handleViewClick(order)}>
                     <FiEye className="orders-action-icon" />
                     <span>Voir</span>
                   </button>
-                  <button
-                    className="orders-action-btn orders-action-btn--edit"
-                    onClick={() => handleEditClick(order)}
-                  >
+                  <button className="orders-action-btn orders-action-btn--edit"
+                          onClick={() => handleEditClick(order)}>
                     <FiEdit className="orders-action-icon" />
                     <span>Modifier</span>
                   </button>
@@ -135,7 +142,8 @@ const Orders = () => {
         </tbody>
       </table>
 
-      {isModalOpen && (
+      {/* Modal d'Édition */}
+      {isEditModalOpen && editingOrder && (
         <div className="modal-overlay">
           <div className="edit-modal">
             <div className="modal-header">
@@ -191,13 +199,29 @@ const Orders = () => {
             </div>
 
             <div className="modal-footer">
-              <button onClick={() => setIsModalOpen(false)} className="modal-cancel-btn">
+              <button onClick={() => setIsEditModalOpen(false)} className="modal-cancel-btn">
                 Annuler
               </button>
               <button onClick={handleSave} className="modal-save-btn">
                 <FiSave /> Enregistrer
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Visualisation */}
+      {isViewModalOpen && selectedOrder && (
+        <div className="modal-overlay" onClick={() => setIsViewModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Détails de la commande</h2>
+            <p><strong>ID :</strong> {selectedOrder._id}</p>
+            <p><strong>Client :</strong> {selectedOrder.clientName || selectedOrder.userId}</p>
+            <p><strong>Produits :</strong> {Array.isArray(selectedOrder.products)
+              ? selectedOrder.products.join(", ")
+              : "Aucun"}</p>
+            <p><strong>Total :</strong> {selectedOrder.total} DT</p>
+            <button onClick={() => setIsViewModalOpen(false)}>Fermer</button>
           </div>
         </div>
       )}

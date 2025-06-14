@@ -24,9 +24,9 @@ const Customers = () => {
     name: '',
     email: '',
     phone: '',
- 
     role: '',
-    password:''
+    password:'',
+    status: ''
   });
 
   useEffect(() => {
@@ -92,7 +92,8 @@ const Customers = () => {
       email: newCustomer.email,
       phone: newCustomer.phone,
       password:newCustomer.password,
-        role: newCustomer.role,
+      role: newCustomer.role,
+      status: newCustomer.status,
     });
 
     // Ajouter le nouveau client retourné par l’API à la liste
@@ -102,9 +103,9 @@ const Customers = () => {
       name: '',
       email: '',
       phone: '',
-
       password:'',
-      role: ''
+      role: '',
+      status: ''
     });
 
     alert('Vendeur ajouté avec succès');
@@ -118,13 +119,13 @@ const Customers = () => {
   return (
     <div className="custom-customers-container">
       <div className="custom-customers-header">
-        <h1 className="custom-customers-title">Vendeurs</h1>
+        <h1 className="custom-customers-title">Gestion des utilisateurs</h1>
         <div className="custom-customers-actions">
           <div className="custom-search-bar">
             <FiSearch className="custom-search-icon" />
             <input
               type="text"
-              placeholder="Search vendeurs..."
+              placeholder="Search ..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -134,7 +135,7 @@ const Customers = () => {
             onClick={() => setIsAddModalOpen(true)}
           >
             <FiUserPlus className="custom-btn-icon" />
-            <span>Add Vendeur</span>
+            <span>Ajouter </span>
           </button>
         </div>
       </div>
@@ -143,12 +144,11 @@ const Customers = () => {
         <table className="custom-customers-table">
           <thead>
             <tr>
-              <th>Vendeur</th>
+              <th>Email</th>
               <th>Contact</th>
-            
-              <th>Joined</th>
-              
-              <th>Actions</th>
+              <th>Rejoint</th>
+              <th>Status</th>
+               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -175,20 +175,27 @@ const Customers = () => {
                 </td>
                 <td className="custom-joined-date">{customer.joined}</td>
                
-                <td className="custom-actions">
-                  <button
-                    className="custom-action-btn custom-edit"
-                    onClick={() => handleEdit(customer)}
-                  >
-                    <FiEdit />
-                  </button>
-                  <button
-                    className="custom-action-btn custom-delete"
-                    onClick={() => handleDelete(customer.id)}
-                  >
-                    <FiTrash2 />
-                  </button>
-                </td>
+             <td className="custom-role">
+                <span className={`custom-role-tag custom-role-${customer.role}`}>
+                  {customer.role === 'user' ? 'Utilisateur' : customer.role === 'seller' ? 'Vendeur' : 'Admin'}
+                </span>
+              </td>
+
+              <td className="custom-actions">
+                <button
+                  className="custom-action-btn custom-edit"
+                  onClick={() => handleEdit(customer)}
+                >
+                  <FiEdit />
+                </button>
+                <button
+                  className="custom-action-btn custom-delete"
+                  onClick={() => handleDelete(customer.id)}
+                >
+                  <FiTrash2 />
+                </button>
+              </td>
+
               </tr>
             ))}
           </tbody>
@@ -204,7 +211,7 @@ const Customers = () => {
             </div>
             <div className="custom-modal-body">
               <div className="custom-form-group">
-                <label>Name</label>
+                <label>Nom</label>
                 <input
                   type="text"
                   value={editingCustomer?.name || ''}
@@ -224,7 +231,7 @@ const Customers = () => {
                 />
               </div>
               <div className="custom-form-group">
-                <label>Phone</label>
+                <label>téléphone</label>
                 <input
                   type="tel"
                   value={editingCustomer?.phone || ''}
@@ -241,8 +248,8 @@ const Customers = () => {
                     setEditingCustomer({ ...editingCustomer, status: e.target.value })
                   }
                 >
-                  <option value="user">User</option>
-                  <option value="seller">Seller</option>
+                  <option value="user">Utilisateur</option>
+                  <option value="seller">Vendeur</option>
                   {storedUser?.role === 'super-admin' && (
                     <option value="admin">Admin</option>
                   )}
@@ -254,10 +261,10 @@ const Customers = () => {
                 className="custom-cancel-btn"
                 onClick={() => setIsModalOpen(false)}
               >
-                Cancel
+               Annuler
               </button>
               <button className="custom-save-btn" onClick={handleSave}>
-                Save Changes
+            Enregistrer les modifications
               </button>
             </div>
           </div>

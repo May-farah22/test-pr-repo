@@ -204,3 +204,26 @@
 .custom-btn-icon {
   margin-right: 0.5rem;
 }
+.custom-role-tag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.custom-role-user {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.custom-role-seller {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.custom-role-admin {
+  background-color: #fce4ec;
+  color: #d81b60;
+}

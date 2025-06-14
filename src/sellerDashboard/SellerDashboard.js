@@ -41,9 +41,7 @@ const SellerDashboard = () => {
     <div className="seller-dashboard">
       <div className="dashboard-header">
         <h1>Tableau de bord vendeur</h1>
-        <div className="top-actions">
-          <button className="notification-btn">🔔 Notifications</button>
-        </div>
+       
       </div>
 
       <div className="summary-cards">

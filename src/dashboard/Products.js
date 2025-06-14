@@ -162,9 +162,16 @@ const BoxProducts = () => {
             </div>
 
             <div className="form-group">
-              <label>Type de peau</label>
-              <input type="text" name="skintype" value={formData.skintype} onChange={handleInputChange} />
-            </div>
+                    <label>Type de peau</label>
+                    <select name="skinType" value={formData.skinType} onChange={handleInputChange} className="form-control">
+                      <option value="">Sélectionner</option>
+                      <option value="sèche">Sèche</option>
+                      <option value="grasse">Grasse</option>
+                      <option value="mixte">Mixte</option>
+                      <option value="sensible">Sensible</option>
+                      <option value="normale">Normale</option>
+                    </select>
+                  </div>
           </div>
 
           {/* Colonne de droite */}
@@ -179,13 +186,11 @@ const BoxProducts = () => {
               <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
             </div>
 
-            <div className="form-group">
-              <label>Image</label>
-              <div className="file-upload">
-                <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
-                <span className="file-info">Aucun fichier choisi</span>
-              </div>
-            </div>
+           
+                <div className="form-group">
+                    <label>Image</label>
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
+                  </div>
           </div>
         </div>
 

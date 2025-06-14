@@ -32,7 +32,6 @@ const Footer = () => {
             <ul className="list-unstyled">
               <li><a href="/all-products" className="text-muted small text-decoration-none">Tous les produits</a></li>
               <li><a href="/skincare" className="text-muted small text-decoration-none">Soins de la peau</a></li>
-              <li><a href="/makeup" className="text-muted small text-decoration-none">Maquillage</a></li>
               <li><a href="/hair-care" className="text-muted small text-decoration-none">Soins capillaires</a></li>
             </ul>
           </div>
@@ -42,9 +41,8 @@ const Footer = () => {
             <h3 className="h5 mb-3">Aide</h3>
             <ul className="list-unstyled">
               <li><a href="/contact" className="text-muted small text-decoration-none">Contact</a></li>
-              <li><a href="/faq" className="text-muted small text-decoration-none">FAQ</a></li>
+              <li><a href="/faq" className="text-muted small text-decoration-none">A propos</a></li>
               <li><a href="/shipping" className="text-muted small text-decoration-none">Livraison</a></li>
-              <li><a href="/returns" className="text-muted small text-decoration-none">Retours</a></li>
             </ul>
           </div>
 

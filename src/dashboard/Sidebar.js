@@ -41,7 +41,7 @@ const Sidebar = () => {
 
       <Link to="/dashboard/users" className="menu-item ">
         <FiUsers className="icon" />
-        <span>vendeurs</span>
+        <span>Gestion des utilisateurs</span>
       </Link>
 
       <Link to="/dashboard/Messages" className="menu-item ">

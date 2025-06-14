@@ -55,7 +55,7 @@ const ProductDetails = () => {
           <span className="product-details-new-price">{product.price} TND</span>
         </p>
         <p className="product-details-category">{product.category}</p>
-        <p className="product-details-skinType">{product.skinType}</p>
+        <p className="product-details-skinType">Type de Peau : {product.skinType}</p>
         <p className="product-details-rating">Noté 5.00 sur 5 basé sur 3 avis client</p>
         <p className="product-details-availability">Disponible sur commande</p>
         <p className="product-details-points">
@@ -80,7 +80,9 @@ const ProductDetails = () => {
         <h3>Composition</h3>
         <p>{product.composition}</p>
       </div>
+      
     </div>
+    
   );
 };
 

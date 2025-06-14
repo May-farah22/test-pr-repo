@@ -183,27 +183,24 @@ const SellerProducts = () => {
       </table>
 
       {showForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>{editingProductId ? "Modifier le Produit" : "Ajouter un Nouveau Produit"}</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="form-fields">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Nom du Produit *</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Prix (DT) *</label>
-                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
-                  </div>
-                  <div className="form-group">
-                    <label>Image</label>
-                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
-                  </div>
+    <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Ajouter un produit</h2>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="form-grid">
+          {/* Colonne de gauche */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Nom <span className="required">*</span></label>
+              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Prix (DT) <span className="required">*</span></label>
+              <input type="number" name="price" value={formData.price} onChange={handleInputChange} step="0.01" required />
+            </div>
 
-                  {/* ✅ Nouveau champ Type de peau */}
-                  <div className="form-group">
+            <div className="form-group">
                     <label>Type de peau</label>
                     <select name="skinType" value={formData.skinType} onChange={handleInputChange} className="form-control">
                       <option value="">Sélectionner</option>
@@ -214,33 +211,50 @@ const SellerProducts = () => {
                       <option value="normale">Normale</option>
                     </select>
                   </div>
-                </div>
+          </div>
 
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Stock *</label>
-                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
+          {/* Colonne de droite */}
+          <div className="form-column">
+            <div className="form-group">
+              <label>Stock <span className="required">*</span></label>
+              <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Catégorie</label>
+              <input type="text" name="category" value={formData.category} onChange={handleInputChange} />
+            </div>
+           
+                <div className="form-group">
+                    <label>Image</label>
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleInputChange} />
                   </div>
-                  <div className="form-group">
-                    <label>Catégorie *</label>
-                    <input type="text" name="category" value={formData.category} onChange={handleInputChange} required />
-                  </div>
-                </div>
+          </div>
+        </div>
+
+        <div className="form-separator"></div>
+
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="- Description détaillée du produit" />
+        </div>
+        <div className="form-group full-width">
+                <label>Composition</label>
+                <textarea name="composition" value={formData.composition} onChange={handleInputChange} rows="3" placeholder="Ex : Eau, Glycérine, Vitamine C..." />
               </div>
 
               <div className="form-group full-width">
-                <label>Description</label>
-                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="4" placeholder="Description détaillée du produit" />
+                <label>Conseils d'utilisation</label>
+                <textarea name="advice" value={formData.advice} onChange={handleInputChange} rows="3" placeholder="Ex : Appliquer matin et soir sur une peau propre." />
               </div>
-
-              <div className="form-actions">
+       <div className="form-actions">
                 <button type="submit">{editingProductId ? "Mettre à jour" : "Ajouter Produit"}</button>
                 <button type="button" onClick={handleCloseForm} className="cancel-btn">Annuler</button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };
