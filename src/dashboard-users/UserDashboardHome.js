@@ -20,8 +20,9 @@ const UserDashboardHome = () => {
 const [profile, setProfile] = useState(null);
   const [routineCompleted, setRoutineCompleted] = useState(false);
   const handleRoutineComplete = () => {
-    console.log("Routine terminée !");
-  };
+  console.log("Routine terminée !");
+  setRoutineCompleted(true); // Ajoute ceci pour mettre à jour l'état
+};
   const fetchProfile = async () => {
   try {
     const token = localStorage.getItem('token');

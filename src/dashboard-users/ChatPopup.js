@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ChatPopup.css';
-import { FiUser, FiClock } from 'react-icons/fi';
+import userIcon from '../assets/images/Team-memeber-4.png';
 import axios from 'axios';
 
 const ChatPopup = ({ user, onClose }) => {
@@ -62,47 +62,58 @@ const ChatPopup = ({ user, onClose }) => {
     }
   };
 
-  if (!discussion) return <div className="chat-modal-overlay">Chargement...</div>;
+  if (!discussion) return <div className="chat-popup-modal-overlay">Chargement...</div>;
 
   return (
-    <div className="chat-modal-overlay">
-      <div className="chat-modal">
-        <button className="close-btn" onClick={onClose}>✖</button>
-        <div className="chat-container">
-          <div className="chat-content">
-            <h2>{discussion.subject || 'Discussion avec support'}</h2>
-            <div className="message-meta">
-              <p><FiUser /> {discussion.name} ({discussion.email})</p>
-              <p><FiClock /> {new Date(discussion.createdAt).toLocaleDateString()}</p>
+    <div className="chat-popup-modal-overlay">
+      <div className="chat-popup-modal">
+        <button className="chat-popup-close-btn" onClick={onClose}>✖</button>
+        <div className="chat-popupt-container">
+          {/* Zone des messages (scrollable) */}
+          <div className="chat-popup-messages-content">
+            <div className="chat-popup-message-meta">
+              <div className="chat-popup-user-info">
+                <div className="chat-popup-avatar-container">
+                  <img 
+                    src={userIcon} 
+                    alt="User" 
+                    className="chat-popup-user-icon"
+                  />
+                </div>
+                <div>
+                  <p className="chat-popup-user-name">{discussion.name}</p>
+                  <p className="chat-popup-user-email">{discussion.email}</p>
+                </div>
+              </div>
             </div>
 
-            <div className="message-body">{discussion.message}</div>
+            <div className="chat-popup-message-replies">
+              {discussion.replies?.map((reply, index) => {
+                const isSupport = reply.sender === 'admin' || reply.sender === 'super-admin';
+                const senderLabel = isSupport ? 'Support' : 'Vous';
 
-            <div className="message-replies">
-  {discussion.replies?.map((reply, index) => {
-    const isSupport = reply.sender === 'admin' || reply.sender === 'super-admin';
-    const senderLabel = isSupport ? 'Support' : 'Vous';
+                return (
+                  <div
+                    key={index}
+                    className={`chat-popup-reply-item ${isSupport ? 'chat-popup-admin-reply' : 'chat-popup-user-reply'}`}
+                  >
+                    <strong>{senderLabel}:</strong> {reply.content}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-    return (
-      <div
-        key={index}
-        className={`reply-item ${isSupport ? 'admin-reply' : 'user-reply'}`}
-      >
-        <strong>{senderLabel}:</strong> {reply.content}
-      </div>
-    );
-  })}
-</div>
-
-
+          {/* Zone d'envoi (fixe en bas) */}
+          <div className="chat-popup-send-area">
             <textarea
-              className="reply-box"
+              className="chat-popup-reply-box"
               placeholder="Tapez votre réponse..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <button className="btn send" onClick={handleReply}>📤 Envoyer</button>
+            <button className="chat-popup-btn send" onClick={handleReply}>📤 Envoyer</button>
           </div>
         </div>
       </div>

@@ -204,7 +204,7 @@ const SkinTypeForm = () => {
         {/* Message */}
         <div className="mb-3">
           <label className="form-label skin-form-label">
-            Message <span className="text-danger">*</span>
+            Message <span className="text-danger"></span>
           </label>
           <textarea
             name="message"

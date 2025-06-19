@@ -52,7 +52,7 @@
 /* Bouton Support avec bordure grise */
 .support-btn {
   background-color: white !important;
-  color: #7e52c5 !important;
+  color: #813e5a !important;
   border: 1px solid #ccc !important; /* Bordure toujours visible */
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -175,7 +175,7 @@
 }
 
 .routine-btn {
-  background-color: #a67ef9;
+  background-color: #f01b6d;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
@@ -242,4 +242,13 @@
   background-color: #a67ef9;
   color: #fff;
   border: none;
+}
+.edit-btn {
+  background-color: #5b9bd5;
+  color: white;
+  border: 1.5px solid #5b9bd5;
+}
+
+.edit-btn:hover {
+  background-color: #4685c7;
 }

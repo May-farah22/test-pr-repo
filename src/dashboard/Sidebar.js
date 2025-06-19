@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link ,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate,Link } from "react-router-dom";
 import '../styles/Sidebar.css';
 import { FiBox, FiShoppingBag, FiUsers, FiMessageSquare, FiLogOut, FiSettings, FiBarChart2, FiUser } from 'react-icons/fi';
 const Sidebar = () => {
@@ -25,33 +25,45 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar-menu">
-        <Link to="/dashboard" className="menu-item active">
-          <FiBarChart2 className="icon"/>
-          <span>Dashboard</span>
-        </Link>
-        <Link to="/dashboard/products" className="menu-item ">
+        <NavLink to="/dashboard" end className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
+        <FiBarChart2 className="icon"/>
+        <span>Dashboard</span>
+      </NavLink>
+
+
+      <NavLink
+        to="/dashboard/products"
+        className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+      >
         <FiBox className="icon" />
         <span>Produits</span>
-      </Link>
+      </NavLink>
 
-      <Link to="/dashboard/orders" className="menu-item ">
+
+      <NavLink to="/dashboard/orders" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+      >
         <FiShoppingBag className="icon" />
         <span>Commandes</span>
-      </Link>
+      </NavLink>
 
-      <Link to="/dashboard/users" className="menu-item ">
+      <NavLink to="/dashboard/users" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+      >
         <FiUsers className="icon" />
         <span>Gestion des utilisateurs</span>
-      </Link>
+      </NavLink>
 
-      <Link to="/dashboard/Messages" className="menu-item ">
+      <NavLink to="/dashboard/messages" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+      >
         <FiMessageSquare className="icon" />
         <span>Messages</span>
-      </Link>
-      <Link to="/dashboard/settings" className="menu-item">
-          <FiSettings className="icon" />
-          <span>paramètres</span>
-        </Link>
+      </NavLink>
+
+      <NavLink to="/dashboard/settings" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+      >
+        <FiSettings className="icon" />
+        <span>Paramètres</span>
+      </NavLink>
+
       </div>
       <div className="sidebar-footer">
         <div className="user-info">
