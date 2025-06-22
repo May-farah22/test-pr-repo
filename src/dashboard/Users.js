@@ -17,7 +17,7 @@ const Customers = () => {
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [, setLoading] = useState(true); // ✅ Corrigé ici
+  const [, setLoading] = useState(true);
   const storedUser = JSON.parse(localStorage.getItem('user'));
 
   const [newCustomer, setNewCustomer] = useState({
@@ -25,8 +25,7 @@ const Customers = () => {
     email: '',
     phone: '',
     role: '',
-    password:'',
-    status: ''
+    password: ''
   });
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const Customers = () => {
       } catch (error) {
         console.error('Erreur chargement clients:', error);
       } finally {
-        setLoading(false); // ✅ Corrigé ici
+        setLoading(false);
       }
     };
 
@@ -60,61 +59,55 @@ const Customers = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
-      setCustomers(customers.filter(customer => customer.id !== id));
+      setCustomers(customers.filter(customer => customer._id !== id));
     }
   };
 
-  const handleSave = () => {
-    setCustomers(customers.map(customer =>
-      customer.id === editingCustomer.id ? editingCustomer : customer
-    ));
-    setIsModalOpen(false);
+  const handleSave = async () => {
+    try {
+      const res = await axios.put(`http://localhost:5000/api/users/${editingCustomer._id}`, editingCustomer);
+      setCustomers(customers.map(c =>
+        c._id === editingCustomer._id ? res.data : c
+      ));
+      setIsModalOpen(false);
+      alert("Utilisateur mis à jour avec succès !");
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour :", error);
+      alert("Échec de la mise à jour de l'utilisateur.");
+    }
   };
 
- const handleAddCustomer = async () => {
-  if (!newCustomer.name || !newCustomer.email) {
-    alert('Please fill in all required fields');
-    return;
-  }
+  const handleAddCustomer = async () => {
+    if (!newCustomer.name || !newCustomer.email) {
+      alert('Please fill in all required fields');
+      return;
+    }
 
-    setCustomers([
-      ...customers,
-      {
-        ...newCustomer,
-        id: Math.max(...customers.map(c => c.id || 0)) + 1,
-        orders: 0,
-        joined: new Date().toISOString().split('T')[0]
-      }
-    ]);
-  try {
-    const res = await axios.post('http://localhost:5000/api/users', {
-      name: newCustomer.name,
-      email: newCustomer.email,
-      phone: newCustomer.phone,
-      password:newCustomer.password,
-      role: newCustomer.role,
-      status: newCustomer.status,
-    });
+    try {
+      const res = await axios.post('http://localhost:5000/api/users', {
+        name: newCustomer.name,
+        email: newCustomer.email,
+        phone: newCustomer.phone,
+        password: newCustomer.password,
+        role: newCustomer.role,
+      });
 
-    // Ajouter le nouveau client retourné par l’API à la liste
-    setCustomers([...customers, res.data]);
-    setIsAddModalOpen(false);
-    setNewCustomer({
-      name: '',
-      email: '',
-      phone: '',
-      password:'',
-      role: '',
-      status: ''
-    });
+      setCustomers([...customers, res.data]);
+      setIsAddModalOpen(false);
+      setNewCustomer({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        role: ''
+      });
 
-    alert('Vendeur ajouté avec succès');
-  } catch (error) {
-    console.error("Erreur lors de l'ajout du vendeur :", error);
-    alert('Erreur lors de l’ajout. Vérifiez les champs ou l’email déjà utilisé.');
-  }
-};
-
+      alert('Vendeur ajouté avec succès');
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du vendeur :", error);
+      alert('Erreur lors de l’ajout. Vérifiez les champs ou l’email déjà utilisé.');
+    }
+  };
 
   return (
     <div className="custom-customers-container">
@@ -135,7 +128,7 @@ const Customers = () => {
             onClick={() => setIsAddModalOpen(true)}
           >
             <FiUserPlus className="custom-btn-icon" />
-            <span>Ajouter </span>
+            <span>Ajouter</span>
           </button>
         </div>
       </div>
@@ -147,13 +140,13 @@ const Customers = () => {
               <th>Email</th>
               <th>Contact</th>
               <th>Rejoint</th>
-              <th>Status</th>
-               <th>Actions</th>
+              <th>Rôle</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredCustomers.map(customer => (
-              <tr key={customer.id}>
+              <tr key={customer._id}>
                 <td className="custom-customer-info">
                   <div className="custom-customer-avatar">
                     <FiUser />
@@ -174,28 +167,25 @@ const Customers = () => {
                   </div>
                 </td>
                 <td className="custom-joined-date">{customer.joined}</td>
-               
-             <td className="custom-role">
-                <span className={`custom-role-tag custom-role-${customer.role}`}>
-                  {customer.role === 'user' ? 'Utilisateur' : customer.role === 'seller' ? 'Vendeur' : 'Admin'}
-                </span>
-              </td>
-
-              <td className="custom-actions">
-                <button
-                  className="custom-action-btn custom-edit"
-                  onClick={() => handleEdit(customer)}
-                >
-                  <FiEdit />
-                </button>
-                <button
-                  className="custom-action-btn custom-delete"
-                  onClick={() => handleDelete(customer.id)}
-                >
-                  <FiTrash2 />
-                </button>
-              </td>
-
+                <td className="custom-role">
+                  <span className={`custom-role-tag custom-role-${customer.role}`}>
+                    {customer.role === 'user' ? 'Utilisateur' : customer.role === 'seller' ? 'Vendeur' : 'Admin'}
+                  </span>
+                </td>
+                <td className="custom-actions">
+                  <button
+                    className="custom-action-btn custom-edit"
+                    onClick={() => handleEdit(customer)}
+                  >
+                    <FiEdit />
+                  </button>
+                  <button
+                    className="custom-action-btn custom-delete"
+                    onClick={() => handleDelete(customer._id)}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -207,7 +197,7 @@ const Customers = () => {
         <div className="custom-customer-modal">
           <div className="custom-modal-content">
             <div className="custom-modal-header">
-              <h3>Edit Vendeur</h3>
+              <h3>Modifier l'utilisateur</h3>
             </div>
             <div className="custom-modal-body">
               <div className="custom-form-group">
@@ -231,7 +221,7 @@ const Customers = () => {
                 />
               </div>
               <div className="custom-form-group">
-                <label>téléphone</label>
+                <label>Téléphone</label>
                 <input
                   type="tel"
                   value={editingCustomer?.phone || ''}
@@ -241,11 +231,11 @@ const Customers = () => {
                 />
               </div>
               <div className="custom-form-group">
-                <label>Status</label>
+                <label>Rôle</label>
                 <select
-                  value={editingCustomer?.status || 'seller'}
+                  value={editingCustomer?.role || 'user'}
                   onChange={(e) =>
-                    setEditingCustomer({ ...editingCustomer, status: e.target.value })
+                    setEditingCustomer({ ...editingCustomer, role: e.target.value })
                   }
                 >
                   <option value="user">Utilisateur</option>
@@ -261,10 +251,10 @@ const Customers = () => {
                 className="custom-cancel-btn"
                 onClick={() => setIsModalOpen(false)}
               >
-               Annuler
+                Annuler
               </button>
               <button className="custom-save-btn" onClick={handleSave}>
-            Enregistrer les modifications
+                Enregistrer les modifications
               </button>
             </div>
           </div>
@@ -276,11 +266,11 @@ const Customers = () => {
         <div className="custom-customer-modal">
           <div className="custom-modal-content">
             <div className="custom-modal-header">
-              <h3>Add New Vendeur</h3>
+              <h3>Ajouter un utilisateur</h3>
             </div>
             <div className="custom-modal-body">
               <div className="custom-form-group">
-                <label>Full Name <span className="custom-required">*</span></label>
+                <label>Nom complet <span className="custom-required">*</span></label>
                 <input
                   type="text"
                   placeholder="John Doe"
@@ -302,7 +292,7 @@ const Customers = () => {
                 />
               </div>
               <div className="custom-form-group">
-                <label>Phone</label>
+                <label>Téléphone</label>
                 <input
                   type="tel"
                   placeholder="+33 6 12 34 56 78"
@@ -313,15 +303,15 @@ const Customers = () => {
                 />
               </div>
               <div className="custom-form-group">
-                <label>Status</label>
+                <label>Rôle</label>
                 <select
-                 
                   value={newCustomer.role}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, role: e.target.value })}
-                
-                 >
-                  <option value="user">User</option>
-                  <option value="seller">Seller</option>
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, role: e.target.value })
+                  }
+                >
+                  <option value="user">Utilisateur</option>
+                  <option value="seller">Vendeur</option>
                   {storedUser?.role === 'super-admin' && (
                     <option value="admin">Admin</option>
                   )}
@@ -333,10 +323,10 @@ const Customers = () => {
                 className="custom-cancel-btn"
                 onClick={() => setIsAddModalOpen(false)}
               >
-                Cancel
+                Annuler
               </button>
               <button className="custom-save-btn" onClick={handleAddCustomer}>
-                Add Vendeur
+                Ajouter
               </button>
             </div>
           </div>

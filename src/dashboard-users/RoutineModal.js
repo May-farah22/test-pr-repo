@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, ProgressBar, Alert } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 import "../styles/RoutineModal.css";
@@ -15,6 +15,25 @@ const RoutineModal = ({ show, onClose, onComplete }) => {
   const [completedSteps, setCompletedSteps] = useState([]);
   const [confirmed, setConfirmed] = useState(false);
 
+  // ✅ Load saved completion state and completed steps
+  useEffect(() => {
+    const savedSteps = localStorage.getItem('completedSteps');
+    const routineFinished = localStorage.getItem('routineFinished') === 'true';
+
+    if (savedSteps) {
+      setCompletedSteps(JSON.parse(savedSteps));
+    }
+
+    if (routineFinished) {
+      setConfirmed(true); // Show the success message if already finished
+    }
+  }, []);
+
+  // ✅ Save progress to localStorage
+  useEffect(() => {
+    localStorage.setItem('completedSteps', JSON.stringify(completedSteps));
+  }, [completedSteps]);
+
   const toggleStep = (step) => {
     setCompletedSteps((prev) =>
       prev.includes(step)
@@ -24,19 +43,32 @@ const RoutineModal = ({ show, onClose, onComplete }) => {
   };
 
   const allDone = completedSteps.length === steps.length;
-  const progress = (completedSteps.length / steps.length) * 100;
+  const progress = confirmed ? 100 : (completedSteps.length / steps.length) * 100;
 
   const handleFinish = () => {
     setConfirmed(true);
+
+    // ✅ Save finished state
+    localStorage.setItem('routineFinished', 'true');
+
+    // ✅ Save history
+    const finishedRoutines = JSON.parse(localStorage.getItem('finishedRoutines')) || [];
+    const routineRecord = {
+      date: new Date().toISOString(),
+      steps: completedSteps,
+    };
+    finishedRoutines.push(routineRecord);
+    localStorage.setItem('finishedRoutines', JSON.stringify(finishedRoutines));
+
     setTimeout(() => {
       onComplete();
       onClose();
-      // Réinitialiser les étapes pour décocher toutes les cases
-      setCompletedSteps([]); // Vide la liste des étapes complétées
-      setConfirmed(false); // Réinitialiser l'état de confirmation
     }, 1500);
   };
-  
+
+  const handleCancel = () => {
+    onClose();
+  };
 
   return (
     <Modal show={show} onHide={onClose} centered backdrop="static">
@@ -64,16 +96,16 @@ const RoutineModal = ({ show, onClose, onComplete }) => {
                 className="mb-2"
               />
             ))}
-
-            <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mt-3" />
           </>
         )}
+
+        <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mt-3" />
       </Modal.Body>
 
       <Modal.Footer>
         {!confirmed && (
           <>
-            <Button variant="secondary" onClick={onClose}>
+            <Button variant="secondary" onClick={handleCancel}>
               Cancel
             </Button>
             <Button variant="success" onClick={handleFinish} disabled={!allDone}>

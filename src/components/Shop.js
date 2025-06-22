@@ -6,13 +6,47 @@ import Footer from "../components/Footer";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
-  const [skinTypes, setSkinTypes] = useState([]);
   const [selectedPriceLabels, setSelectedPriceLabels] = useState([]);
   const [selectedSkinType, setSelectedSkinType] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Tous les produits");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
+
+  // ✅ Static skin types
+  const skinTypes = [
+    {
+      _id: "1",
+      type: "mixte",
+      description: "Zone T grasse et joues sèches ou normales.",
+    },
+    {
+      _id: "2",
+      type: "normale",
+      description: "Équilibrée, ni trop grasse ni trop sèche, peu de problèmes.",
+    },
+    {
+      _id: "3",
+      type: "sèche",
+      description: "Peau rugueuse, terne, tiraillements, manque d'hydratation.",
+    },
+    {
+      _id: "4",
+      type: "grasse",
+      description: "Brillance, pores dilatés, sujette aux imperfections.",
+    },
+    {
+      _id: "5",
+      type: "sensible",
+      description: "Réagit facilement, rougeurs, picotements, démangeaisons.",
+    },
+    
+    {
+      _id: "all",
+      type: "Tous types de peau",
+      description: "Produits convenant à tout type de peau.",
+    },
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,17 +58,7 @@ const Shop = () => {
       }
     };
 
-    const fetchSkinTypes = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/auth/skintypes");
-        setSkinTypes(["Tous types de peau", ...res.data]);
-      } catch (err) {
-        console.error("Erreur lors du chargement des types de peau :", err);
-      }
-    };
-
     fetchProducts();
-    fetchSkinTypes();
   }, []);
 
   const categories = ["Tous les produits", ...new Set(products.map(p => p.category))];
@@ -80,16 +104,15 @@ const Shop = () => {
   const handleAddToWishlist = (product) => {
     const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     const isAlreadyInWishlist = existingWishlist.some(item => item._id === product._id);
-  
+
     if (!isAlreadyInWishlist) {
-      existingWishlist.push(product); // ✅ ici tu ajoutes tout le produit
+      existingWishlist.push(product);
       localStorage.setItem("wishlist", JSON.stringify(existingWishlist));
       alert("Produit ajouté à la wishlist !");
     } else {
       alert("Ce produit est déjà dans votre wishlist !");
     }
   };
-  
 
   const filteredProducts = products.filter((product) => {
     const matchesPrice =
@@ -175,14 +198,14 @@ const Shop = () => {
           ))}
 
           <h4>Type de peau</h4>
-          {skinTypes.map((type) => (
-            <label key={type}>
+          {skinTypes.map((typeObj) => (
+            <label key={typeObj._id}>
               <input
                 type="checkbox"
-                checked={selectedSkinType.includes(type)}
-                onChange={() => handleSkinTypeFilter(type)}
+                checked={selectedSkinType.includes(typeObj.type)}
+                onChange={() => handleSkinTypeFilter(typeObj.type)}
               />
-              {type}
+              {typeObj.type}
             </label>
           ))}
         </div>

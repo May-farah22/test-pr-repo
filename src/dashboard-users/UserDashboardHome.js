@@ -23,6 +23,7 @@ const [profile, setProfile] = useState(null);
   console.log("Routine terminée !");
   setRoutineCompleted(true); // Ajoute ceci pour mettre à jour l'état
 };
+
   const fetchProfile = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -43,7 +44,10 @@ const [profile, setProfile] = useState(null);
 
     fetchProfile();
   }, []);
-
+useEffect(() => {
+    const finished = localStorage.getItem('routineFinished') === 'true';
+    setRoutineCompleted(finished);
+  }, []);
   const userName = storedUser?.name || 'Utilisateur';
   const avatarUrl = `http://localhost:5000/uploads/${img}`;
 

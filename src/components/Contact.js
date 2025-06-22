@@ -14,7 +14,7 @@ import axios from "axios";
       message: "",
     });
   
-  console.log('user',user.id)
+  console.log('user',user?.id)
     const handleChange = (e) => {
       setFormData({...formData, [e.target.id]: e.target.value});
     };

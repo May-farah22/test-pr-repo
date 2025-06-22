@@ -50,6 +50,7 @@ const SkinProfileModal = ({ onClose }) => {
 
       const result = await res.json();
       console.log('✅ Profil mis à jour :', result);
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error('❌ Error submitting profile:', error);
