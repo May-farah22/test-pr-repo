@@ -7,7 +7,7 @@ import axios from "axios";
   const Contact = () => {
     const user=JSON.parse(localStorage.getItem("user"));
     const [formData, setFormData] = useState({
-      userId:user.id,
+      userId:user ? user.id : null,
       name: "",
       email: "",
       subject: "",
