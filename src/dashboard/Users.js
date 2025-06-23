@@ -24,7 +24,7 @@ const Customers = () => {
     name: '',
     email: '',
     phone: '',
-    role: '',
+    role: 'user', // default role
     password: ''
   });
 
@@ -78,6 +78,7 @@ const Customers = () => {
   };
 
   const handleAddCustomer = async () => {
+    console.log('newCustomer.role', newCustomer.role);
     if (!newCustomer.name || !newCustomer.email) {
       alert('Please fill in all required fields');
       return;
@@ -98,8 +99,8 @@ const Customers = () => {
         name: '',
         email: '',
         phone: '',
-        password: '',
-        role: ''
+        role: 'user', // reset to default role
+        password: ''
       });
 
       alert('Vendeur ajouté avec succès');
@@ -316,6 +317,16 @@ const Customers = () => {
                     <option value="admin">Admin</option>
                   )}
                 </select>
+              </div>
+              <div className="custom-form-group">
+                <label>Mot de passe</label>
+                <input
+                  type="password"
+                  value={newCustomer.password}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, password: e.target.value })
+                  }
+                />
               </div>
             </div>
             <div className="custom-modal-footer">
